@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMSA SportsCar Championship</title>
+    <link rel="stylesheet" href="{% static 'imsa_main/css/main.css' %}">
+</head>
+<body>
+    <header>
+        <a href="#" class="logo1">IMSA SportsCar Championship</a>
+        <img src="https://images.vexels.com/media/users/3/154251/isolated/preview/fef0c563c39f2746c35604e969ffe3ef-bmw-car-front-view-silhouette.png" class="pic" alt="IMSA Logo">
+        <nav>
+            <ul>
+                <li><a href="#">Мир IMSA &bigtriangledown;</a>
+                    <ul>
+                        <li><a href="#">Регламент IMSA</a></li>
+                        <li><a href="#">Классы авто</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Спортивные события &bigtriangledown;</a>
+                    <ul>
+                        <li><a href="#">Таблица лидеров &bigtriangledown;</a>
+                            <ul>
+                                <li><a href="#">WeatherTech</a></li>
+                                <li><a href="#">Michelin Pilot</a></li>
+                                <li><a href="#">Prototype</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Расписание гонок &bigtriangledown;</a>
+                            <ul>
+                                <li><a href="#">WeatherTech</a></li>
+                                <li><a href="#">Michelin Pilot</a></li>
+                                <li><a href="#">Prototype</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Обзор трасс</a></li>
+                        <li><a href="#">Галерея</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Новости IMSA &bigtriangledown;</a>
+                    <ul>
+                        <li><a href="#">Последние новости</a></li>
+                        <li><a href="#">Интервью</a></li>
+                        <li><a href="#">Обзор гонок</a></li>
+                        <li><a href="#">Обзор трасс</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Участники чемпионата &bigtriangledown;</a>
+                    <ul>
+                        <li><a href="#">Пилоты</a></li>
+                        <li><a href="#">Экипаж</a></li>
+                        <li><a href="#">Партнеры IMSA</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Рекорды IMSA</a></li>
+                <li><a href="#">Настройки &bigtriangledown;</a>
+                    <ul>
+                        <li><a href="{% url 'login' %}">Авторизация/Регистрация</a></li>
+                        <li><a href="#">Сообщить о сбое</a></li>
+                        <li><a href="#">Предложить идею</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+</body>
+</html>

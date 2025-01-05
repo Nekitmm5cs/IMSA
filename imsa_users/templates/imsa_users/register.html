@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="{% static 'imsa_users/css/register.css' %}">
+</head>
+<body>
+  <div class="box">
+    <span class="borderLine"></span>
+    <form>
+      <h2>IMSA SportsCar Championship</h2>
+
+      <div class="inputBox">
+        <input type="name" required="required">
+        <span>Введите имя</span>
+        <i></i>    
+      </div>
+
+      <div class="inputBox">
+        <input type="email" required="required">
+        <span>Введите email</span>
+        <i></i>    
+      </div>  
+
+      <div class="inputBox">
+        <input type="password" required="required">
+        <span>Введите пароль</span>
+        <i></i>    
+      </div> 
+  
+      <div class="links">
+        <a href="#">Забыли пароль?</a>   
+      </div>
+
+      <input type="submit" value="Зарегестрироваться">
+    </form>
+  </div>
+</body>
+</html>
