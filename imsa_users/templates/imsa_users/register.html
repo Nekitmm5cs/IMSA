@@ -4,29 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Авторизация</title>
+    <title>Регистрация</title>
     <link rel="stylesheet" href="{% static 'imsa_users/css/register.css' %}">
 </head>
 <body>
   <div class="box">
     <span class="borderLine"></span>
-    <form>
+    <form method="POST" action="{% url 'register' %}">
+      {% csrf_token %}
       <h2>IMSA SportsCar Championship</h2>
 
       <div class="inputBox">
-        <input type="name" required="required">
+        <input type="text" name="username" required="required">
         <span>Введите имя</span>
         <i></i>    
       </div>
 
       <div class="inputBox">
-        <input type="email" required="required">
+        <input type="email" name="email" required="required">
         <span>Введите email</span>
         <i></i>    
       </div>  
 
       <div class="inputBox">
-        <input type="password" required="required">
+        <input type="password" name="password" required="required">
         <span>Введите пароль</span>
         <i></i>    
       </div> 
@@ -35,7 +36,7 @@
         <a href="#">Забыли пароль?</a>   
       </div>
 
-      <input type="submit" value="Зарегестрироваться">
+      <input type="submit" value="Зарегистрироваться">
     </form>
   </div>
 </body>

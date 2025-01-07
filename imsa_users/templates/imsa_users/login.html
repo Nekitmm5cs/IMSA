@@ -10,17 +10,19 @@
 <body>
   <div class="box">
     <span class="borderLine"></span>
-    <form>
+
+    <form method="POST" action="{% url 'login' %}">
+      {% csrf_token %}
       <h2>IMSA SportsCar Championship</h2>
 
       <div class="inputBox">
-        <input type="text" required="required">
+        <input type="text" name="username" required="required">
         <span>Введите логин</span>
         <i></i>    
       </div>
 
       <div class="inputBox">
-        <input type="password" required="required">
+        <input type="password" name="password" required="required">
         <span>Введите пароль</span>
         <i></i>    
       </div>
