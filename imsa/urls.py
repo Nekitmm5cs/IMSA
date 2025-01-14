@@ -5,7 +5,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('imsa_main.urls')),  # Главная страница
-    path('news/', include('imsa_news.urls')),  # Новости
-    path('users/', include('imsa_users.urls')),  # Пользователи
+    path('', include('imsa_main.urls')),   
+    path('test/', include('imsa_test.urls')),   
+    # path('news/', include('imsa_news.urls')),  
+    path('users/', include('imsa_users.urls')),  
  ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

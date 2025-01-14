@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивный тест - Дрифт</title>
+    <style>
+        /* Анимация для плавного переливания градиента */
+        @keyframes gradientAnimation {
+            0% {
+                background: linear-gradient(45deg, rgb(43, 43, 43), rgb(243, 173, 33));
+            }
+            50% {
+                background: linear-gradient(45deg, rgb(243, 173, 33), rgb(43, 43, 43));
+            }
+            100% {
+                background: linear-gradient(45deg, rgb(43, 43, 43), rgb(243, 173, 33));
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, rgb(43, 43, 43), rgb(243, 173, 33));
+            background-size: 300% 300%;
+            animation: gradientAnimation 10s ease infinite;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .question-container {
+            position: absolute;
+            top: 20px; /* Устанавливаем верхнее расстояние от верхнего края */
+            left: 50%;
+            transform: translateX(-50%); /* Центрирование по горизонтали */
+            background-color: rgb(232, 169, 43);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            padding: 20px;
+        }
+
+        button {
+            margin-left: auto;
+            margin-right: auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            display: block;
+            background: linear-gradient(45deg, rgb(50, 205, 50), rgb(34, 139, 34)); /* Зеленый градиент */
+            color: white;
+            transition: opacity 0.3s ease;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        #next-btn {
+            margin-top: 10px; /* Уменьшили отступ сверху */
+        }
+
+        .feedback {
+            margin-top: -5px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .correct-feedback {
+            color: green;
+        }
+
+        .incorrect-feedback {
+            color: red;
+        }
+
+        .image-container {
+            position: relative;
+            display: inline-block;
+            width: 600px;
+            margin-top: 20px;
+        }
+
+        .image-container img {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="question-container">
+        <h1 id="question-title">Вопрос</h1>
+        <p id="question-text">Найдите правильную точку на изображении</p>
+
+        <!-- Картинка для вопроса -->
+        <div class="image-container">
+            <img id="question-image" src="" usemap="#car-map" alt="Question Image">
+        </div>
+        
+        <!-- Картинка с кликаемыми зонами -->
+        <map name="car-map">
+            <area id="click-area" shape="rect" coords="370,88,410,150" alt="Answer" href="#" onclick="checkAnswer(true)">
+        </map>
+
+        <div class="feedback" id="feedback"></div>
+
+        <button class="next-button" id="next-btn" onclick="nextQuestion()">Следующий вопрос</button>
+    </div>
+
+    <script>
+        // Список вопросов
+        const questions = [
+            {
+                title: "Где находится ручник на автомобиле?",
+                image: "https://a.d-cd.net/7EAAAgH08-A-960.jpg",
+                coords: "370,88,410,150",  // Координаты правильной области
+            },
+            // Добавьте больше вопросов по мере необходимости
+        ];
+
+        let currentQuestion = 0;
+        let answered = false;
+
+        // Загружаем текущий вопрос
+        function loadQuestion(index) {
+            const question = questions[index];
+
+            // Скрыть изображение и обновить контент
+            const questionImage = document.getElementById("question-image");
+            questionImage.style.display = "none";
+
+            // Обновляем заголовок и картинку
+            document.getElementById("question-title").textContent = question.title;
+            document.getElementById("question-image").src = question.image;
+            document.getElementById("click-area").coords = question.coords;
+
+            // Показать картинку с задержкой
+            setTimeout(() => {
+                questionImage.style.display = "block";
+            }, 500);
+
+            document.getElementById("feedback").textContent = ""; // Очистить комментарии
+            answered = false; // Сбросить флаг
+            document.getElementById("next-btn").style.display = "none"; // Скрыть кнопку
+        }
+
+        // Проверка ответа
+        function checkAnswer(isCorrect) {
+            if (answered) return;
+
+            answered = true;
+            const feedback = document.getElementById("feedback");
+
+            if (isCorrect) {
+                feedback.textContent = "Вы ответили правильно!";
+                feedback.className = "feedback correct-feedback";
+
+                // Показать кнопку "Далее"
+                document.getElementById("next-btn").style.display = "block";
+            } else {
+                feedback.textContent = "Вы ошиблись, попробуйте снова.";
+                feedback.className = "feedback incorrect-feedback";
+            }
+        }
+
+        // Перейти к следующему вопросу
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion >= questions.length) {
+                window.location.href = "{% url 'test2' %}";  // Переход на страницу 'test3'
+                return;
+            }
+            loadQuestion(currentQuestion); // Загружаем следующий вопрос
+        }
+
+        // Инициализация
+        loadQuestion(currentQuestion);
+    </script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест на дрифт</title>
+    <style>
+        /* Анимация для плавного переливания градиента */
+        @keyframes gradientAnimation {
+            0% {
+                background: linear-gradient(45deg, rgb(43, 43, 43), rgb(243, 173, 33));
+            }
+            50% {
+                background: linear-gradient(45deg, rgb(243, 173, 33), rgb(43, 43, 43));
+            }
+            100% {
+                background: linear-gradient(45deg, rgb(43, 43, 43), rgb(243, 173, 33));
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, rgb(43, 43, 43), rgb(243, 173, 33));
+            background-size: 300% 300%;
+            animation: gradientAnimation 10s ease infinite;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .question-container {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgb(232, 169, 43);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            padding: 20px;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        .correct {
+            background-color: green;
+            color: white;
+        }
+
+        .incorrect {
+            background-color: red;
+            color: white;
+        }
+
+        #next-btn {
+            margin-top: 10px; /* Уменьшили отступ сверху */
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        #next-btn:hover {
+            background-color: #45a049;
+        }
+
+        #retry-btn {
+            margin-top: 20px;
+            background-color: #ff9800;
+            color: white;
+            font-size: 16px;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            transition: background-color 0.3s;
+            display: none; /* Скрыта по умолчанию */
+        }
+
+        #retry-btn:hover {
+            background-color: #e68900;
+        }
+
+        #correct-answer-message {
+            margin-top: 20px;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="question-container">
+        <!-- Видео с манёвром -->
+        <img src="https://i.imgur.com/gQsKQdv.gif?noredirect" alt="drift-gif" width="600">
+        
+        <!-- Вопрос -->
+        <h3>Какой манёвр совершил пилот?</h3>
+        
+        <!-- Варианты ответов -->
+        <button class="answer-btn" onclick="checkAnswer(event, 'correct')">Слип стрим</button>
+        <button class="answer-btn" onclick="checkAnswer(event, 'incorrect')">Фиштейл</button>
+        <button class="answer-btn" onclick="checkAnswer(event, 'incorrect')">Скользящий поворот</button>
+        
+        <!-- Кнопка для продолжения -->
+        <button id="next-btn" onclick="nextQuestion()" style="display: none;">Следующий вопрос</button> <!-- Изменен текст -->
+        
+        <!-- Кнопка "Ответить заново" -->
+        <button id="retry-btn" onclick="retryQuestion()" style="display: none;">Ответить заново</button>
+        
+        <!-- Правильный ответ -->
+        <div id="correct-answer-message" style="display: none;">Правильный ответ: Слип стрим</div>
+    </div>
+
+    <script>
+        // Функция для проверки ответа
+        function checkAnswer(event, answer) {
+            const buttons = document.querySelectorAll('.answer-btn');
+            const correctAnswerMessage = document.getElementById('correct-answer-message');
+            const retryBtn = document.getElementById('retry-btn');
+
+            buttons.forEach(button => button.disabled = true);
+
+            if (answer === 'correct') {
+                event.target.classList.add('correct');
+                document.getElementById('next-btn').style.display = 'inline-block';
+            } else {
+                event.target.classList.add('incorrect');
+                correctAnswerMessage.style.display = 'block';
+                retryBtn.style.display = 'inline-block'; // Показываем кнопку "Ответить заново"
+            }
+        }
+
+        // Функция для перехода к следующему вопросу
+        function nextQuestion() {
+            // Укажите путь, на который нужно перейти
+            const nextPageUrl = "{% url 'test4' %}"; // Замените на нужный URL
+            window.location.href = nextPageUrl; // Перенаправление
+        }
+
+        // Функция для повторного ответа
+        function retryQuestion() {
+            const buttons = document.querySelectorAll('.answer-btn');
+            const correctAnswerMessage = document.getElementById('correct-answer-message');
+            const retryBtn = document.getElementById('retry-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            // Сбрасываем состояние
+            buttons.forEach(button => {
+                button.disabled = false;
+                button.classList.remove('correct', 'incorrect');
+            });
+
+            correctAnswerMessage.style.display = 'none';
+            retryBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
