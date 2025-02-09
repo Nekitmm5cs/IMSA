@@ -139,6 +139,10 @@
                     <ul>
                         <li><a href="#">Последние новости</a></li>
                         <li><a href="#">Интервью</a></li>
+<<<<<<< HEAD
+=======
+                        <li><a href="#">Обзор гонок и трасс</a></li>
+>>>>>>> 7f248e54c694e3d81703bac3bd833786ee3589b0
                     </ul>
                 </li>
                 <li><a href="#">Участники чемпионата &bigtriangledown;</a>
@@ -153,7 +157,11 @@
                     <ul>
                         {% if user.is_authenticated %}
                             <li><a href="{% url 'profile' %}">Мой профиль</a></li>
+<<<<<<< HEAD
                             <li><a href="{% url 'test' %}">Пройти тест</a></li>
+=======
+                            <li><a href="{% url 'test' %}">Пройти тест</a></li> <!-- Добавлено условие для теста -->
+>>>>>>> 7f248e54c694e3d81703bac3bd833786ee3589b0
                         {% else %}
                             <li><a href="{% url 'login' %}">Авторизация/Регистрация</a></li>
                         {% endif %}

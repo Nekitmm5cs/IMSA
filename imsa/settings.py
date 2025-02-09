@@ -40,8 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'imsa_main',
     'imsa_test',
+<<<<<<< HEAD
     'channels',
     'imsa',
+=======
+>>>>>>> 7f248e54c694e3d81703bac3bd833786ee3589b0
 
 
     'imsa_table',
