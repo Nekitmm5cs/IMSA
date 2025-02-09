@@ -44,7 +44,6 @@ header .logo1 {
     white-space: nowrap;
 }
 
-
 header .logo1:hover {
     color: rgb(237, 189, 94);
     right: 32%;
@@ -127,7 +126,6 @@ nav ul li ul li ul {
     left: 100%;
     top: 0%;
 }
-
 
 nav ul li ul li:hover {
     background: rgb(55, 55, 55); 

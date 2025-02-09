@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,12 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'imsa_main',
     'imsa_test',
+    'channels',
+    'imsa',
 
 
-
+    'imsa_table',
     'imsa_news',
     'imsa_users',
 ]
+
+ASGI_APPLICATION = 'imsa_main.asgi.application'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -136,4 +141,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # settings.py
 LOGIN_REDIRECT_URL = '/'
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
 
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"  
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "imsa02657@gmail.com" #TODO
+EMAIL_HOST_PASSWORD = "bmcz ewag fzxj cuqy" #TODO

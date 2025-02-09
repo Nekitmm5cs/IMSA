@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('imsa_main.urls')),   
     path('test/', include('imsa_test.urls')),   
+    path('table/', include('imsa_table.urls')),   
     # path('news/', include('imsa_news.urls')),  
     path('users/', include('imsa_users.urls')),  
- ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+ ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

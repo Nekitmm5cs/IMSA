@@ -6,6 +6,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMSA SportsCar Championship</title>
     <link rel="stylesheet" href="{% static 'imsa_main/css/main.css' %}">
+    <style>
+        /* Стили для кнопки чата */
+        #chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 1000;
+        }
+
+        #chat-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Стили для окна чата */
+        #chat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background-color: rgb(43, 43, 43);
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+            transform: translateY(100%);
+        }
+
+        #chat-window.open {
+            transform: translateY(0);
+        }
+
+        #chat-header {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        #chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: scroll;
+            border-bottom: 1px solid #ccc;
+            color: white;
+        }
+
+        #chat-form {
+            display: flex;
+            padding: 10px;
+        }
+
+        #chat-input {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: rgb(55, 55, 55);
+            color: white;
+        }
+
+        #chat-send {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        #chat-send:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -21,13 +123,7 @@
                 </li>
                 <li><a href="#">Спортивные события &bigtriangledown;</a>
                     <ul>
-                        <li><a href="#">Таблица лидеров &bigtriangledown;</a>
-                            <ul>
-                                <li><a href="#">WeatherTech</a></li>
-                                <li><a href="#">Michelin Pilot</a></li>
-                                <li><a href="#">Prototype</a></li>
-                            </ul>
-                        </li>
+                        <li><a href="{% url 'table' %}">Таблица лидеров</a></li>                        
                         <li><a href="#">Расписание гонок &bigtriangledown;</a>
                             <ul>
                                 <li><a href="#">WeatherTech</a></li>
@@ -35,7 +131,7 @@
                                 <li><a href="#">Prototype</a></li>
                             </ul>
                         </li>
-                        <li><a href="#">Обзор трасс</a></li>
+                        <li><a href="{% url 'map' %}">Обзор трасс</a></li>
                         <li><a href="#">Галерея</a></li>
                     </ul>
                 </li>
@@ -43,7 +139,6 @@
                     <ul>
                         <li><a href="#">Последние новости</a></li>
                         <li><a href="#">Интервью</a></li>
-                        <li><a href="#">Обзор гонок и трасс</a></li>
                     </ul>
                 </li>
                 <li><a href="#">Участники чемпионата &bigtriangledown;</a>
@@ -56,9 +151,9 @@
                 <li><a href="#">Рекорды IMSA</a></li>
                 <li><a href="#">Настройки &bigtriangledown;</a>
                     <ul>
-                        {% if user_authenticated %}
+                        {% if user.is_authenticated %}
                             <li><a href="{% url 'profile' %}">Мой профиль</a></li>
-                            <li><a href="{% url 'test' %}">Пройти тест</a></li> <!-- Добавлено условие для теста -->
+                            <li><a href="{% url 'test' %}">Пройти тест</a></li>
                         {% else %}
                             <li><a href="{% url 'login' %}">Авторизация/Регистрация</a></li>
                         {% endif %}
@@ -71,12 +166,130 @@
 
     <main>
         <h1>Добро пожаловать в IMSA SportsCar Championship!</h1>
-        {% if not user_authenticated %}
+        {% if not user.is_authenticated %}
             <div class="auth-links">
                 <a href="{% url 'login' %}">Войти</a>
                 <a href="{% url 'register' %}">Зарегистрироваться</a>
             </div>
         {% endif %}
     </main>
+
+    {% if user.is_authenticated %}
+        <!-- Кнопка чата -->
+        <button id="chat-button">💬</button>
+
+        <!-- Окно чата -->
+        <div id="chat-window">
+            <div id="chat-header">
+                <span>Чат</span>
+                <button id="chat-close">×</button>
+            </div>
+            <div id="chat-messages"></div>
+            <form id="chat-form">
+                <input type="hidden" id="user-id" value="{{ request.user.id }}">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <input type="text" id="chat-input" placeholder="Type your message...">
+                <button type="submit" id="chat-send">Send</button>
+            </form>
+        </div>
+    {% endif %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatButton = document.getElementById('chat-button');
+            const chatWindow = document.getElementById('chat-window');
+            const chatClose = document.getElementById('chat-close');
+            const chatMessages = document.getElementById('chat-messages');
+            const chatForm = document.getElementById('chat-form');
+            const chatInput = document.getElementById('chat-input');
+            const userIdElement = document.getElementById('user-id');
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            if (userIdElement) {
+                const userId = userIdElement.value;
+
+                // Открытие/закрытие чата
+                chatButton.addEventListener('click', () => {
+                    chatWindow.classList.add('open');
+                    chatWindow.style.display = 'flex';
+                });
+
+                chatClose.addEventListener('click', () => {
+                    chatWindow.classList.remove('open');
+                    setTimeout(() => {
+                        chatWindow.style.display = 'none';
+                    }, 300);
+                });
+
+                // Функция для получения сообщений
+                function fetchMessages() {
+                    fetch('/get_messages/')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Ошибка сети');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            chatMessages.innerHTML = ''; // Очистка текущих сообщений
+                            data.messages.forEach(msg => {
+                                const messageElement = document.createElement('div');
+                                messageElement.innerHTML = `<strong>${msg.username}:</strong> ${msg.message}`;
+                                chatMessages.appendChild(messageElement);
+                            });
+                            chatMessages.scrollTop = chatMessages.scrollHeight; // Прокрутка вниз
+                        })
+                        .catch(error => {
+                            console.error('Ошибка при загрузке сообщений:', error);
+                        });
+                }
+
+                // Отправка сообщения
+                chatForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const message = chatInput.value.trim();
+
+                    if (!message) {
+                        alert('Сообщение не может быть пустым.');
+                        return;
+                    }
+
+                    fetch('/send_message/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken
+                        },
+                        body: JSON.stringify({
+                            user_id: userId,
+                            message: message
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Ошибка сети');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.status === 'ok') {
+                            chatInput.value = ''; // Очистка поля ввода
+                            fetchMessages(); // Обновление сообщений
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Ошибка:', error);
+                        alert('Не удалось отправить сообщение. Попробуйте снова.');
+                    });
+                });
+
+                // Обновление сообщений каждые 2 секунды
+                setInterval(fetchMessages, 2000);
+
+                // Первоначальная загрузка сообщений
+                fetchMessages();
+            }
+        });
+    </script>
 </body>
 </html>

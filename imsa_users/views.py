@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login as django_login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-
+from django.core.mail import send_mail
 # Представление для логина
 def login_view(request):
     if request.method == 'POST':
@@ -29,6 +29,7 @@ def register(request):
             user = User.objects.create_user(username=username, email=email, password=password)
             user.save()
             messages.success(request, 'Аккаунт успешно создан')
+            send_mail(subject='Регистрация',message='Вы успешно зарагестрированы!',from_email='imsa02657@gmail.com', recipient_list=[email], fail_silently=False)
             return redirect('login')  # Перенаправление на страницу логина
     return render(request, 'imsa_users/register.html')
 
