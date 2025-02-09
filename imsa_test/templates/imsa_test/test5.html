@@ -1,0 +1,318 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивный тест - Дрифт</title>
+    <style>
+        /* Анимация для плавного переливания градиента */
+        @keyframes gradientAnimation {
+            0% {
+                background: linear-gradient(45deg, rgb(43, 43, 43), rgb(243, 173, 33));
+            }
+            50% {
+                background: linear-gradient(45deg, rgb(243, 173, 33), rgb(43, 43, 43));
+            }
+            100% {
+                background: linear-gradient(45deg, rgb(43, 43, 43), rgb(243, 173, 33));
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, rgb(43, 43, 43), rgb(243, 173, 33));
+            background-size: 300% 300%;
+            animation: gradientAnimation 10s ease infinite;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .question-container {
+            position: absolute;
+            top: 20px; /* Устанавливаем верхнее расстояние от верхнего края */
+            left: 50%;
+            transform: translateX(-50%); /* Центрирование по горизонтали */
+            background-color: rgb(232, 169, 43);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            padding: 20px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background: linear-gradient(45deg, rgb(50, 205, 50), rgb(34, 139, 34)); /* Зеленый градиент */
+
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        .correct {
+            background-color: green;
+            color: white;
+        }
+
+        .incorrect {
+            background-color: red;
+            color: white;
+        }
+
+        #finish-btn {
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #finish-btn:hover {
+            opacity: 0.8;
+        }
+
+        #retry-btn {
+            margin-top: 20px;
+            background-color: #ff9800;
+            color: white;
+            display: none; /* Скрыта по умолчанию */
+        }
+
+        #retry-btn:hover {
+            background-color: #e68900;
+        }
+
+        #home-btn {
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            display: none; /* Скрыта по умолчанию */
+        }
+
+        #home-btn:hover {
+            background-color: #45a049;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .correct-feedback {
+            color: green;
+        }
+
+        .incorrect-feedback {
+            color: red;
+        }
+
+        .question-text {
+            margin-bottom: 20px;
+        }
+
+        .term-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .term-list li {
+            margin: 15px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .select-wrapper {
+            margin-top: 10px;
+            width: 100%;
+            max-width: 400px;  /* Устанавливаем максимальную ширину для выпадающего списка */
+        }
+
+        .select-wrapper select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .label-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .label-wrapper label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .label-wrapper select {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="question-container">
+        <h1 id="question-title">Соотнесите термины с их объяснениями</h1>
+
+        <p class="question-text">Выберите правильное объяснение для каждого термина.</p>
+
+        <form id="test-form">
+            <ul class="term-list" id="term-list">
+                <!-- Здесь будут добавляться термины и выпадающие списки -->
+            </ul>
+
+            <div class="feedback" id="feedback"></div>
+
+            <button class="finish-button" id="finish-btn" onclick="finishTest()" type="button">Завершить тест</button>
+            <button class="retry-button" id="retry-btn" onclick="retryTest()" type="button">Исправить ошибку</button>
+            <button class="home-button" id="home-btn" onclick="goToHome()" type="button">Вернуться на главную</button>
+        </form>
+    </div>
+
+    <script>
+        // Массив терминов и их объяснений (с добавленными 5 вариантами для каждого термина)
+        const terms = [
+            { term: "Дрифт", options: [
+                "Техника прохождения поворотов с полным скольжением колес",
+                "Скоростная езда по прямой",
+                "Повороты на скошенных шинах",
+                "Управление автомобилем на мокром асфальте",
+                "Использование сцепления для контроля на поворотах"
+            ], correct: 0 },
+
+            { term: "Тормозной дрифт", options: [
+                "Использование тормозов для создания скольжения",
+                "Разгон на прямой",
+                "Понижение скорости на поворотах",
+                "Техника для улучшения сцепления",
+                "Разгон на скользких дорогах"
+            ], correct: 0 },
+
+            { term: "Скоростной дрифт", options: [
+                "Использование сцепления для удержания скольжения",
+                "Преодоление поворотов на высокой скорости",
+                "Езда на максимальных оборотах",
+                "Управление автомобилем на скользкой дороге",
+                "Использование ручного тормоза для преодоления поворота"
+            ], correct: 1 },
+
+            { term: "Гаскары", options: [
+                "Вид автомобилей для дрифта",
+                "Тип сцепления",
+                "Тип тюнинга для дрифта",
+                "Автомобильные аксессуары для соревнований",
+                "Техника для быстрого старта"
+            ], correct: 0 },
+
+            { term: "Слайдинг", options: [
+                "Тип сцепления для повышения устойчивости автомобиля",
+                "Перехват сцепления и контроль над скольжением",
+                "Использование сцепления для скоростного движения",
+                "Техника скольжения на обледенелых дорогах",
+                "Управление автомобилем на высокой скорости"
+            ], correct: 1 }
+        ];
+
+        // Загружаем вопросы
+        function loadQuestions() {
+            const termList = document.getElementById("term-list");
+            termList.innerHTML = '';  // Очищаем список
+
+            terms.forEach((question, index) => {
+                const li = document.createElement("li");
+
+                // Создаем контейнер для метки и выпадающего списка
+                const labelWrapper = document.createElement("div");
+                labelWrapper.classList.add("label-wrapper");
+
+                // Добавляем термин
+                const label = document.createElement("label");
+                label.textContent = `${question.term}`;
+
+                // Добавляем выпадающий список
+                const select = document.createElement("select");
+                select.classList.add("select-wrapper");
+                select.name = `question-${index}`;  // Для идентификации выбора
+
+                // Добавляем пустой вариант по умолчанию
+                const emptyOption = document.createElement("option");
+                emptyOption.value = ""; // Пустое значение
+                emptyOption.textContent = "Выберите вариант";
+                emptyOption.disabled = true; // Делаем его недоступным для выбора
+                emptyOption.selected = true; // Выбран по умолчанию
+                select.appendChild(emptyOption);
+
+                // Добавляем варианты
+                question.options.forEach((opt, idx) => {
+                    const optionElem = document.createElement("option");
+                    optionElem.value = idx;
+                    optionElem.textContent = opt;
+                    select.appendChild(optionElem);
+                });
+
+                labelWrapper.appendChild(label);
+                labelWrapper.appendChild(select);
+                li.appendChild(labelWrapper);
+                termList.appendChild(li);
+            });
+        }
+
+        // Завершаем тест
+        function finishTest() {
+            let correctAnswers = 0;
+
+            // Перебираем все ответы
+            terms.forEach((question, index) => {
+                const select = document.querySelector(`select[name='question-${index}']`);
+                const selectedOption = parseInt(select.value);
+
+                if (selectedOption === question.correct) {
+                    correctAnswers++;
+                }
+            });
+
+            // Отображаем результат
+            const feedback = document.getElementById("feedback");
+            if (correctAnswers === terms.length) {
+                feedback.textContent = "Вы ответили правильно на все вопросы!";
+                feedback.className = "feedback correct-feedback";
+
+                // Переход на главную страницу
+                setTimeout(() => {
+                    console.log("Переход на главную страницу..."); // Отладочное сообщение
+                    window.location.href = "http://127.0.0.1:8000"; // Замените на URL вашей главной страницы
+                }, 3000); // Задержка 1 секунда перед переходом
+            } else {
+                feedback.textContent = `Вы ответили правильно на ${correctAnswers} из ${terms.length} вопросов.`;
+                feedback.className = "feedback incorrect-feedback";
+                document.getElementById("retry-btn").style.display = "block"; // Показываем кнопку "Исправить ошибку"
+            }
+
+            // Скрыть кнопку завершения
+            document.getElementById("finish-btn").style.display = "none";
+        }
+
+        // Функция для повторного прохождения теста
+        function retryTest() {
+            // Сбрасываем состояние
+            loadQuestions();
+            document.getElementById("feedback").textContent = ""; // Очищаем сообщение
+            document.getElementById("retry-btn").style.display = "none"; // Скрываем кнопку "Исправить ошибку"
+            document.getElementById("finish-btn").style.display = "block"; // Показываем кнопку "Завершить тест"
+        }
+
+        // Инициализация
+        loadQuestions();
+    </script>
+</body>
+</html>

@@ -6,3 +6,4 @@ def main(request):
     if request.user.is_authenticated:
         return render(request, 'imsa_main/main.html', {'user_authenticated': True})
     return render(request, 'imsa_main/main.html', {'user_authenticated': False})
+

@@ -1,0 +1,99 @@
+/* Стили для контейнера новостей */
+.news-container {
+    display: flex;
+    flex-direction: column; /* Стараемся разместить все статьи в один столбец */
+    align-items: center;  /* Выравниваем все блоки по центру */
+    padding: 20px;
+}
+
+/* Стили для большого контейнера всех новостей (новый блок с красным фоном) */
+.all-news-wrapper {
+    background-color: #e74c3c; /* Красный фон */
+    padding-top: 5%; /* Отступы вокруг всего контейнера */
+    border-radius: 8px; /* Закругление углов */
+    width: 65%;
+}
+
+/* Стили для контейнера всех новостей */
+.all-news {
+    display: flex;
+    flex-wrap: wrap;  /* Мобильный режим - новости будут в несколько строк */
+    gap: 15px; /* Расстояние между новостями */
+    justify-content: center; /* Выравниваем новости по центру */
+    width: 100%;
+}
+
+/* Стили для блока с новостью */
+.news-item {
+    width: 29%;  /* Задаём блокам ширину 30% */
+    margin-bottom: 10px; /* Отступ снизу */
+    padding: 5px;  /* Внутренний отступ */
+    box-sizing: border-box; /* Учитываем отступы и границы в общей ширине */
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* При наведении на блок */
+.news-item:hover {
+    transform: translateY(-5px); /* Поднимем блок при наведении */
+}
+
+/* Стили для изображения новости */
+.news-image {
+    width: 100%;       /* Ширина будет автоматически масштабироваться */
+    max-height: 170px; /* Максимальная высота картинки */
+    object-fit: contain; /* Сохраняем пропорции, но уменьшаем изображение, чтобы оно вмещалось в блок */
+    display: block;
+}
+
+/* Стили для текста новости */
+.news-text {
+    margin-top: 8px;
+    font-size: 13px; /* Уменьшаем размер шрифта */
+}
+
+/* Стили для заголовков */
+.news-title {
+    font-size: 14px;  /* Уменьшаем размер шрифта для заголовков */
+    font-weight: bold;
+    color: #333;
+    margin: 4px 0;
+}
+
+.news-heading2, .news-heading3, .news-pading {
+    font-size: 13px; /* Уменьшаем шрифт заголовков и описания */
+    color: #555;
+}
+
+.news-author {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
+
+.news-author a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Стили для кнопки "Load more" */
+#mvp-inf-more-but {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+#mvp-inf-more-but:hover {
+    background-color: #0056b3;
+}
