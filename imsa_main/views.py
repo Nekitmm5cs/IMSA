@@ -11,7 +11,6 @@ def main(request):
         return render(request, 'imsa_main/main.html', {'user_authenticated': True})
     return render(request, 'imsa_main/main.html', {'user_authenticated': False})
 
-<<<<<<< HEAD
 def map(request):
     return render(request, 'imsa_main/imsa_map.html')
 
@@ -32,5 +31,3 @@ def get_messages(request):
     messages_data = [{'username': msg.user.username, 'message': msg.message} for msg in messages]
     return JsonResponse({'messages': messages_data})
 
-=======
->>>>>>> 7f248e54c694e3d81703bac3bd833786ee3589b0

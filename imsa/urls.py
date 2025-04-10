@@ -7,13 +7,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('imsa_main.urls')),   
     path('test/', include('imsa_test.urls')),   
-<<<<<<< HEAD
-    path('table/', include('imsa_table.urls')),   
-    # path('news/', include('imsa_news.urls')),  
+    path('table/', include('imsa_table.urls')),  
+    path('gallery/', include('imsa_gallery.urls')),
+    path('schedule/', include('imsa_schedule.urls')),
+    path('news/', include('imsa_news.urls')),  
     path('users/', include('imsa_users.urls')),  
- ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-=======
-    # path('news/', include('imsa_news.urls')),  
-    path('users/', include('imsa_users.urls')),  
- ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
->>>>>>> 7f248e54c694e3d81703bac3bd833786ee3589b0
+ ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

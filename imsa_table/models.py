@@ -12,10 +12,6 @@ class RaceParticipant(models.Model):
     def __str__(self):
         return self.name
 
-class Leader(models.Model):
-    name = models.CharField(max_length=100)
-    score = models.IntegerField()
-    date_achieved = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name
+    def save(self, *args, **kwargs):
+        self.total = self.daytona + self.sebring + self.weathertech + self.virginia + self.atlanta
+        super().save(*args, **kwargs)

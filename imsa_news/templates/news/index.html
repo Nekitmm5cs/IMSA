@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новости IMSA | Автоспорт</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --imsa-blue: #0a2240;
+            --imsa-red: #e31937;
+            --imsa-light: #f8f9fa;
+            --imsa-dark: #1a1a1a;
+            --imsa-gray: #6c757d;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            color: var(--imsa-dark);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--imsa-blue) 0%, #1a3a6a 100%);
+            color: white;
+            padding: 2rem 1rem;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.imsa.com/wp-content/uploads/sites/32/2023/01/2023-rolex-24-at-daytona-000-1200x675.jpg') center/cover no-repeat;
+            opacity: 0.15;
+            z-index: 1;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.5;
+        }
+        
+        .logo {
+            height: 50px;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 0.6rem 1rem;
+            border-radius: 4px;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            max-width: 1200px;
+        }
+        
+        .update-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #4caf50;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        #lastUpdate {
+            font-size: 0.8rem;
+            color: var(--imsa-gray);
+        }
+        
+        #newArticlesCount {
+            background-color: var(--imsa-red);
+            color: white;
+            padding: 0.1rem 0.6rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        .article-card.new::after {
+            content: 'НОВОЕ';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--imsa-red);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .article-card.highlighted {
+            animation: highlight 2s ease;
+            border: 2px solid var(--imsa-red);
+            position: relative;
+        }
+        
+        .article-card.highlighted::after {
+            content: '✓ Выбрано';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--imsa-red);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        @keyframes highlight {
+            0% { background-color: rgba(227, 25, 55, 0.1); }
+            50% { background-color: rgba(227, 25, 55, 0.2); }
+            100% { background-color: white; }
+        }
+        
+        .article-image-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .article-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .article-card:hover .article-image {
+            transform: scale(1.03);
+        }
+        
+        .article-content {
+            padding: 1.2rem;
+        }
+        
+        .article-date {
+            color: var(--imsa-red);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .article-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            line-height: 1.3;
+            margin: 0 0 0.8rem;
+            color: var(--imsa-blue);
+        }
+        
+        .article-excerpt {
+            color: var(--imsa-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.5;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--imsa-gray);
+        }
+        
+        .read-more-btn {
+            display: inline-block;
+            background-color: var(--imsa-blue);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .read-more-btn:hover {
+            background-color: var(--imsa-red);
+            transform: translateY(-2px);
+        }
+        
+        .popular-articles {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: var(--imsa-blue);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--imsa-red);
+        }
+        
+        .popular-list {
+            list-style: none;
+        }
+        
+        .popular-item {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .popular-item:last-child {
+            border-bottom: none;
+        }
+        
+        .popular-link {
+            color: var(--imsa-dark);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+        
+        .popular-link:hover {
+            color: var(--imsa-red);
+            background-color: rgba(10, 34, 64, 0.05);
+        }
+        
+        .popular-number {
+            background-color: var(--imsa-blue);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        
+        .load-more-container {
+            text-align: center;
+            margin: 2rem 0 3rem;
+        }
+        
+        #loadMoreBtn {
+            background-color: var(--imsa-blue);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        #loadMoreBtn:hover {
+            background-color: var(--imsa-red);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        #loadMoreBtn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        footer {
+            background-color: var(--imsa-blue);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .social-link {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-link:hover {
+            color: var(--imsa-red);
+        }
+        
+        .copyright {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                padding: 1.5rem 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .logo {
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-bg"></div>
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="https://www.imsa.com/wp-content/uploads/sites/32/2021/01/imsa-logo-white.png" alt="IMSA Logo" class="logo">
+                <h1>Новости IMSA</h1>
+            </div>
+            <p class="subtitle">Самые свежие новости и эксклюзивные материалы чемпионата IMSA WeatherTech SportsCar Championship</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="status-bar">
+            <div class="update-info">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span id="updateStatus">Автообновление</span>
+                    <span id="newArticlesCount"></span>
+                </div>
+            </div>
+            <div id="lastUpdate">Последнее обновление: загрузка...</div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div id="results" class="articles-grid">
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--imsa-blue); margin-bottom: 1rem;"></i>
+                <p>Загрузка новостей...</p>
+            </div>
+        </div>
+        
+        <div class="popular-articles">
+            <h3 class="section-title">Все новости</h3>
+            <ul class="popular-list" id="popularNewsList">
+                <!-- Список будет заполнен JavaScript -->
+            </ul>
+        </div>
+        
+        <div class="load-more-container">
+            <button id="loadMoreBtn">
+                <i class="fas fa-plus"></i> Загрузить еще
+            </button>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p class="copyright">© 2024 Новости IMSA. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Конфигурация
+        const config = {
+            feedUrl: "https://www.imsa.com/latestnews/",
+            updateInterval: 5 * 60 * 1000, // 5 минут
+            articlesPerPage: 6,
+            maxArticles: 30,
+            useLocalStorage: true,
+            highQualityImages: true
+        };
+        
+        // Состояние
+        let allArticles = [];
+        let displayedArticles = 0;
+        let updateTimer;
+        let lastFetchTime = null;
+        let isLoading = false;
+        let highlightedArticleId = null;
+        
+        // DOM элементы
+        const resultsEl = document.getElementById('results');
+        const lastUpdateEl = document.getElementById('lastUpdate');
+        const updateStatusEl = document.getElementById('updateStatus');
+        const newArticlesCountEl = document.getElementById('newArticlesCount');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const popularNewsList = document.getElementById('popularNewsList');
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            if (config.useLocalStorage) {
+                loadSavedArticles();
+            }
+            
+            fetchIMSAFeed();
+            startAutoUpdate();
+            
+            loadMoreBtn.addEventListener('click', loadMoreArticles);
+            
+            // Обработка хэша в URL для подсветки статьи
+            if (window.location.hash) {
+                const articleId = window.location.hash.substring(1);
+                setTimeout(() => highlightArticle(articleId), 100);
+            }
+        });
+        
+        // Функции автообновления
+        function startAutoUpdate() {
+            updateTimer = setInterval(fetchIMSAFeed, config.updateInterval);
+            updateStatusEl.textContent = "Автообновление";
+        }
+        
+        // Основная функция загрузки
+        async function fetchIMSAFeed() {
+            if (isLoading) return;
+            isLoading = true;
+            
+            try {
+                updateStatusEl.textContent = "Проверка обновлений...";
+                
+                const proxyUrl = 'https://api.allorigins.win/get?url=';
+                const response = await fetch(`${proxyUrl}${encodeURIComponent(config.feedUrl)}`);
+                const data = await response.json();
+                
+                if (data.contents) {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data.contents, 'text/html');
+                    processNewArticles(doc);
+                    lastFetchTime = new Date();
+                    updateLastUpdateTime();
+                    
+                    if (config.useLocalStorage) {
+                        saveArticles();
+                    }
+                }
+            } catch (error) {
+                console.error("Ошибка загрузки новостей:", error);
+            } finally {
+                isLoading = false;
+                updateStatusEl.textContent = "Автообновление";
+            }
+        }
+        
+        // Обработка новых статей
+        function processNewArticles(doc) {
+            const articles = doc.querySelectorAll('.card-news-item');
+            
+            if (articles.length === 0) return;
+            
+            let newArticles = [];
+            
+            Array.from(articles).forEach(article => {
+                const link = article.querySelector('a').href;
+                const title = article.querySelector('h3').textContent.trim();
+                const date = article.querySelector('.article-category').textContent.trim();
+                const excerpt = article.querySelector('.article-excerpt').textContent.trim();
+                const imgElem = article.querySelector('.card-news-image img');
+                
+                // Улучшение качества изображений
+                let imgSrc = imgElem.src;
+                if (config.highQualityImages) {
+                    if (imgElem.dataset.src) {
+                        imgSrc = imgElem.dataset.src;
+                    } else if (imgSrc.includes('-425x226.')) {
+                        imgSrc = imgSrc.replace('-425x226.', '-1200x675.');
+                    } else if (imgSrc.includes('-300x200.')) {
+                        imgSrc = imgSrc.replace('-300x200.', '-1200x800.');
+                    } else if (imgSrc.includes('-768x512.')) {
+                        imgSrc = imgSrc.replace('-768x512.', '-1200x800.');
+                    }
+                }
+                
+                const exists = allArticles.some(a => a.link === link);
+                
+                if (!exists) {
+                    const articleId = 'article-' + Math.random().toString(36).substr(2, 9);
+                    newArticles.push({
+                        id: articleId,
+                        link,
+                        title,
+                        date,
+                        excerpt,
+                        imgSrc,
+                        isNew: true,
+                        timestamp: new Date().toISOString()
+                    });
+                }
+            });
+            
+            if (newArticles.length > 0) {
+                allArticles = [...newArticles, ...allArticles];
+                
+                if (allArticles.length > config.maxArticles) {
+                    allArticles = allArticles.slice(0, config.maxArticles);
+                }
+                
+                if (displayedArticles === 0) {
+                    displayedArticles = Math.min(config.articlesPerPage, allArticles.length);
+                    renderArticles(allArticles.slice(0, displayedArticles));
+                } else {
+                    renderArticles(allArticles.slice(0, displayedArticles));
+                }
+                
+                updatePopularNewsList();
+                
+                if (newArticles.length > 0) {
+                    showNewArticlesNotification(newArticles.length);
+                }
+            }
+        }
+        
+        // Загрузка дополнительных новостей
+        function loadMoreArticles() {
+            if (displayedArticles >= allArticles.length) {
+                loadMoreBtn.disabled = true;
+                loadMoreBtn.innerHTML = '<i class="fas fa-check"></i> Все новости загружены';
+                return;
+            }
+            
+            loadMoreBtn.disabled = true;
+            loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Загрузка...';
+            
+            setTimeout(() => {
+                const nextArticles = allArticles.slice(
+                    displayedArticles, 
+                    displayedArticles + config.articlesPerPage
+                );
+                
+                displayedArticles += nextArticles.length;
+                renderArticles(nextArticles, true);
+                updatePopularNewsList();
+                
+                if (displayedArticles >= allArticles.length) {
+                    loadMoreBtn.disabled = true;
+                    loadMoreBtn.innerHTML = '<i class="fas fa-check"></i> Все новости загружены';
+                } else {
+                    loadMoreBtn.disabled = false;
+                    loadMoreBtn.innerHTML = '<i class="fas fa-plus"></i> Загрузить еще';
+                }
+            }, 500);
+        }
+        
+        // Отрисовка статей
+        function renderArticles(articles, append = false) {
+            if (!append) {
+                resultsEl.innerHTML = '';
+            }
+            
+            if (!document.querySelector('.articles-grid')) {
+                resultsEl.classList.add('articles-grid');
+            }
+            
+            articles.forEach(article => {
+                const articleCard = document.createElement('div');
+                articleCard.className = `article-card ${article.isNew ? 'new' : ''}`;
+                articleCard.id = article.id;
+                articleCard.innerHTML = `
+                    <div class="article-image-container">
+                        <img class="article-image" src="${article.imgSrc}" alt="${article.title}" loading="lazy">
+                    </div>
+                    <div class="article-content">
+                        <div class="article-date">
+                            <i class="far fa-calendar-alt"></i> ${article.date}
+                        </div>
+                        <h3 class="article-title">${article.title}</h3>
+                        <p class="article-excerpt">${article.excerpt}</p>
+                        <div class="article-meta">
+                            <button class="read-more-btn" onclick="window.open('${article.link}', '_blank')">
+                                Читать полностью <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                resultsEl.appendChild(articleCard);
+                
+                // Если это подсвеченная статья, добавляем класс highlighted
+                if (article.id === highlightedArticleId) {
+                    articleCard.classList.add('highlighted');
+                }
+                
+                if (article.isNew) {
+                    setTimeout(() => {
+                        article.isNew = false;
+                        articleCard.classList.remove('new');
+                    }, 3000);
+                }
+            });
+        }
+        
+        // Обновление списка всех новостей
+        function updatePopularNewsList() {
+            popularNewsList.innerHTML = '';
+            
+            allArticles.forEach((article, index) => {
+                const listItem = document.createElement('li');
+                listItem.className = 'popular-item';
+                listItem.innerHTML = `
+                    <a class="popular-link" data-article-id="${article.id}">
+                        <span class="popular-number">${index + 1}</span>
+                        <span>${article.title}</span>
+                    </a>
+                `;
+                popularNewsList.appendChild(listItem);
+                
+                // Добавляем обработчик клика
+                listItem.querySelector('.popular-link').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const articleId = this.getAttribute('data-article-id');
+                    highlightArticle(articleId);
+                    
+                    // Прокручиваем к статье
+                    const articleElement = document.getElementById(articleId);
+                    if (articleElement) {
+                        articleElement.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center'
+                        });
+                    }
+                });
+            });
+        }
+        
+        // Подсветка статьи
+        function highlightArticle(articleId) {
+            // Убираем подсветку у предыдущей статьи
+            if (highlightedArticleId) {
+                const prevArticle = document.getElementById(highlightedArticleId);
+                if (prevArticle) prevArticle.classList.remove('highlighted');
+            }
+            
+            // Находим и подсвечиваем новую статью
+            const articleElement = document.getElementById(articleId);
+            if (articleElement) {
+                articleElement.classList.add('highlighted');
+                highlightedArticleId = articleId;
+                
+                // Добавляем хэш в URL
+                window.location.hash = articleId;
+                
+                // Обновляем анимацию подсветки
+                articleElement.classList.remove('highlighted');
+                void articleElement.offsetWidth; // Триггер reflow
+                articleElement.classList.add('highlighted');
+            }
+        }
+        
+        // Уведомление о новых статьях
+        function showNewArticlesNotification(count) {
+            newArticlesCountEl.textContent = `${count} НОВЫХ`;
+            newArticlesCountEl.style.display = 'inline-block';
+            newArticlesCountEl.style.animation = 'none';
+            setTimeout(() => {
+                newArticlesCountEl.style.animation = 'bounce 0.5s';
+            }, 10);
+        }
+        
+        // Работа с localStorage
+        function saveArticles() {
+            try {
+                localStorage.setItem('imsaNewsFeed', JSON.stringify({
+                    articles: allArticles,
+                    lastUpdated: new Date().toISOString(),
+                    displayedCount: displayedArticles,
+                    highlightedId: highlightedArticleId
+                }));
+            } catch (e) {
+                console.error("Ошибка сохранения статей:", e);
+            }
+        }
+        
+        function loadSavedArticles() {
+            try {
+                const savedData = localStorage.getItem('imsaNewsFeed');
+                if (savedData) {
+                    const parsedData = JSON.parse(savedData);
+                    allArticles = parsedData.articles || [];
+                    displayedArticles = parsedData.displayedCount || 0;
+                    highlightedArticleId = parsedData.highlightedId || null;
+                    
+                    if (allArticles.length > 0) {
+                        allArticles.forEach(a => a.isNew = false);
+                        
+                        const articlesToShow = allArticles.slice(0, displayedArticles || config.articlesPerPage);
+                        renderArticles(articlesToShow);
+                        updatePopularNewsList();
+                        
+                        lastFetchTime = new Date(parsedData.lastUpdated);
+                        updateLastUpdateTime();
+                        
+                        if (displayedArticles >= allArticles.length) {
+                            loadMoreBtn.disabled = true;
+                            loadMoreBtn.innerHTML = '<i class="fas fa-check"></i> Все новости загружены';
+                        }
+                        
+                        // Восстанавливаем подсвеченную статью
+                        if (highlightedArticleId) {
+                            setTimeout(() => {
+                                highlightArticle(highlightedArticleId);
+                            }, 100);
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error("Ошибка загрузки сохраненных статей:", e);
+            }
+        }
+        
+        function updateLastUpdateTime() {
+            if (lastFetchTime) {
+                const options = { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    day: 'numeric',
+                    month: 'long'
+                };
+                lastUpdateEl.textContent = `Последнее обновление: ${lastFetchTime.toLocaleTimeString('ru-RU', options)}`;
+            }
+        }
+    </script>
+</body>
+</html>

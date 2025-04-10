@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from pathlib import Path
+from pathlib import Path, os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,14 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'imsa_main',
     'imsa_test',
-<<<<<<< HEAD
     'channels',
     'imsa',
-=======
->>>>>>> 7f248e54c694e3d81703bac3bd833786ee3589b0
-
-
+    'imsa_gallery',
     'imsa_table',
+    'imsa_schedule',
+
+
     'imsa_news',
     'imsa_users',
 ]
@@ -156,3 +155,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "imsa02657@gmail.com" #TODO
 EMAIL_HOST_PASSWORD = "bmcz ewag fzxj cuqy" #TODO
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

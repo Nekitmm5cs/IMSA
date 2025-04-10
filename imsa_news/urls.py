@@ -1,7 +1,9 @@
 from django.urls import path
 from . import views
 
+app_name = 'news' 
+
 urlpatterns = [
-    path('news/', views.news, name='news'),
-    path('load-more-news/', views.load_more_news, name='load_more_news'),  # URL для подгрузки новостей
+    path('', views.news_list, name='news_list'),
+    
 ]

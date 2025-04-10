@@ -1,231 +1,311 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Race Table</title>
+    <title>Race Championship Table</title>
     <style>
-        /* Основные стили для таблицы */
-        table {
-            width: 60%; /* Ширина таблицы */
-            border-collapse: collapse;
-            font-family: Arial, sans-serif;
-            margin: 0 auto; /* Выравниваем таблицу по центру */
-            text-align: center;
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), 
+                              url('https://images.unsplash.com/photo-1543351611-58f69d7c1781?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-attachment: fixed;
         }
 
-        /* Стили для заголовков таблицы */
+        h2 {
+            text-align: center;
+            color: #e10600;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(225, 6, 0, 0.5);
+        }
+
+        h3 {
+            color: #e10600;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .table-container {
+            width: 90%;
+            margin: 0 auto;
+            overflow-x: auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Arial', sans-serif;
+            margin: 0 auto;
+            text-align: center;
+            background-color: rgba(30, 30, 30, 0.9);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
         th {
-            background-color: rgb(43, 43, 43);
+            background-color: #e10600;
             color: white;
             text-align: center;
-            padding: 5px;
+            padding: 12px 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+            position: sticky;
+            top: 0;
         }
 
-        /* Стили для ячеек таблицы */
         td {
-            padding: 2px; /* Уменьшенные отступы */
-            border-bottom: 1px solid #ddd;
-            width: 50px; /* Фиксированная ширина ячеек */
-            font-size: 12px; /* Уменьшенный размер шрифта */
-            white-space: nowrap; /* Запрет переноса текста */
-            height: 15px;
+            padding: 10px 8px;
+            border-bottom: 1px solid #444;
+            font-size: 13px;
+            white-space: nowrap;
+            height: 20px;
+            color: #ddd;
         }
 
-        /* Стили для строк при наведении */
         tr:hover {
-            background-color: #f5f5f5;
+            background-color: rgba(225, 6, 0, 0.1);
         }
 
-        /* Чередование цветов строк */
         tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: rgba(50, 50, 50, 0.5);
         }
 
-        /* Стили для кнопок */
-        button {
-            padding: 2px 5px; /* Уменьшенные отступы для кнопок */
-            margin-left: 10px;
-            cursor: pointer;
-            font-size: 12px; /* Уменьшенный размер шрифта для кнопок */
+        tr:nth-child(even):hover {
+            background-color: rgba(225, 6, 0, 0.1);
         }
 
-        /* Стили для формы */
-        #form-container {
+        .action-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 5px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .action-links a:first-child {
+            color: #4CAF50;
+        }
+
+        .action-links a:last-child {
+            color: #f44336;
+        }
+
+        .action-links a:hover {
+            transform: scale(1.2);
+        }
+
+        /* Форма добавления участника */
+        .add-form {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #444;
+        }
+
+        .form-row {
             display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
             justify-content: center;
-            align-items: center;
-            gap: 5px; /* Уменьшенное расстояние между элементами формы */
-            margin-top: 10px;
-            width: 60%;
-            margin-left: 10px;
-
-            
         }
 
-        #form-container input {
-            padding: 2px;
-            font-size: 13px; /* Уменьшенный размер шрифта */
-            width: 90px; /* Уменьшенная ширина полей ввода */
-            box-sizing: border-box;
-            
+        .form-row input {
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            flex: 1;
+            min-width: 120px;
         }
 
-        #form-container button {
-            padding: 2px 5px;
+        .form-row input:focus {
+            outline: none;
+            border-color: #e10600;
+        }
+
+        .form-row button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #e10600 0%, #a10500 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .form-row button:hover {
+            background: linear-gradient(135deg, #ff1a1a 0%, #c51010 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(225, 6, 0, 0.3);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .table-container {
+                width: 95%;
+            }
+            
+            th, td {
+                padding: 8px 5px;
+                font-size: 12px;
+            }
+            
+            .form-row input {
+                min-width: 100px;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .table-container {
+                width: 100%;
+            }
+            
+            th {
+                font-size: 11px;
+                padding: 6px 3px;
+            }
+            
+            td {
+                font-size: 11px;
+                padding: 6px 3px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .form-row input, 
+            .form-row button {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        /* Стили для заголовков колонок с трассами */
+        .track-header {
+            position: relative;
+        }
+
+        .track-header:hover::after {
+            content: attr(data-track);
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
             font-size: 12px;
-        }
-
-        /* Стили для формы внутри таблицы */
-        #form-table {
-            width: 60%; /* Ширина формы равна ширине таблицы */
-            margin: 0 auto; /* Выравнивание по центру */
-            border-collapse: collapse;
-        }
-
-        #form-table td {
-            padding: 2px;
-            border: none; /* Убираем границы */
-        }
-
-        #form-table input {
-            width: 100%; /* Ширина поля ввода равна ширине ячейки */
-            box-sizing: border-box;
-        }
-
-        #form-table button {
-            width: 100%; /* Ширина кнопки равна ширине ячейки */
+            white-space: nowrap;
+            z-index: 100;
+            border: 1px solid #e10600;
         }
     </style>
 </head>
 <body>
+    <h2>Race Championship Standings</h2>
 
-    <h2>Race Table</h2>
+    <div class="table-container">
+        <table id="race-table">
+            <thead>
+                <tr>
+                    <th>Pos</th>
+                    <th>Driver</th>
+                    <th class="track-header" data-track="Daytona International Speedway">DAY</th>
+                    <th class="track-header" data-track="Sebring International Raceway">SEB</th>
+                    <th class="track-header" data-track="WeatherTech Raceway Laguna Seca">WTR</th>
+                    <th class="track-header" data-track="Virginia International Raceway">VIR</th>
+                    <th class="track-header" data-track="Michelin Raceway Road Atlanta">ATL</th>
+                    <th>Total</th>
+                    {% if user.is_authenticated and user.username == "root" %}
+                    <th>Actions</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% if participants %}
+                    {% for participant in participants %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ participant.name }}</td>
+                        <td>{{ participant.daytona }}</td>
+                        <td>{{ participant.sebring }}</td>
+                        <td>{{ participant.weathertech }}</td>
+                        <td>{{ participant.virginia }}</td>
+                        <td>{{ participant.atlanta }}</td>
+                        <td><strong>{{ participant.total }}</strong></td>
+                        {% if user.is_authenticated and user.username == "root" %}
+                        <td class="action-links">
+                            <a href="{% url 'edit_participant' participant.id %}" title="Edit">✏️</a>
+                            <a href="{% url 'delete_participant' participant.id %}" title="Delete">❌</a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="9">No data available</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
 
-    <!-- Форма для добавления/редактирования участника -->
+    <!-- Форма для добавления нового участника (только для root) -->
     {% if user.is_authenticated and user.username == "root" %}
-    <table id="form-table">
-        <tr>
-            <td><input type="text" id="name" placeholder="Пилот"></td>
-            <td><input type="number" id="daytona" placeholder="Daytona"></td>
-            <td><input type="number" id="sebring" placeholder="Sebring"></td>
-            <td><input type="number" id="weathertech" placeholder="WeatherTech"></td>
-            <td><input type="number" id="virginia" placeholder="Virginia"></td>
-            <td><input type="number" id="atlanta" placeholder="Atlanta"></td>
-            <td><button onclick="addOrUpdateParticipant()">Добавить/Обновить</button></td>
-        </tr>
-    </table>
+    <div class="add-form">
+        <h3>Add New Participant</h3>
+        <form method="post" action="{% url 'table' %}">
+            {% csrf_token %}
+            <div class="form-row">
+                <input type="text" name="name" placeholder="Driver Name" required>
+                <input type="number" name="daytona" placeholder="Daytona Points" step="0.1" required>
+                <input type="number" name="sebring" placeholder="Sebring Points" step="0.1" required>
+            </div>
+            <div class="form-row">
+                <input type="number" name="weathertech" placeholder="WeatherTech Points" step="0.1" required>
+                <input type="number" name="virginia" placeholder="Virginia Points" step="0.1" required>
+                <input type="number" name="atlanta" placeholder="Atlanta Points" step="0.1" required>
+            </div>
+            <div class="form-row">
+                <button type="submit">Add Participant</button>
+            </div>
+        </form>
+    </div>
     {% endif %}
 
-    <!-- Таблица -->
-    <table id="race-table">
-        <thead>
-            <tr>
-                <th>Позиция</th>
-                <th>Пилот</th>
-                <th>Daytona</th>
-                <th>Sebring</th>
-                <th>WeatherTech</th>
-                <th>Virginia</th>
-                <th>Atlanta</th>
-                <th>Total</th>
-                {% if user.is_authenticated and user.username == "root" %}
-                <th>Действия</th>
-                {% endif %}
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Данные будут добавляться с помощью JavaScript -->
-        </tbody>
-    </table>
-
     <script>
-        let participants = [];
-        let editIndex = null;
-
-        // Функция для добавления или обновления участника
-        function addOrUpdateParticipant() {
-            const name = document.getElementById('name').value;
-            const daytona = parseFloat(document.getElementById('daytona').value) || 0;
-            const sebring = parseFloat(document.getElementById('sebring').value) || 0;
-            const weathertech = parseFloat(document.getElementById('weathertech').value) || 0;
-            const virginia = parseFloat(document.getElementById('virginia').value) || 0;
-            const atlanta = parseFloat(document.getElementById('atlanta').value) || 0;
-
-            // Рассчитываем Total как сумму всех значений
-            const total = daytona + sebring + weathertech + virginia + atlanta;
-
-            if (editIndex === null) {
-                // Добавляем нового участника
-                participants.push({ name, daytona, sebring, weathertech, virginia, atlanta, total });
-            } else {
-                // Обновляем существующего участника
-                participants[editIndex] = { name, daytona, sebring, weathertech, virginia, atlanta, total };
-                editIndex = null;
-            }
-
-            renderTable();
-            clearForm();
-        }
-
-        // Функция для отображения таблицы
-        function renderTable() {
-            const tbody = document.querySelector('#race-table tbody');
-            tbody.innerHTML = '';
-
-            participants.forEach((participant, index) => {
-                const row = document.createElement('tr');
-
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${participant.name}</td>
-                    <td>${participant.daytona}</td>
-                    <td>${participant.sebring}</td>
-                    <td>${participant.weathertech}</td>
-                    <td>${participant.virginia}</td>
-                    <td>${participant.atlanta}</td>
-                    <td>${participant.total}</td>
-                    {% if user.is_authenticated and user.username == "root" %}
-                    <td>
-                        <button onclick="editParticipant(${index})">✏️</button>
-                        <button onclick="deleteParticipant(${index})">❌</button>
-                    </td>
-                    {% endif %}
-                `;
-                tbody.appendChild(row);
+        // Добавляем эффект при наведении на строки таблицы
+        document.querySelectorAll('#race-table tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.3s ease';
             });
-        }
-
-        // Функция для редактирования участника
-        function editParticipant(index) {
-            const participant = participants[index];
-            document.getElementById('name').value = participant.name;
-            document.getElementById('daytona').value = participant.daytona;
-            document.getElementById('sebring').value = participant.sebring;
-            document.getElementById('weathertech').value = participant.weathertech;
-            document.getElementById('virginia').value = participant.virginia;
-            document.getElementById('atlanta').value = participant.atlanta;
-            editIndex = index;
-        }
-
-        // Функция для удаления участника
-        function deleteParticipant(index) {
-            participants.splice(index, 1);
-            renderTable();
-        }
-
-        // Функция для очистки формы
-        function clearForm() {
-            document.getElementById('name').value = '';
-            document.getElementById('daytona').value = '';
-            document.getElementById('sebring').value = '';
-            document.getElementById('weathertech').value = '';
-            document.getElementById('virginia').value = '';
-            document.getElementById('atlanta').value = '';
-        }
-
-        // Инициализация таблицы
-        renderTable();
+        });
     </script>
 </body>
 </html>

@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расписание гонок 2025</title>
+    <style>
+        /* Основные стили */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 20px 0;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), 
+                              url('https://images.unsplash.com/photo-1543351611-58f69d7c1781?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        h1 {
+            text-align: center;
+            color: #e10600;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(225, 6, 0, 0.5);
+        }
+
+        /* Стили для контейнера расписания */
+        .schedule-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 85%;
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 10px;
+            background-color: rgba(30, 30, 30, 0.8);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            width: 95%;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .schedule-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(225, 6, 0, 0.3);
+            border-color: #e10600;
+        }
+
+        .schedule-image img {
+            width: 140px;
+            height: auto;
+            border-radius: 8px;
+            margin-right: 25px;
+            border: 2px solid #444;
+            transition: border-color 0.3s;
+        }
+
+        .schedule-item:hover .schedule-image img {
+            border-color: #e10600;
+        }
+
+        .schedule-trackdetails img {
+            width: 130px;
+            height: auto;
+            border-radius: 8px;
+            margin-right: 20px;
+            border: 2px solid #444;
+            transition: border-color 0.3s;
+        }
+
+        .schedule-item:hover .schedule-trackdetails img {
+            border-color: #e10600;
+        }
+
+        .schedule-details {
+            flex: 1;
+        }
+
+        .schedule-trackdetails {
+            width: 300px;
+            margin-left: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .schedule-title {
+            font-size: 1.6rem;
+            margin: 0;
+            color: #fff;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .schedule-date {
+            font-size: 1rem;
+            color: #bbb;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+
+        .duration, .track-stats {
+            font-size: 0.95rem;
+            color: #ccc;
+            margin-top: 8px;
+        }
+
+        .track-stats {
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .schedule-button {
+            background: linear-gradient(135deg, #e10600 0%, #a10500 100%);
+            width: 130px;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: white;
+            flex-shrink: 0;
+            margin-left: auto;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(225, 6, 0, 0.3);
+        }
+
+        .schedule-button:hover {
+            background: linear-gradient(135deg, #ff1a1a 0%, #c51010 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(225, 6, 0, 0.4);
+        }
+
+        /* Стили для модального окна */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(to bottom, #1a1a1a, #2a2a2a);
+            margin: 5% auto;
+            padding: 25px;
+            border: 1px solid #444;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 900px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            animation: modalFadeIn 0.4s;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalFadeIn {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close:hover {
+            color: #e10600;
+        }
+
+        .modal-header {
+            padding: 15px 0;
+            border-bottom: 1px solid #444;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            color: #e10600;
+            font-size: 1.8rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modal-body {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .map-container {
+            flex: 1;
+            min-width: 320px;
+            height: 350px;
+            background-color: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #555;
+        }
+
+        .event-info {
+            flex: 1;
+            min-width: 220px;
+            background-color: rgba(40, 40, 40, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+
+        .info-section {
+            margin-bottom: 25px;
+        }
+
+        .info-section h3 {
+            color: #fff;
+            font-size: 1.4rem;
+            margin-top: 0;
+            border-bottom: 2px solid #e10600;
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .ticket-types {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .ticket-card {
+            flex: 1;
+            min-width: 120px;
+            background: rgba(50, 50, 50, 0.7);
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #444;
+            transition: all 0.3s;
+        }
+
+        .ticket-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(225, 6, 0, 0.2);
+            border-color: #e10600;
+        }
+
+        .ticket-card.vip {
+            background: linear-gradient(135deg, rgba(225, 6, 0, 0.2), rgba(161, 5, 0, 0.2));
+            border: 1px solid #e10600;
+        }
+
+        .ticket-card.premium {
+            background: linear-gradient(135deg, rgba(50, 50, 50, 0.7), rgba(80, 80, 80, 0.7));
+        }
+
+        .ticket-card.standard {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.7), rgba(50, 50, 50, 0.7));
+        }
+
+        .ticket-name {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .ticket-price {
+            font-size: 1.4rem;
+            color: #e10600;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .ticket-features {
+            list-style-type: none;
+            padding-left: 0;
+            font-size: 0.85rem;
+            color: #ccc;
+        }
+
+        .ticket-features li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .ticket-features li:before {
+            content: "✓";
+            color: #e10600;
+            position: absolute;
+            left: 0;
+        }
+
+        .drivers-list, .rules-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .drivers-list li, .rules-list li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 25px;
+            color: #ddd;
+            line-height: 1.5;
+        }
+
+        .drivers-list li:before {
+            content: "🏎️";
+            position: absolute;
+            left: 0;
+        }
+
+        .rules-list li:before {
+            content: "•";
+            color: #e10600;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -5px;
+        }
+
+        .driver-team {
+            font-size: 0.85rem;
+            color: #aaa;
+            display: block;
+            margin-top: 3px;
+        }
+
+        .buy-button {
+            background: linear-gradient(135deg, #e10600 0%, #a10500 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-top: 25px;
+            width: 100%;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            box-shadow: 0 4px 8px rgba(225, 6, 0, 0.3);
+        }
+
+        .buy-button:hover {
+            background: linear-gradient(135deg, #ff1a1a 0%, #c51010 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(225, 6, 0, 0.4);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1200px) {
+            .schedule-container {
+                width: 90%;
+            }
+            
+            .modal-content {
+                width: 85%;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .schedule-item {
+                flex-wrap: wrap;
+                padding: 15px;
+            }
+            
+            .schedule-details {
+                order: 1;
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .schedule-image {
+                order: 2;
+            }
+            
+            .schedule-trackdetails {
+                order: 3;
+                width: 100%;
+                margin: 15px 0 0 0;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .schedule-button {
+                order: 4;
+                margin: 15px auto 0 auto;
+            }
+            
+            .modal-body {
+                flex-direction: column;
+            }
+            
+            .map-container, .event-info {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 90%;
+                margin: 10% auto;
+                padding: 20px;
+            }
+            
+            .schedule-title {
+                font-size: 1.4rem;
+            }
+            
+            .ticket-types {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .schedule-container {
+                width: 95%;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 15% auto;
+            }
+            
+            .schedule-image img, 
+            .schedule-trackdetails img {
+                width: 100px;
+            }
+            
+            .modal-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .info-section h3 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Расписание гонок 2025</h1>
+
+    <div class="schedule-container">
+        <!-- Событие 1 -->
+        <div class="schedule-item">
+            <div class="schedule-image">
+                <img src="https://www.imsa.com/wp-content/uploads/sites/32/2019/11/2019_theroar_282x188_1.png">
+            </div>
+            <div class="schedule-details">
+                <h2 class="schedule-title">Daytona International Speedway</h2>
+                <div class="schedule-date">Jan 17 - Jan 19, 2025</div>
+                <div class="duration">DURATION: 6 Hours</div>
+            </div>
+            <div class="schedule-trackdetails">
+                <img src="https://www.imsa.com/wp-content/uploads/sites/32/2019/09/DIS_1346x916-1-350x238.png" alt="Daytona International Speedway">
+                <h2 class="track-stats">LENGTH: 3.56 miles</h2>
+            </div>
+            <button class="schedule-button" onclick="openModal('modal1')">Подробнее ></button>
+        </div>
+
+        <!-- Событие 2 -->
+        <div class="schedule-item">
+            <div class="schedule-image">
+                <img src="https://www.imsa.com/wp-content/uploads/sites/32/2024/03/20/2025_Sebring_IMSA_Logo_282x188-1-270x180.jpg">
+            </div>
+            <div class="schedule-details">
+                <h2 class="schedule-title">Sebring International Raceway</h2>
+                <div class="schedule-date">Mar 12 - Mar 15, 2025</div>
+                <div class="duration">DURATION: 12 Hours</div>
+            </div>
+            <div class="schedule-trackdetails">
+                <img src="https://www.imsa.com/wp-content/uploads/sites/32/2019/09/SEBRING_1346x916-350x238.png" alt="Sebring International Raceway">
+                <h2 class="track-stats">LENGTH: 3.74 miles</h2>
+            </div>
+            <button class="schedule-button" onclick="openModal('modal2')">Подробнее ></button>
+        </div>
+
+        <!-- Событие 3 -->
+        <div class="schedule-item">
+            <div class="schedule-image">
+                <img src="https://www.imsa.com/wp-content/uploads/sites/32/2024/07/22/2025_LagunaSeca_TrackLogo_Temp_282x188-270x180.png">
+            </div>
+            <div class="schedule-details">
+                <h2 class="schedule-title">WeatherTech Raceway Laguna Seca</h2>
+                <div class="schedule-date">May 9 - May 11, 2025</div>
+                <div class="duration">DURATION: 2 Hours 40 Minutes</div>
+            </div>
+            <div class="schedule-trackdetails">
+                <img src="https://www.imsa.com/wp-content/uploads/sites/32/2019/09/MRLS_1346x916-350x238.png">
+                <h2 class="track-stats">LENGTH: 2.238 miles</h2>
+            </div>
+            <button class="schedule-button" onclick="openModal('modal3')">Подробнее ></button>
+        </div>
+
+        <!-- Событие 4 -->
+        <div class="schedule-item">
+            <div class="schedule-image">
+                <img src="https://www.imsa.com/wp-content/uploads/sites/32/2024/03/28/2025_VIR_MichGTChallenge_Logo_282x188-270x180.png">
+            </div>
+            <div class="schedule-details">
+                <h2 class="schedule-title">VIRginia International Raceway</h2>
+                <div class="schedule-date">Aug 22 - Aug 24, 2025</div>
+                <div class="duration">DURATION: 2 Hours 40 Minutes</div>
+            </div>
+            <div class="schedule-trackdetails">
+                <img src="https://www.imsa.com/wp-content/uploads/sites/32/2019/09/VIR_1346x916-350x238.png">
+                <h2 class="track-stats">LENGTH: 3.27 miles</h2>
+            </div>
+            <button class="schedule-button" onclick="openModal('modal4')">Подробнее ></button>
+        </div>
+
+        <!-- Событие 5 -->
+        <div class="schedule-item">
+            <div class="schedule-image">
+                <img src="https://www.imsa.com/wp-content/uploads/sites/32/2024/03/11/2025_RoadAtlanta_EventLogo_282x188-270x180.png">
+            </div>
+            <div class="schedule-details">
+                <h2 class="schedule-title">Michelin Raceway Road Atlanta</h2>
+                <div class="schedule-date">Oct 8 - Oct 11, 2025</div>
+                <div class="duration">DURATION: 10 Hours</div>
+            </div>
+            <div class="schedule-trackdetails">
+                <img src="https://www.imsa.com/wp-content/uploads/sites/32/2019/09/RoadAtlanta_1346x916-350x238.png">
+                <h2 class="track-stats">LENGTH: 2.54 miles</h2>
+            </div>
+            <button class="schedule-button" onclick="openModal('modal5')">Подробнее ></button>
+        </div>
+    </div>
+
+    <!-- Модальные окна для каждого события -->
+    <!-- Daytona International Speedway -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal1')">&times;</span>
+            <div class="modal-header">
+                <h2>Daytona International Speedway</h2>
+            </div>
+            <div class="modal-body">
+                <div class="map-container">
+                    <iframe width="100%" height="100%" frameborder="0" style="border:0" 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3442.310777424422!2d-81.02084792427029!3d29.185018974865686!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e6d9a6b9f4a5a5%3A0x5e1a5a5a5a5a5a5a!2sDaytona%20International%20Speedway!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus&markers=color:red%7C29.1850189,-81.0208479" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="event-info">
+                    <div class="info-section">
+                        <h3>Участники</h3>
+                        <ul class="drivers-list">
+                            <li>Льюис Хэмилтон <span class="driver-team">(Mercedes-AMG Petronas)</span></li>
+                            <li>Макс Ферстаппен <span class="driver-team">(Red Bull Racing)</span></li>
+                            <li>Шарль Леклер <span class="driver-team">(Scuderia Ferrari)</span></li>
+                            <li>Ландо Норрис <span class="driver-team">(McLaren Racing)</span></li>
+                            <li>Фернандо Алонсо <span class="driver-team">(Aston Martin Aramco)</span></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Правила гонки</h3>
+                        <ul class="rules-list">
+                            <li>Формат гонки: 6 часов непрерывной езды</li>
+                            <li>Обязательные пит-стопы: минимум 3 за гонку</li>
+                            <li>Система безопасности: двойные желтые флаги в зонах опасности</li>
+                            <li>Очки начисляются по системе FIA WEC</li>
+                            <li>Использование DRS разрешено на главной прямой</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Билеты</h3>
+                        <div class="ticket-types">
+                            <div class="ticket-card standard">
+                                <div class="ticket-name">Стандарт</div>
+                                <div class="ticket-price">$120</div>
+                                <ul class="ticket-features">
+                                    <li>Общий вход</li>
+                                    <li>Доступ к трибунам</li>
+                                    <li>Базовые удобства</li>
+                                    <li>Парковка (доп. плата)</li>
+                                </ul>
+                            </div>
+                            <div class="ticket-card premium">
+                                <div class="ticket-name">Премиум</div>
+                                <div class="ticket-price">$280</div>
+                                <ul class="ticket-features">
+                                    <li>Закрытая трибуна</li>
+                                    <li>Лучший обзор трассы</li>
+                                    <li>Бесплатная парковка</li>
+                                    <li>Доступ к фудкорту</li>
+                                </ul>
+                            </div>
+                            <div class="ticket-card vip">
+                                <div class="ticket-name">VIP</div>
+                                <div class="ticket-price">$450</div>
+                                <ul class="ticket-features">
+                                    <li>VIP-ложа</li>
+                                    <li>Кейтеринг</li>
+                                    <li>Встреча с пилотами</li>
+                                    <li>Экскурсия по пит-лейн</li>
+                                    <li>Парковка у входа</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="buy-button">Купить билет</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sebring International Raceway -->
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal2')">&times;</span>
+            <div class="modal-header">
+                <h2>Sebring International Raceway</h2>
+            </div>
+            <div class="modal-body">
+                <div class="map-container">
+                    <iframe width="100%" height="100%" frameborder="0" style="border:0" 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3539.536481047049!2d-81.454787924279!3d27.45602038287986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88dc7e8b9b5b5b5b%3A0x5b5b5b5b5b5b5b5b!2sSebring%20International%20Raceway!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus&markers=color:red%7C27.4560204,-81.4547879" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="event-info">
+                    <div class="info-section">
+                        <h3>Участники</h3>
+                        <ul class="drivers-list">
+                            <li>Серхио Перес <span class="driver-team">(Red Bull Racing)</span></li>
+                            <li>Карлос Сайнс <span class="driver-team">(Scuderia Ferrari)</span></li>
+                            <li>Джордж Рассел <span class="driver-team">(Mercedes-AMG Petronas)</span></li>
+                            <li>Оскар Пиастри <span class="driver-team">(McLaren Racing)</span></li>
+                            <li>Пьер Гасли <span class="driver-team">(Alpine F1 Team)</span></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Правила гонки</h3>
+                        <ul class="rules-list">
+                            <li>Формат гонки: 12 часов (дневная и ночная части)</li>
+                            <li>Минимум 4 пит-стопа с обязательной сменой покрышек</li>
+                            <li>Система медленных зон вместо полного желтого флага</li>
+                            <li>Бонусные очки за лидирование круга</li>
+                            <li>Ограничение топлива на 10% меньше стандартного</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Билеты</h3>
+                        <div class="ticket-types">
+                            <div class="ticket-card standard">
+                                <div class="ticket-name">Стандарт</div>
+                                <div class="ticket-price">$150</div>
+                                <ul class="ticket-features">
+                                    <li>Общий вход</li>
+                                    <li>Доступ к трибунам</li>
+                                    <li>Базовые удобства</li>
+                                    <li>Парковка (доп. плата)</li>
+                                </ul>
+                            </div>
+                            <div class="ticket-card premium">
+                                <div class="ticket-name">Премиум</div>
+                                <div class="ticket-price">$320</div>
+                                <ul class="ticket-features">
+                                    <li>Закрытая трибуна</li>
+                                    <li>Лучший обзор трассы</li>
+                                    <li>Бесплатная парковка</li>
+                                    <li>Доступ к фудкорту</li>
+                                    <li>Сувенирный набор</li>
+                                </ul>
+                            </div>
+                            <div class="ticket-card vip">
+                                <div class="ticket-name">VIP</div>
+                                <div class="ticket-price">$500</div>
+                                <ul class="ticket-features">
+                                    <li>VIP-ложа с кондиционером</li>
+                                    <li>Премиальный кейтеринг</li>
+                                    <li>Встреча с пилотами</li>
+                                    <li>Эксклюзивный мерч</li>
+                                    <li>Парковка у входа</li>
+                                    <li>Доступ в паддок</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="buy-button">Купить билет</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WeatherTech Raceway Laguna Seca -->
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal3')">&times;</span>
+            <div class="modal-header">
+                <h2>WeatherTech Raceway Laguna Seca</h2>
+            </div>
+            <div class="modal-body">
+                <div class="map-container">
+                    <iframe width="100%" height="100%" frameborder="0" style="border:0" 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3203.536481047049!2d-121.754787924279!3d36.55602038287986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808de5a5b5b5b5b5%3A0x5b5b5b5b5b5b5b5b!2sWeatherTech%20Raceway%20Laguna%20Seca!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus&markers=color:red%7C36.5560204,-121.7547879" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="event-info">
+                    <div class="info-section">
+                        <h3>Участники</h3>
+                        <ul class="drivers-list">
+                            <li>Даниэль Риккардо <span class="driver-team">(Visa Cash App RB)</span></li>
+                            <li>Эстебан Окон <span class="driver-team">(Alpine F1 Team)</span></li>
+                            <li>Нико Хюлькенберг <span class="driver-team">(MoneyGram Haas)</span></li>
+                            <li>Александр Албон <span class="driver-team">(Williams Racing)</span></li>
+                            <li>Юки Цунода <span class="driver-team">(Visa Cash App RB)</span></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Правила гонки</h3>
+                        <ul class="rules-list">
+                            <li>Спринт-формат: 2 часа 40 минут</li>
+                            <li>Обязательный пит-стоп в течение первых 30 минут</li>
+                            <li>Двойные очки за квалификацию и гонку</li>
+                            <li>DRS доступен на 3 зонах трассы</li>
+                            <li>Ограничение на использование мягких покрышек</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Билеты</h3>
+                        <div class="ticket-types">
+                            <div class="ticket-card standard">
+                                <div class="ticket-name">Стандарт</div>
+                                <div class="ticket-price">$100</div>
+                                <ul class="ticket-features">
+                                    <li>Общий вход</li>
+                                    <li>Доступ к трибунам</li>
+                                    <li>Базовые удобства</li>
+                                    <li>Парковка (доп. плата)</li>
+                                </ul>
+                            </div>
+                            <div class="ticket-card premium">
+                                <div class="ticket-name">Премиум</div>
+                                <div class="ticket-price">$220</div>
+                                <ul class="ticket-features">
+                                    <li>Закрытая трибуна</li>
+                                    <li>Лучший обзор трассы</li>
+                                    <li>Бесплатная парковка</li>
+                                    <li>Доступ к фудкорту</li>
+                                </ul>
+                            </div>
+                            <div class="ticket-card vip">
+                                <div class="ticket-name">VIP</div>
+                                <div class="ticket-price">$400</div>
+                                <ul class="ticket-features">
+                                    <li>VIP-ложа</li>
+                                    <li>Кейтеринг</li>
+                                    <li>Встреча с пилотами</li>
+                                    <li>Экскурсия по пит-лейн</li>
+                                    <li>Парковка у входа</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="buy-button">Купить билет</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIRginia International Raceway -->
+    <div id="modal4" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal4')">&times;</span>
+            <div class="modal-header">
+                <h2>VIRginia International Raceway</h2>
+            </div>
+            <div class="modal-body">
+                <div class="map-container">
+                    <iframe width="100%" height="100%" frameborder="0" style="border:0" 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3165.536481047049!2d-78.754787924279!3d36.75602038287986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b1b5b5b5b5b5b5%3A0x5b5b5b5b5b5b5b5b!2sVIRginia%20International%20Raceway!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus&markers=color:red%7C36.7560204,-78.7547879" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="event-info">
+                    <div class="info-section">
+                        <h3>Участники</h3>
+                        <ul class="drivers-list">
+                            <li>Валттери Боттас <span class="driver-team">(Stake F1 Team Kick Sauber)</span></li>
+                            <li>Кевин Магнуссен <span class="driver-team">(MoneyGram Haas)</span></li>
+                            <li>Лэнс Стролл <span class="driver-team">(Aston Martin Aramco)</span></li>
+                            <li>Логан Сарджент <span class="driver-team">(Williams Racing)</span></li>
+                            <li>Гуаньюй Чжоу <span class="driver-team">(Stake F1 Team Kick Sauber)</span></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Правила гонки</h3>
+                        <ul class="rules-list">
+                            <li>Формат гонки: 2 часа 40 минут</li>
+                            <li>2 обязательных пит-стопа с разными типами покрышек</li>
+                            <li>Система начисления очков по топ-15</li>
+                            <li>DRS доступен только после 3 кругов</li>
+                            <li>Дополнительные очки за самый быстрый круг</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Билеты</h3>
+                        <div class="ticket-types">
+                            <div class="ticket-card standard">
+                                <div class="ticket-name">Стандарт</div>
+                                <div class="ticket-price">$90</div>
+                                <ul class="ticket-features">
+                                    <li>Общий вход</li>
+                                    <li>Доступ к трибунам</li>
+                                    <li>Базовые удобства</li>
+                                    <li>Парковка (доп. плата)</li>
+                                </ul>
+                            </div>
+                            <div class="ticket-card premium">
+                                <div class="ticket-name">Премиум</div>
+                                <div class="ticket-price">$200</div>
+                                <ul class="ticket-features">
+                                    <li>Закрытая трибуна</li>
+                                    <li>Лучший обзор трассы</li>
+                                    <li>Бесплатная парковка</li>
+                                    <li>Доступ к фудкорту</li>
+                                    <li>Сувенирный набор</li>
+                                </ul>
+                            </div>
+                            <div class="ticket-card vip">
+                                <div class="ticket-name">VIP</div>
+                                <div class="ticket-price">$350</div>
+                                <ul class="ticket-features">
+                                    <li>VIP-ложа</li>
+                                    <li>Кейтеринг</li>
+                                    <li>Встреча с пилотами</li>
+                                    <li>Экскурсия по пит-лейн</li>
+                                    <li>Парковка у входа</li>
+                                    <li>Доступ в паддок</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="buy-button">Купить билет</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Michelin Raceway Road Atlanta -->
+    <div id="modal5" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal5')">&times;</span>
+            <div class="modal-header">
+                <h2>Michelin Raceway Road Atlanta</h2>
+            </div>
+            <div class="modal-body">
+                <div class="map-container">
+                    <iframe width="100%" height="100%" frameborder="0" style="border:0" 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3313.536481047049!2d-83.754787924279!3d34.05602038287986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88f5b5b5b5b5b5b5%3A0x5b5b5b5b5b5b5b5b!2sMichelin%20Raceway%20Road%20Atlanta!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus&markers=color:red%7C34.0560204,-83.7547879" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="event-info">
+                    <div class="info-section">
+                        <h3>Участники</h3>
+                        <ul class="drivers-list">
+                            <li>Льюис Хэмилтон <span class="driver-team">(Mercedes-AMG Petronas)</span></li>
+                            <li>Макс Ферстаппен <span class="driver-team">(Red Bull Racing)</span></li>
+                            <li>Шарль Леклер <span class="driver-team">(Scuderia Ferrari)</span></li>
+                            <li>Ландо Норрис <span class="driver-team">(McLaren Racing)</span></li>
+                            <li>Фернандо Алонсо <span class="driver-team">(Aston Martin Aramco)</span></li>
+                            <li>Карлос Сайнс <span class="driver-team">(Scuderia Ferrari)</span></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Правила гонки</h3>
+                        <ul class="rules-list">
+                            <li>Формат гонки: 10 часов (финальный этап чемпионата)</li>
+                            <li>3 обязательных пит-стопа с ночной сменой экипажа</li>
+                            <li>Двойные очки за финальную гонку сезона</li>
+                            <li>Неограниченное использование DRS</li>
+                            <li>Бонусные очки за лидирование каждых 10 кругов</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Билеты</h3>
+                        <div class="ticket-types">
+                            <div class="ticket-card standard">
+                                <div class="ticket-name">Стандарт</div>
+                                <div class="ticket-price">$110</div>
+                                <ul class="ticket-features">
+                                    <li>Общий вход</li>
+                                    <li>Доступ к трибунам</li>
+                                    <li>Базовые удобства</li>
+                                    <li>Парковка (доп. плата)</li>
+                                </ul>
+                            </div>
+                            <div class="ticket-card premium">
+                                <div class="ticket-name">Премиум</div>
+                                <div class="ticket-price">$250</div>
+                                <ul class="ticket-features">
+                                    <li>Закрытая трибуна</li>
+                                    <li>Лучший обзор трассы</li>
+                                    <li>Бесплатная парковка</li>
+                                    <li>Доступ к фудкорту</li>
+                                    <li>Сувенирный набор</li>
+                                </ul>
+                            </div>
+                            <div class="ticket-card vip">
+                                <div class="ticket-name">VIP</div>
+                                <div class="ticket-price">$420</div>
+                                <ul class="ticket-features">
+                                    <li>VIP-ложа с кондиционером</li>
+                                    <li>Премиальный кейтеринг</li>
+                                    <li>Встреча с пилотами</li>
+                                    <li>Эксклюзивный мерч</li>
+                                    <li>Парковка у входа</li>
+                                    <li>Доступ в паддок</li>
+                                    <li>Экскурсия по командным боксам</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="buy-button">Купить билет</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Функции для открытия и закрытия модальных окон
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Запрет прокрутки фона
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto'; // Возврат прокрутки
+        }
+
+        // Закрытие модального окна при клике вне его
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+    </script>
+</body>
+</html>

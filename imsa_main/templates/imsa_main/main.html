@@ -112,7 +112,7 @@
 <body>
     <header>
         <a href="#" class="logo1">IMSA SportsCar Championship</a>
-        <img src="https://images.vexels.com/media/users/3/154251/isolated/preview/fef0c563c39f2746c35604e969ffe3ef-bmw-car-front-view-silhouette.png" class="pic" alt="IMSA Logo">
+        <img src="{% static 'imsa_main\images\car.png'%}" class="pic" alt="IMSA Logo">
         <nav>
             <ul>
                 <li><a href="#">Мир IMSA &bigtriangledown;</a>
@@ -124,25 +124,14 @@
                 <li><a href="#">Спортивные события &bigtriangledown;</a>
                     <ul>
                         <li><a href="{% url 'table' %}">Таблица лидеров</a></li>                        
-                        <li><a href="#">Расписание гонок &bigtriangledown;</a>
-                            <ul>
-                                <li><a href="#">WeatherTech</a></li>
-                                <li><a href="#">Michelin Pilot</a></li>
-                                <li><a href="#">Prototype</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="{% url 'map' %}">Обзор трасс</a></li>
-                        <li><a href="#">Галерея</a></li>
+                        <li><a href="{% url 'schedule' %}">Расписание гонок</a></li>
+                        <li><a href="{% url 'gallery' %}">Галерея</a></li>
                     </ul>
                 </li>
                 <li><a href="#">Новости IMSA &bigtriangledown;</a>
                     <ul>
-                        <li><a href="#">Последние новости</a></li>
+                        <li><a href="{% url 'news:news_list' %}">Последние новости</a></li>
                         <li><a href="#">Интервью</a></li>
-<<<<<<< HEAD
-=======
-                        <li><a href="#">Обзор гонок и трасс</a></li>
->>>>>>> 7f248e54c694e3d81703bac3bd833786ee3589b0
                     </ul>
                 </li>
                 <li><a href="#">Участники чемпионата &bigtriangledown;</a>
@@ -157,11 +146,7 @@
                     <ul>
                         {% if user.is_authenticated %}
                             <li><a href="{% url 'profile' %}">Мой профиль</a></li>
-<<<<<<< HEAD
                             <li><a href="{% url 'test' %}">Пройти тест</a></li>
-=======
-                            <li><a href="{% url 'test' %}">Пройти тест</a></li> <!-- Добавлено условие для теста -->
->>>>>>> 7f248e54c694e3d81703bac3bd833786ee3589b0
                         {% else %}
                             <li><a href="{% url 'login' %}">Авторизация/Регистрация</a></li>
                         {% endif %}
