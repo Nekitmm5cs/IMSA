@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'imsa_gallery',
     'imsa_table',
     'imsa_schedule',
+    'imsa_world',
+    'imsa_player',
 
 
     'imsa_news',
@@ -159,3 +161,4 @@ EMAIL_HOST_PASSWORD = "bmcz ewag fzxj cuqy" #TODO
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+

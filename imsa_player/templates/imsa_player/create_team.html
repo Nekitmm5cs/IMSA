@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMSA Team Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --imsa-blue: #0a2240;
+            --imsa-red: #e31937;
+            --imsa-gold: #d4af37;
+            --gtp-color: #e10600;
+            --lmp2-color: #0055ff;
+            --gtd-color: #00aa00;
+            --gtd-pro: #aa00aa;
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto Condensed', sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Шапка с параллакс-эффектом */
+        .hero-header {
+            background: linear-gradient(rgba(10, 34, 64, 0.8), rgba(10, 34, 64, 0.9)), 
+                        url('https://sportscar365.com/wp-content/uploads/2023/01/2023-IMSA-Official-Logo.jpg') center/cover no-repeat;
+            color: white;
+            padding: 2rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .hero-header h1 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hero-header p {
+            font-size: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        /* Основной контент */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 1.5rem;
+        }
+        
+        /* Боковая панель */
+        .sidebar {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            height: fit-content;
+        }
+        
+        .user-card {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--imsa-gold);
+            margin: 0 auto 1rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .user-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .user-role {
+            color: var(--imsa-red);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-link {
+            display: block;
+            padding: 0.7rem 1rem;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: var(--imsa-blue);
+            color: white;
+        }
+        
+        .nav-link i {
+            margin-right: 8px;
+            width: 18px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        /* Основное содержимое */
+        .main-content {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--imsa-gold);
+        }
+        
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            color: var(--imsa-blue);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Форма создания команды */
+        .team-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--imsa-blue);
+            font-size: 0.9rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--imsa-blue);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(10,34,64,0.1);
+        }
+        
+        .logo-upload {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo-upload:hover {
+            border-color: var(--imsa-blue);
+            background: rgba(10,34,64,0.02);
+        }
+        
+        .logo-upload i {
+            font-size: 2rem;
+            color: #666;
+            margin-bottom: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-upload:hover i {
+            color: var(--imsa-blue);
+            transform: translateY(-3px);
+        }
+        
+        .logo-preview {
+            max-width: 150px;
+            max-height: 150px;
+            display: none;
+            margin: 0 auto;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* Кнопки */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.7rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.9rem;
+            gap: 6px;
+        }
+        
+        .btn-primary {
+            background: var(--imsa-red);
+            color: white;
+            box-shadow: 0 3px 8px rgba(227,25,55,0.3);
+        }
+        
+        .btn-primary:hover {
+            background: #c0102a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(227,25,55,0.4);
+        }
+        
+        .btn-secondary {
+            background: var(--imsa-blue);
+            color: white;
+            box-shadow: 0 3px 8px rgba(10,34,64,0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: #081c3a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(10,34,64,0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--imsa-blue);
+            color: var(--imsa-blue);
+        }
+        
+        .btn-outline:hover {
+            background: var(--imsa-blue);
+            color: white;
+        }
+        
+        /* Классы автомобилей */
+        .class-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            gap: 5px;
+        }
+        
+        .gtp-badge {
+            background: var(--gtp-color);
+            color: white;
+        }
+        
+        .lmp2-badge {
+            background: var(--lmp2-color);
+            color: white;
+        }
+        
+        .gtd-badge {
+            background: var(--gtd-color);
+            color: white;
+        }
+        
+        .gtd-pro-badge {
+            background: var(--gtd-pro);
+            color: white;
+        }
+        
+        /* Карточка команды */
+        .team-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .team-header {
+            background: linear-gradient(135deg, var(--imsa-blue) 0%, #1a3a6a 100%);
+            color: white;
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .team-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 65%, rgba(255,255,255,0.1) 100%);
+        }
+        
+        .team-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--imsa-gold);
+            background: white;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+        
+        .team-info {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .team-info h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .team-body {
+            padding: 1.2rem;
+        }
+        
+        .team-description {
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+        
+        .team-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+        }
+        
+        .detail-item {
+            background: #f8f9fa;
+            padding: 0.8rem;
+            border-radius: 5px;
+            border-left: 3px solid var(--imsa-red);
+            font-size: 0.9rem;
+        }
+        
+        .detail-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.2rem;
+        }
+        
+        .detail-value {
+            font-weight: 600;
+            color: var(--imsa-blue);
+        }
+        
+        /* Уведомления */
+        .alert {
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        
+        /* Вкладки */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab {
+            padding: 0.7rem 1.2rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .tab:hover {
+            color: var(--imsa-blue);
+        }
+        
+        .tab.active {
+            color: var(--imsa-blue);
+            border-bottom-color: var(--imsa-red);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* Таблица вакансий */
+        .vacancies-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .vacancies-table th, .vacancies-table td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .vacancies-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: var(--imsa-blue);
+            font-size: 0.85rem;
+        }
+        
+        .vacancies-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-open {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-closed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* Форма добавления вакансии */
+        .add-vacancy-form {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+        
+        /* Форма заявки на турнир */
+        .application-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .team-form, .application-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+            
+            .team-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .team-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка с параллаксом -->
+        <header class="hero-header">
+            <h1>Управление командой IMSA</h1>
+            <p>Создайте свою команду и зарегистрируйтесь на турниры WeatherTech Championship</p>
+        </header>
+        
+        <div class="dashboard">
+            <!-- Боковая панель -->
+            <aside class="sidebar">
+                <div class="user-card">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" class="user-avatar" id="userAvatar" alt="User Avatar">
+                    <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+                    <h3 class="user-name">Капитан команды</h3>
+                    <div class="user-role">Владелец команды</div>
+                    <div class="class-badge gtp-badge">
+                        <i class="fas fa-car"></i> GTP Class
+                    </div>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="#" class="nav-link active"><i class="fas fa-home"></i> Обзор</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-calendar-alt"></i> Турниры</a></li>
+                </ul>
+            </aside>
+            
+            <!-- Основное содержимое -->
+            <main class="main-content">
+                <!-- Вкладки -->
+                <div class="tabs">
+                    <div class="tab active" data-tab="overview">Обзор команды</div>
+                    <div class="tab" data-tab="applications">Заявки на турниры</div>
+                </div>
+                
+                <!-- Содержимое вкладки "Обзор" -->
+                <div class="tab-content active" id="overview-tab">
+                    <div class="section-header">
+                        <h2 class="section-title"><i class="fas fa-plus-circle"></i> Создание новой команды</h2>
+                    </div>
+                    
+                    <!-- Уведомление об успешном создании (изначально скрыто) -->
+                    <div class="alert alert-success" id="successAlert" style="display: none;">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                        <div>
+                            <h3>Команда успешно создана!</h3>
+                            <p>Теперь вы можете подавать заявки на турниры.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Форма создания команды -->
+                    <form id="teamForm" class="team-form">
+                        <div class="form-group">
+                            <label for="teamName" class="form-label">Название команды</label>
+                            <input type="text" id="teamName" class="form-control" placeholder="Velocity Racing" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="teamClass" class="form-label">Класс автомобиля</label>
+                            <select id="teamClass" class="form-control" required>
+                                <option value="">Выберите класс</option>
+                                <option value="GTP">GTP (Grand Touring Prototype)</option>
+                                <option value="LMP2">LMP2 (Le Mans Prototype 2)</option>
+                                <option value="GTD">GTD (Grand Touring Daytona)</option>
+                                <option value="GTD Pro">GTD Pro (Professional)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label class="form-label">Логотип команды</label>
+                            <div class="logo-upload" id="logoUpload">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Перетащите сюда логотип или нажмите для выбора</p>
+                                <small>Рекомендуемый размер: 500x500px, формат PNG или JPG</small>
+                                <input type="file" id="teamLogo" accept="image/*" style="display: none;">
+                                <img id="logoPreview" class="logo-preview" alt="Предпросмотр логотипа">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="teamDescription" class="form-label">Описание команды</label>
+                            <textarea id="teamDescription" class="form-control" rows="5" placeholder="Расскажите о вашей команде, целях и достижениях..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="carModel" class="form-label">Модель автомобиля</label>
+                            <input type="text" id="carModel" class="form-control" placeholder="Acura ARX-06" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="carNumber" class="form-label">Номер автомобиля</label>
+                            <input type="number" id="carNumber" class="form-control" placeholder="45" min="1" max="999" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="primaryColor" class="form-label">Основной цвет</label>
+                            <input type="color" id="primaryColor" class="form-control" value="#0a2240" style="height: 40px; padding: 5px;">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="secondaryColor" class="form-label">Дополнительный цвет</label>
+                            <input type="color" id="secondaryColor" class="form-control" value="#e31937" style="height: 40px; padding: 5px;">
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="sponsors" class="form-label">Спонсоры (через запятую)</label>
+                            <input type="text" id="sponsors" class="form-control" placeholder="Acura, Michelin, Mobil 1">
+                        </div>
+                        
+                        <div class="form-group full-width" style="display: flex; justify-content: flex-end; gap: 1rem;">
+                            <button type="button" class="btn btn-outline" id="cancelBtn">Отмена</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Создать команду
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Предпросмотр команды -->
+                    <div class="section-header" style="margin-top: 3rem;">
+                        <h2 class="section-title"><i class="fas fa-eye"></i> Предпросмотр команды</h2>
+                    </div>
+                    
+                    <div class="team-card" id="teamPreview">
+                        <div class="team-header">
+                            <img src="https://via.placeholder.com/150?text=VR" class="team-logo" id="previewLogo" alt="Логотип команды">
+                            <div class="team-info">
+                                <h3 id="previewName">Название команды</h3>
+                                <div class="class-badge gtp-badge" id="previewClass">
+                                    <i class="fas fa-car"></i> GTP Class
+                                </div>
+                            </div>
+                        </div>
+                        <div class="team-body">
+                            <p class="team-description" id="previewDescription">Описание вашей команды появится здесь.</p>
+                            
+                            <div class="team-details">
+                                <div class="detail-item">
+                                    <div class="detail-label">Автомобиль</div>
+                                    <div class="detail-value" id="previewCar">Acura ARX-06 #45</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Цвета</div>
+                                    <div class="detail-value" id="previewColors">Синий / Красный</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Спонсоры</div>
+                                    <div class="detail-value" id="previewSponsors">Не указаны</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Статус</div>
+                                    <div class="detail-value">Не зарегистрирована</div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 1rem;">
+                                <button class="btn btn-secondary" disabled>
+                                    <i class="fas fa-calendar-alt"></i> Подать заявку
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Содержимое вкладки "Заявки на турниры" -->
+                <div class="tab-content" id="applications-tab">
+                    <div class="section-header">
+                        <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Заявки на турниры IMSA</h2>
+                        <button class="btn btn-primary" id="newApplicationBtn">
+                            <i class="fas fa-plus"></i> Новая заявка
+                        </button>
+                    </div>
+                    
+                    <div class="alert alert-success" id="applicationSuccessAlert" style="display: none;">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                        <div>
+                            <h3>Заявка успешно подана!</h3>
+                            <p>Вы будете уведомлены о статусе рассмотрения вашей заявки.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Форма подачи заявки на турнир (изначально скрыта) -->
+                    <div id="applicationForm" style="display: none;">
+                        <h3 style="margin-bottom: 1.5rem; color: var(--imsa-blue);">Подача заявки на турнир</h3>
+                        <form class="application-form" id="newApplicationForm">
+                            <div class="form-group">
+                                <label for="applicationEvent" class="form-label">Событие</label>
+                                <select id="applicationEvent" class="form-control" required>
+                                    <option value="">Выберите событие</option>
+                                    <option value="daytona">24 часа Дайтоны</option>
+                                    <option value="sebring">12 часов Себринга</option>
+                                    <option value="long_beach">Гран-при Лонг-Бич</option>
+                                    <option value="watkins_glen">6 часов Уоткинс-Глена</option>
+                                    <option value="petit_le_mans">Petit Le Mans</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="applicationClass" class="form-label">Класс</label>
+                                <select id="applicationClass" class="form-control" required>
+                                    <option value="GTP">GTP</option>
+                                    <option value="LMP2">LMP2</option>
+                                    <option value="GTD">GTD</option>
+                                    <option value="GTD Pro">GTD Pro</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="applicationCar" class="form-label">Автомобиль</label>
+                                <input type="text" id="applicationCar" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="applicationNumber" class="form-label">Номер автомобиля</label>
+                                <input type="number" id="applicationNumber" class="form-control" min="1" max="999" required>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label class="form-label">Пилоты</label>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                    <div>
+                                        <label for="driver1" class="form-label">Пилот 1</label>
+                                        <select id="driver1" class="form-control" required>
+                                            <option value="">Выберите пилота</option>
+                                            <option value="driver1">Джон Доу</option>
+                                            <option value="driver2">Майк Смит</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="driver2" class="form-label">Пилот 2</label>
+                                        <select id="driver2" class="form-control">
+                                            <option value="">Выберите пилота</option>
+                                            <option value="driver1">Джон Доу</option>
+                                            <option value="driver2">Майк Смит</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="driver3" class="form-label">Пилот 3</label>
+                                        <select id="driver3" class="form-control">
+                                            <option value="">Выберите пилота</option>
+                                            <option value="driver1">Джон Доу</option>
+                                            <option value="driver2">Майк Смит</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="driver4" class="form-label">Пилот 4</label>
+                                        <select id="driver4" class="form-control">
+                                            <option value="">Выберите пилота</option>
+                                            <option value="driver1">Джон Доу</option>
+                                            <option value="driver2">Майк Смит</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label for="applicationNotes" class="form-label">Дополнительная информация</label>
+                                <textarea id="applicationNotes" class="form-control" rows="3" placeholder="Особые требования, комментарии..."></textarea>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label class="form-label">Документы</label>
+                                <div style="border: 2px dashed #ddd; border-radius: 8px; padding: 1.2rem; text-align: center;">
+                                    <i class="fas fa-cloud-upload-alt fa-2x" style="margin-bottom: 0.8rem; color: #666;"></i>
+                                    <p>Перетащите сюда документы или нажмите для выбора</p>
+                                    <small>Лицензии пилотов, технический паспорт автомобиля и другие необходимые документы</small>
+                                    <input type="file" id="applicationDocs" multiple style="display: none;">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group full-width" style="display: flex; justify-content: flex-end; gap: 1rem;">
+                                <button type="button" class="btn btn-outline" id="cancelApplicationBtn">Отмена</button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i> Подать заявку
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Список заявок -->
+                    <div class="team-card" style="margin-top: 1.5rem;">
+                        <div class="team-header">
+                            <div class="team-info">
+                                <h3>История заявок</h3>
+                            </div>
+                        </div>
+                        <div class="team-body">
+                            <table class="vacancies-table" id="applicationsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Событие</th>
+                                        <th>Класс</th>
+                                        <th>Автомобиль</th>
+                                        <th>Дата подачи</th>
+                                        <th>Статус</th>
+                                        <th>Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Заявки будут добавляться динамически -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Элементы формы создания команды
+            const teamForm = document.getElementById('teamForm');
+            const logoUpload = document.getElementById('logoUpload');
+            const teamLogo = document.getElementById('teamLogo');
+            const logoPreview = document.getElementById('logoPreview');
+            const successAlert = document.getElementById('successAlert');
+            
+            // Элементы предпросмотра команды
+            const previewName = document.getElementById('previewName');
+            const previewClass = document.getElementById('previewClass');
+            const previewLogo = document.getElementById('previewLogo');
+            const previewDescription = document.getElementById('previewDescription');
+            const previewCar = document.getElementById('previewCar');
+            const previewColors = document.getElementById('previewColors');
+            const previewSponsors = document.getElementById('previewSponsors');
+            const primaryColor = document.getElementById('primaryColor');
+            const secondaryColor = document.getElementById('secondaryColor');
+            
+            // Элементы вкладок
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            // Элементы управления заявками
+            const newApplicationBtn = document.getElementById('newApplicationBtn');
+            const applicationForm = document.getElementById('applicationForm');
+            const cancelApplicationBtn = document.getElementById('cancelApplicationBtn');
+            const newApplicationForm = document.getElementById('newApplicationForm');
+            const applicationsTable = document.getElementById('applicationsTable').querySelector('tbody');
+            const applicationSuccessAlert = document.getElementById('applicationSuccessAlert');
+            
+            // Массив для хранения данных заявок
+            let applications = [];
+            
+            // Обработчики переключения вкладок
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Удаляем активный класс у всех вкладок и содержимого
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Добавляем активный класс текущей вкладке и соответствующему содержимому
+                    this.classList.add('active');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Обработчики для заявок
+            newApplicationBtn.addEventListener('click', function() {
+                applicationForm.style.display = 'block';
+                this.style.display = 'none';
+                applicationSuccessAlert.style.display = 'none';
+            });
+            
+            cancelApplicationBtn.addEventListener('click', function() {
+                applicationForm.style.display = 'none';
+                newApplicationBtn.style.display = 'inline-flex';
+                newApplicationForm.reset();
+            });
+            
+            newApplicationForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Собираем данные формы
+                const applicationData = {
+                    event: document.getElementById('applicationEvent').value,
+                    class: document.getElementById('applicationClass').value,
+                    car: document.getElementById('applicationCar').value,
+                    number: document.getElementById('applicationNumber').value,
+                    drivers: [
+                        document.getElementById('driver1').value,
+                        document.getElementById('driver2').value,
+                        document.getElementById('driver3').value,
+                        document.getElementById('driver4').value
+                    ].filter(driver => driver),
+                    notes: document.getElementById('applicationNotes').value,
+                    date: new Date().toLocaleDateString(),
+                    status: 'pending'
+                };
+                
+                // Добавляем заявку в массив
+                applications.push(applicationData);
+                
+                // Обновляем таблицу заявок
+                updateApplicationsTable();
+                
+                // Скрываем форму и показываем кнопку добавления
+                applicationForm.style.display = 'none';
+                newApplicationBtn.style.display = 'inline-flex';
+                
+                // Показываем уведомление об успехе
+                applicationSuccessAlert.style.display = 'flex';
+                
+                // Сбрасываем форму
+                newApplicationForm.reset();
+                
+                // Прокручиваем к уведомлению
+                applicationSuccessAlert.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            function updateApplicationsTable() {
+                // Очищаем таблицу
+                applicationsTable.innerHTML = '';
+                
+                // Заполняем таблицу данными
+                applications.forEach((application, index) => {
+                    const row = document.createElement('tr');
+                    
+                    // Определяем класс для бейджа
+                    let badgeClass = '';
+                    switch(application.class) {
+                        case 'GTP': badgeClass = 'gtp-badge'; break;
+                        case 'LMP2': badgeClass = 'lmp2-badge'; break;
+                        case 'GTD': badgeClass = 'gtd-badge'; break;
+                        case 'GTD Pro': badgeClass = 'gtd-pro-badge'; break;
+                    }
+                    
+                    // Определяем название события
+                    let eventName = '';
+                    switch(application.event) {
+                        case 'daytona': eventName = '24 часа Дайтоны'; break;
+                        case 'sebring': eventName = '12 часов Себринга'; break;
+                        case 'long_beach': eventName = 'Гран-при Лонг-Бич'; break;
+                        case 'watkins_glen': eventName = '6 часов Уоткинс-Глена'; break;
+                        case 'petit_le_mans': eventName = 'Petit Le Mans'; break;
+                    }
+                    
+                    // Определяем статус
+                    let statusText = '';
+                    let statusClass = '';
+                    switch(application.status) {
+                        case 'pending':
+                            statusText = 'На рассмотрении';
+                            statusClass = 'status-open';
+                            break;
+                        case 'approved':
+                            statusText = 'Одобрена';
+                            statusClass = 'status-open';
+                            break;
+                        case 'rejected':
+                            statusText = 'Отклонена';
+                            statusClass = 'status-closed';
+                            break;
+                        case 'needs_info':
+                            statusText = 'Требует доп. данных';
+                            statusClass = 'status-closed';
+                            break;
+                        case 'completed':
+                            statusText = 'Завершена';
+                            statusClass = 'status-closed';
+                            break;
+                    }
+                    
+                    row.innerHTML = `
+                        <td>${eventName}</td>
+                        <td><span class="class-badge ${badgeClass}">${application.class}</span></td>
+                        <td>${application.car} #${application.number}</td>
+                        <td>${application.date}</td>
+                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                        <td>
+                            <button class="btn btn-outline view-application" data-index="${index}" style="padding: 0.3rem 0.8rem;">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${application.status === 'needs_info' ? `
+                            <button class="btn btn-outline edit-application" data-index="${index}" style="padding: 0.3rem 0.8rem;">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            ` : ''}
+                        </td>
+                    `;
+                    
+                    applicationsTable.appendChild(row);
+                });
+                
+                // Добавляем обработчики для кнопок просмотра и редактирования
+                document.querySelectorAll('.view-application').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = this.getAttribute('data-index');
+                        viewApplication(index);
+                    });
+                });
+                
+                document.querySelectorAll('.edit-application').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = this.getAttribute('data-index');
+                        editApplication(index);
+                    });
+                });
+            }
+            
+            function viewApplication(index) {
+                const application = applications[index];
+                alert(`Просмотр заявки:\nСобытие: ${application.event}\nКласс: ${application.class}\nСтатус: ${application.status}`);
+            }
+            
+            function editApplication(index) {
+                const application = applications[index];
+                
+                // Заполняем форму данными заявки
+                document.getElementById('applicationEvent').value = application.event;
+                document.getElementById('applicationClass').value = application.class;
+                document.getElementById('applicationCar').value = application.car;
+                document.getElementById('applicationNumber').value = application.number;
+                document.getElementById('applicationNotes').value = application.notes;
+                
+                // Заполняем пилотов
+                document.getElementById('driver1').value = application.drivers[0] || '';
+                document.getElementById('driver2').value = application.drivers[1] || '';
+                document.getElementById('driver3').value = application.drivers[2] || '';
+                document.getElementById('driver4').value = application.drivers[3] || '';
+                
+                // Показываем форму
+                applicationForm.style.display = 'block';
+                newApplicationBtn.style.display = 'none';
+                
+                // Удаляем старую заявку
+                applications.splice(index, 1);
+            }
+            
+            // Обработка загрузки логотипа
+            logoUpload.addEventListener('click', function() {
+                teamLogo.click();
+            });
+            
+            // Drag and Drop для логотипа
+            logoUpload.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.backgroundColor = 'rgba(10,34,64,0.05)';
+            });
+            
+            logoUpload.addEventListener('dragleave', function() {
+                this.style.borderColor = '#ddd';
+                this.style.backgroundColor = '';
+            });
+            
+            logoUpload.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#ddd';
+                this.style.backgroundColor = '';
+                
+                if (e.dataTransfer.files.length) {
+                    teamLogo.files = e.dataTransfer.files;
+                    handleLogoUpload(e.dataTransfer.files[0]);
+                }
+            });
+            
+            teamLogo.addEventListener('change', function(e) {
+                if (e.target.files.length) {
+                    handleLogoUpload(e.target.files[0]);
+                }
+            });
+            
+            function handleLogoUpload(file) {
+                // Проверка типа файла
+                if (!file.type.match('image.*')) {
+                    alert('Пожалуйста, выберите файл изображения (JPEG, PNG)');
+                    return;
+                }
+                
+                // Проверка размера файла (макс 2MB)
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Файл слишком большой. Максимальный размер: 2MB');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    logoPreview.src = e.target.result;
+                    logoPreview.style.display = 'block';
+                    previewLogo.src = e.target.result;
+                    
+                    // Анимация появления
+                    logoPreview.style.animation = 'fadeIn 0.5s ease';
+                };
+                reader.readAsDataURL(file);
+            }
+            
+            // Обновление предпросмотра при изменении формы
+            teamForm.addEventListener('input', updateTeamPreview);
+            primaryColor.addEventListener('input', updateTeamPreview);
+            secondaryColor.addEventListener('input', updateTeamPreview);
+            
+            function updateTeamPreview() {
+                // Обновление названия
+                previewName.textContent = document.getElementById('teamName').value || 'Название команды';
+                
+                // Обновление класса
+                const teamClass = document.getElementById('teamClass').value;
+                if (teamClass) {
+                    previewClass.innerHTML = `<i class="fas fa-car"></i> ${teamClass}`;
+                    previewClass.className = 'class-badge ' + 
+                        (teamClass === 'GTP' ? 'gtp-badge' : 
+                         teamClass === 'LMP2' ? 'lmp2-badge' :
+                         teamClass === 'GTD' ? 'gtd-badge' : 'gtd-pro-badge');
+                } else {
+                    previewClass.innerHTML = '<i class="fas fa-car"></i> Класс';
+                    previewClass.className = 'class-badge';
+                }
+                
+                // Обновление описания
+                previewDescription.textContent = 
+                    document.getElementById('teamDescription').value || 
+                    'Описание вашей команды появится здесь.';
+                
+                // Обновление информации об автомобиле
+                const carModel = document.getElementById('carModel').value;
+                const carNumber = document.getElementById('carNumber').value;
+                previewCar.textContent = (carModel ? carModel : 'Модель') + (carNumber ? ' #' + carNumber : '');
+                
+                // Обновление цветов
+                const primary = primaryColor.value;
+                const secondary = secondaryColor.value;
+                previewColors.textContent = `${getColorName(primary)} / ${getColorName(secondary)}`;
+                
+                // Обновление спонсоров
+                previewSponsors.textContent = 
+                    document.getElementById('sponsors').value || 'Не указаны';
+            }
+            
+            // Функция для получения названия цвета по HEX
+            function getColorName(hex) {
+                const colors = {
+                    '#0a2240': 'IMSA Blue',
+                    '#e31937': 'IMSA Red',
+                    '#d4af37': 'Gold',
+                    '#e10600': 'GTP Red',
+                    '#0055ff': 'LMP2 Blue',
+                    '#00aa00': 'GTD Green',
+                    '#aa00aa': 'GTD Pro Purple'
+                };
+                
+                return colors[hex.toLowerCase()] || hex;
+            }
+            
+            // Обработка отправки формы
+            teamForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Создаем объект с данными команды
+                const teamData = {
+                    name: document.getElementById('teamName').value,
+                    class: document.getElementById('teamClass').value,
+                    description: document.getElementById('teamDescription').value,
+                    carModel: document.getElementById('carModel').value,
+                    carNumber: document.getElementById('carNumber').value,
+                    primaryColor: primaryColor.value,
+                    secondaryColor: secondaryColor.value,
+                    sponsors: document.getElementById('sponsors').value.split(',').map(s => s.trim())
+                };
+                
+                // Здесь должна быть реальная отправка данных на сервер
+                // Вместо этого симулируем успешное создание команды
+                simulateTeamCreation(teamData);
+            });
+            
+            // Функция для симуляции создания команды
+            function simulateTeamCreation(teamData) {
+                // Показываем индикатор загрузки
+                const submitBtn = teamForm.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Создание...';
+                submitBtn.disabled = true;
+                
+                // Симулируем задержку сети
+                setTimeout(() => {
+                    // Скрываем форму
+                    teamForm.style.display = 'none';
+                    
+                    // Показываем уведомление об успехе
+                    successAlert.style.display = 'flex';
+                    
+                    // Обновляем кнопки в предпросмотре
+                    const previewButtons = document.querySelectorAll('#teamPreview .btn');
+                    previewButtons.forEach(btn => btn.disabled = false);
+                    
+                    // Прокручиваем к уведомлению
+                    successAlert.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // В реальном приложении здесь было бы перенаправление на страницу команды
+                    console.log('Команда создана:', teamData);
+                }, 1500);
+            }
+            
+            // Обработка отмены
+            document.getElementById('cancelBtn').addEventListener('click', function() {
+                if (confirm('Вы уверены, что хотите отменить создание команды? Все введенные данные будут потеряны.')) {
+                    teamForm.reset();
+                    logoPreview.style.display = 'none';
+                    previewLogo.src = 'https://via.placeholder.com/150?text=VR';
+                    updateTeamPreview();
+                }
+            });
+            
+            // Добавляем тестовые данные заявок
+            applications = [
+                {
+                    event: 'daytona',
+                    class: 'GTP',
+                    car: 'Acura ARX-06',
+                    number: '45',
+                    drivers: ['driver1', 'driver2'],
+                    notes: '',
+                    date: '15.01.2023',
+                    status: 'approved'
+                },
+                {
+                    event: 'sebring',
+                    class: 'GTP',
+                    car: 'Acura ARX-06',
+                    number: '45',
+                    drivers: ['driver1', 'driver2'],
+                    notes: 'Необходимо подтвердить лицензии',
+                    date: '10.02.2023',
+                    status: 'needs_info'
+                },
+                {
+                    event: 'petit_le_mans',
+                    class: 'LMP2',
+                    car: 'Oreca 07',
+                    number: '45',
+                    drivers: ['driver1', 'driver2', 'driver3'],
+                    notes: '',
+                    date: '05.09.2022',
+                    status: 'completed'
+                }
+            ];
+            
+            // Обновляем таблицу заявок при загрузке
+            updateApplicationsTable();
+            
+            // Обработка загрузки аватара пользователя
+            const userAvatar = document.getElementById('userAvatar');
+            const avatarUpload = document.getElementById('avatarUpload');
+            
+            userAvatar.addEventListener('click', function() {
+                avatarUpload.click();
+            });
+            
+            avatarUpload.addEventListener('change', function(e) {
+                if (e.target.files.length) {
+                    const file = e.target.files[0];
+                    
+                    // Проверка типа файла
+                    if (!file.type.match('image.*')) {
+                        alert('Пожалуйста, выберите файл изображения (JPEG, PNG)');
+                        return;
+                    }
+                    
+                    // Проверка размера файла (макс 2MB)
+                    if (file.size > 2 * 1024 * 1024) {
+                        alert('Файл слишком большой. Максимальный размер: 2MB');
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        userAvatar.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

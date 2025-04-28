@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMSA - Пилоты и команды 2024</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --imsa-blue: #0a2240;
+            --imsa-red: #e31937;
+            --imsa-gold: #d4af37;
+            --imsa-dark: #1a1a1a;
+            --imsa-light: #f8f9fa;
+            --gtp-color: #e10600;
+            --lmp2-color: #0055ff;
+            --gtd-color: #00aa00;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            line-height: 1.6;
+            color: var(--imsa-dark);
+            background-color: #f5f5f5;
+            font-size: 16px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10,34,64,0.05) 0%, rgba(227,25,55,0.05) 100%);
+            z-index: -2;
+        }
+        
+        .parallax-header {
+            position: relative;
+            height: 70vh;
+            min-height: 500px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 0 2rem;
+            margin-bottom: 3rem;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+        
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://sportscar365.com/wp-content/uploads/2024/01/GALSTAD-IMSA-R24-DIS-0124-0124-019373-2.jpg') center/cover no-repeat;
+            z-index: -1;
+            filter: brightness(0.6);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            line-height: 1.1;
+        }
+        
+        h1:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--imsa-gold);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+        
+        h2:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--imsa-gold);
+            margin-top: 0.8rem;
+            border-radius: 2px;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            color: var(--imsa-blue);
+        }
+        
+        h4 {
+            font-size: 1.4rem;
+            color: var(--imsa-blue);
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            color: rgba(255,255,255,0.9);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.4;
+        }
+        
+        .btn-main {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: var(--imsa-red);
+            color: white;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 3px 10px rgba(227, 25, 55, 0.3);
+        }
+        
+        .btn-main:hover {
+            background: var(--imsa-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(10, 34, 64, 0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, var(--imsa-blue) 0%, #1a3a6a 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+        }
+        
+        .section-content {
+            padding: 2rem;
+        }
+        
+        .content-block {
+            margin-bottom: 1.5rem;
+        }
+        
+        .content-block p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        /* Стили для раздела пилотов */
+        .pilots-filter {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.6rem 1.5rem;
+            border: 1px solid var(--imsa-blue);
+            background: white;
+            color: var(--imsa-blue);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--imsa-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .pilots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .pilot-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .pilot-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        
+        .pilot-image-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .pilot-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .pilot-card:hover .pilot-image {
+            transform: scale(1.05);
+        }
+        
+        .pilot-number {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--imsa-red);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            border: 2px solid white;
+        }
+        
+        .pilot-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pilot-name {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--imsa-blue);
+            font-weight: 700;
+        }
+        
+        .pilot-team {
+            color: var(--imsa-red);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+        }
+        
+        .pilot-team-logo {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            object-fit: contain;
+        }
+        
+        .pilot-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: auto;
+        }
+        
+        .stat-item {
+            background: #f8f9fa;
+            padding: 0.8rem;
+            border-radius: 6px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .stat-item:hover {
+            background: var(--imsa-blue);
+        }
+        
+        .stat-item:hover .stat-value,
+        .stat-item:hover .stat-label {
+            color: white;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--imsa-blue);
+            transition: var(--transition);
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+            transition: var(--transition);
+        }
+        
+        .view-profile {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--imsa-blue);
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .view-profile:hover {
+            background: var(--imsa-red);
+            transform: translateY(-2px);
+        }
+        
+        /* Стили для команд */
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .team-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        
+        .team-logo-container {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f9f9f9 0%, #e6e6e6 100%);
+        }
+        
+        .team-logo {
+            max-width: 70%;
+            max-height: 70%;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+        
+        .team-card:hover .team-logo {
+            transform: scale(1.05);
+        }
+        
+        .team-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .team-name {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--imsa-blue);
+            font-weight: 700;
+        }
+        
+        .team-class {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+        
+        .team-class.gtp {
+            background: var(--gtp-color);
+            color: white;
+        }
+        
+        .team-class.lmp2 {
+            background: var(--lmp2-color);
+            color: white;
+        }
+        
+        .team-class.gtd {
+            background: var(--gtd-color);
+            color: white;
+        }
+        
+        .team-drivers {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #555;
+            flex-grow: 1;
+        }
+        
+        .team-drivers span {
+            display: block;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .team-drivers span:last-child {
+            border-bottom: none;
+        }
+        
+        .view-team {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--imsa-blue);
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .view-team:hover {
+            background: var(--imsa-red);
+            transform: translateY(-2px);
+        }
+        
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            overflow-y: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.show {
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background: white;
+            max-width: 900px;
+            margin: 2rem auto;
+            border-radius: 8px;
+            overflow: hidden;
+            transform: scale(0.95);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--imsa-blue) 0%, #1a3a6a 100%);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .modal-close:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        .modal-pilot {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .modal-pilot-image-container {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: 300px;
+        }
+        
+        .modal-pilot-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .modal-pilot-info h3 {
+            color: var(--imsa-blue);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-pilot-team {
+            font-size: 1.2rem;
+            color: var(--imsa-red);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .modal-pilot-team img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        
+        .modal-pilot-bio {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            font-size: 1rem;
+            color: #555;
+        }
+        
+        .modal-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .modal-stat {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .modal-stat:hover {
+            background: var(--imsa-blue);
+        }
+        
+        .modal-stat:hover .modal-stat-value,
+        .modal-stat:hover .modal-stat-label {
+            color: white;
+        }
+        
+        .modal-stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--imsa-blue);
+            margin-bottom: 0.3rem;
+        }
+        
+        .modal-stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .modal-team {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .modal-team-logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f9f9f9 0%, #e6e6e6 100%);
+            border-radius: 8px;
+            height: 250px;
+        }
+        
+        .modal-team-logo {
+            max-width: 70%;
+            max-height: 70%;
+            object-fit: contain;
+        }
+        
+        .modal-team-info h3 {
+            color: var(--imsa-blue);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-team-class {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-team-desc {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            font-size: 1rem;
+            color: #555;
+        }
+        
+        .modal-team-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .team-detail {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+        }
+        
+        .team-detail-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.3rem;
+        }
+        
+        .team-detail-value {
+            font-weight: 700;
+            color: var(--imsa-blue);
+            font-size: 1rem;
+        }
+        
+        .modal-team-drivers {
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-team-drivers h4 {
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--imsa-red);
+        }
+        
+        .modal-team-driver {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-team-driver:last-child {
+            border-bottom: none;
+        }
+        
+        .modal-team-driver img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 3px solid var(--imsa-blue);
+        }
+        
+        .modal-team-driver-name {
+            font-weight: 700;
+            color: var(--imsa-blue);
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .modal-team-driver-number {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .modal-gallery {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .modal-gallery h4 {
+            color: var(--imsa-blue);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--imsa-red);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        
+        .gallery-item {
+            height: 120px;
+            overflow: hidden;
+            border-radius: 6px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        /* Календарь гонок */
+        .schedule-section {
+            margin-top: 4rem;
+        }
+        
+        .schedule-header {
+            display: grid;
+            grid-template-columns: 60px 2fr 1fr 1.5fr;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--imsa-blue);
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .schedule-item {
+            display: grid;
+            grid-template-columns: 60px 2fr 1fr 1.5fr;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+        
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+        
+        .schedule-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .schedule-round {
+            font-weight: 700;
+            color: var(--imsa-blue);
+        }
+        
+        .schedule-event {
+            font-weight: 600;
+            color: var(--imsa-dark);
+        }
+        
+        .schedule-date {
+            color: #555;
+        }
+        
+        .schedule-track {
+            color: #555;
+        }
+        
+        /* Футер */
+        footer {
+            background: linear-gradient(135deg, var(--imsa-blue) 0%, #0a1a30 100%);
+            color: white;
+            padding: 4rem 1rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-slogan {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background: var(--imsa-red);
+            transform: translateY(-3px);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            opacity: 0.8;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--imsa-gold);
+        }
+        
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+        
+        /* Кнопка "Наверх" */
+        .scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: var(--imsa-red);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+            box-shadow: 0 3px 10px rgba(227, 25, 55, 0.3);
+            border: 1px solid white;
+        }
+        
+        .scroll-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .scroll-top:hover {
+            background: var(--imsa-blue);
+            transform: translateY(-3px);
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .modal-pilot, .modal-team {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-pilot-image-container {
+                height: 250px;
+            }
+            
+            .modal-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .parallax-header {
+                height: 60vh;
+                min-height: 400px;
+            }
+            
+            .pilots-grid, .teams-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+            
+            .modal-content {
+                margin: 1rem;
+            }
+            
+            .modal-body {
+                padding: 1.5rem;
+            }
+            
+            .schedule-header, .schedule-item {
+                grid-template-columns: 50px 2fr 1fr;
+            }
+            
+            .schedule-track {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .pilots-grid, .teams-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .schedule-header, .schedule-item {
+                grid-template-columns: 40px 2fr;
+            }
+            
+            .schedule-date {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-overlay"></div>
+    <div class="bg-pattern"></div>
+    
+    <!-- Параллакс шапка -->
+    <div class="parallax-header">
+        <div class="parallax-bg"></div>
+        <div class="header-content">
+            <h1>IMSA WeatherTech Championship</h1>
+            <p class="subtitle">Полный справочник пилотов, команд и календаря сезона 2024 года</p>
+            <a href="#pilots" class="btn-main">Начать просмотр</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Справочник пилотов -->
+        <section id="pilots" class="animated">
+            <div class="section-header">
+                <h2>Справочник пилотов</h2>
+            </div>
+            <div class="section-content">
+                <div class="content-block">
+                    <p>Лучшие пилоты чемпионата IMSA WeatherTech SportsCar Championship 2024 года. Узнайте статистику, достижения и биографии гонщиков, выступающих в различных классах серии. Нажмите на карточку пилота для просмотра подробной информации.</p>
+                </div>
+                
+                <div class="pilots-filter">
+                    <button class="filter-btn active" data-class="all">Все классы</button>
+                    <button class="filter-btn" data-class="gtp">GTP</button>
+                    <button class="filter-btn" data-class="lmp2">LMP2</button>
+                    <button class="filter-btn" data-class="gtd">GTD Pro/GTD</button>
+                </div>
+                
+                <div class="pilots-grid" id="pilotsContainer">
+                    <!-- Пилоты будут добавлены через JavaScript -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Справочник команд -->
+        <section id="teams" class="animated">
+            <div class="section-header">
+                <h2>Команды чемпионата</h2>
+            </div>
+            <div class="section-content">
+                <div class="content-block">
+                    <p>Официальные команды-участники чемпионата IMSA WeatherTech SportsCar Championship 2024 года. В сезоне принимают участие заводские и частные коллективы, соревнующиеся в трех основных классах: GTP, LMP2 и GTD.</p>
+                </div>
+                
+                <div class="teams-grid" id="teamsContainer">
+                    <!-- Команды будут добавлены через JavaScript -->
+                </div>
+            </div>
+        </section>
+        
+        
+    
+    <!-- Модальное окно пилота -->
+    <div class="modal" id="pilotModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalPilotName">Имя пилота</h3>
+                <button class="modal-close" id="closePilotModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-pilot">
+                    <div class="modal-pilot-image-container">
+                        <img src="https://sportscar365.com/wp-content/uploads/2023/01/Renger-van-der-Zande-2022-Petit-Le-Mans-S365-002.jpg" alt="Пилот" class="modal-pilot-image" id="modalPilotImage">
+                    </div>
+                    <div class="modal-pilot-info">
+                        <h3 id="modalPilotFullName">Ренгер ван дер Занде</h3>
+                        <div class="modal-pilot-team" id="modalPilotTeam">
+                            <img src="https://sportscar365.com/wp-content/uploads/2023/01/Cadillac-Logo.png" alt="Лого команды">
+                            Cadillac Racing
+                        </div>
+                        <div class="modal-pilot-bio" id="modalPilotBio">
+                            Голландский профессиональный автогонщик, выступающий в классе GTP за команду Cadillac Racing. Двукратный победитель 24 часов Дайтоны (2020, 2022) и чемпион IMSA 2019 года в классе DPi. Начал карьеру в картинге в 2002 году. В 2016 дебютировал в IMSA. Известен своей агрессивной, но точной манерой вождения и выдающимися способностями в дождевых условиях.
+                        </div>
+                        <div class="modal-stats">
+                            <div class="modal-stat">
+                                <div class="modal-stat-value" id="modalPilotStarts">87</div>
+                                <div class="modal-stat-label">Стартов в IMSA</div>
+                            </div>
+                            <div class="modal-stat">
+                                <div class="modal-stat-value" id="modalPilotWins">14</div>
+                                <div class="modal-stat-label">Побед</div>
+                            </div>
+                            <div class="modal-stat">
+                                <div class="modal-stat-value" id="modalPilotPodiums">38</div>
+                                <div class="modal-stat-label">Подиумов</div>
+                            </div>
+                            <div class="modal-stat">
+                                <div class="modal-stat-value" id="modalPilotPoles">9</div>
+                                <div class="modal-stat-label">Поулов</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-gallery">
+                    <h4>Фотогалерея</h4>
+                    <div class="gallery-grid" id="pilotGallery">
+                        <div class="gallery-item">
+                            <img src="https://sportscar365.com/wp-content/uploads/2023/01/Renger-van-der-Zande-2022-Petit-Le-Mans-S365-002.jpg" alt="Пилот">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://sportscar365.com/wp-content/uploads/2022/01/Renger-van-der-Zande-2022-Daytona-24-S365-001.jpg" alt="Пилот">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://sportscar365.com/wp-content/uploads/2021/11/Renger-van-der-Zande-2021-Petit-Le-Mans-S365-001.jpg" alt="Пилот">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно команды -->
+    <div class="modal" id="teamModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTeamName">Название команды</h3>
+                <button class="modal-close" id="closeTeamModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-team">
+                    <div class="modal-team-logo-container">
+                        <img src="https://sportscar365.com/wp-content/uploads/2023/01/Cadillac-Logo.png" alt="Лого команды" class="modal-team-logo" id="modalTeamLogo">
+                    </div>
+                    <div class="modal-team-info">
+                        <h3 id="modalTeamFullName">Cadillac Racing</h3>
+                        <span class="modal-team-class gtp" id="modalTeamClass">GTP</span>
+                        <div class="modal-team-desc" id="modalTeamDesc">
+                            Официальная заводская команда Cadillac в классе GTP. Участвует в чемпионате IMSA с 2017 года. Использует прототип Cadillac V-Series.R с гибридной силовой установкой. Команда базируется в Шарлотте, Северная Каролина. В 2023 году дебютировала с новой машиной, разработанной по регламенту LMDh. Команда известна своей высокой надежностью и инновационными техническими решениями.
+                        </div>
+                        
+                        <div class="modal-team-details">
+                            <div class="team-detail">
+                                <div class="team-detail-label">База</div>
+                                <div class="team-detail-value" id="modalTeamBase">Шарлотт, Северная Каролина, США</div>
+                            </div>
+                            <div class="team-detail">
+                                <div class="team-detail-label">Основана</div>
+                                <div class="team-detail-value" id="modalTeamFounded">2017</div>
+                            </div>
+                            <div class="team-detail">
+                                <div class="team-detail-label">Технический директор</div>
+                                <div class="team-detail-value" id="modalTeamDirector">Лора Клаус</div>
+                            </div>
+                            <div class="team-detail">
+                                <div class="team-detail-label">Лучший результат</div>
+                                <div class="team-detail-value" id="modalTeamBestResult">Чемпион IMSA 2017, 2018, 2019</div>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-team-drivers">
+                            <h4>Пилоты команды:</h4>
+                            <div class="modal-team-driver">
+                                <img src="https://sportscar365.com/wp-content/uploads/2023/01/Renger-van-der-Zande-2022-Petit-Le-Mans-S365-002.jpg" alt="Пилот">
+                                <div>
+                                    <div class="modal-team-driver-name">Ренгер ван дер Занде</div>
+                                    <div class="modal-team-driver-number">№01</div>
+                                </div>
+                            </div>
+                            <div class="modal-team-driver">
+                                <img src="https://sportscar365.com/wp-content/uploads/2023/01/Sebastien-Bourdais-2022-Petit-Le-Mans-S365-001.jpg" alt="Пилот">
+                                <div>
+                                    <div class="modal-team-driver-name">Себастьен Бурде</div>
+                                    <div class="modal-team-driver-number">№01</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-gallery">
+                    <h4>Фотогалерея</h4>
+                    <div class="gallery-grid" id="teamGallery">
+                        <div class="gallery-item">
+                            <img src="https://sportscar365.com/wp-content/uploads/2023/01/Cadillac-V-Series-R-2023-S365-001.jpg" alt="Команда">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://sportscar365.com/wp-content/uploads/2023/01/Cadillac-V-Series-R-2023-S365-002.jpg" alt="Команда">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://sportscar365.com/wp-content/uploads/2023/01/Cadillac-V-Series-R-2023-S365-003.jpg" alt="Команда">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-bg"></div>
+        <div class="footer-content">
+            <div class="footer-logo">IMSA</div>
+            <p class="footer-slogan">Международная ассоциация автоспорта - ведущая организация, управляющая спортивными автомобильными гонками в Северной Америке</p>
+            
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <div class="footer-links">
+                <a href="#">О чемпионате</a>
+                <a href="#">Новости</a>
+                <a href="#">Результаты</a>
+                <a href="#">Медиа</a>
+                <a href="#">Контакты</a>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 WeatherTech SportsCar Championship. Все права защищены.</p>
+                <p>Официальный сайт: <a href="https://www.imsa.com" style="color: var(--imsa-gold);">www.imsa.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Кнопка "Наверх" -->
+    <div class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Данные пилотов
+        const pilotsData = [
+            {
+                id: 1,
+                name: "Ренгер ван дер Занде",
+                shortName: "Р. ван дер Занде",
+                team: "Cadillac Racing",
+                teamId: 1,
+                teamLogo: "https://sportscar365.com/wp-content/uploads/2023/01/Cadillac-Logo.png",
+                class: "gtp",
+                number: 1,
+                image: "https://sportscar365.com/wp-content/uploads/2023/01/Renger-van-der-Zande-2022-Petit-Le-Mans-S365-002.jpg",
+                starts: 87,
+                wins: 14,
+                podiums: 38,
+                poles: 9,
+                bio: "Голландский профессиональный автогонщик, выступающий в классе GTP за команду Cadillac Racing. Двукратный победитель 24 часов Дайтоны (2020, 2022) и чемпион IMSA 2019 года в классе DPi. Начал карьеру в картинге в 2002 году. В 2016 дебютировал в IMSA. Известен своей агрессивной, но точной манерой вождения и выдающимися способностями в дождевых условиях.",
+                gallery: [
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Renger-van-der-Zande-2022-Petit-Le-Mans-S365-002.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2022/01/Renger-van-der-Zande-2022-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2021/11/Renger-van-der-Zande-2021-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2020/01/Renger-van-der-Zande-2020-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2019/11/Renger-van-der-Zande-2019-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2018/01/Renger-van-der-Zande-2018-Daytona-24-S365-001.jpg"
+                ]
+            },
+            {
+                id: 2,
+                name: "Фелипе Наср",
+                shortName: "Ф. Наср",
+                team: "Porsche Penske Motorsport",
+                teamId: 2,
+                teamLogo: "https://sportscar365.com/wp-content/uploads/2023/01/Porsche-Logo.png",
+                class: "gtp",
+                number: 7,
+                image: "https://sportscar365.com/wp-content/uploads/2023/01/Felipe-Nasr-2022-Petit-Le-Mans-S365-001.jpg",
+                starts: 65,
+                wins: 12,
+                podiums: 28,
+                poles: 7,
+                bio: "Бразильский гонщик, бывший пилот Формулы-1, чемпион IMSA 2018 и 2021 годов. В настоящее время выступает за заводскую команду Porsche в классе GTP. Начал карьеру в Европе, выиграв чемпионат Британской Формулы-3 в 2011. В Формуле-1 выступал за Sauber в 2015-2016 годах. Перешел в IMSA в 2018, быстро став одним из лидеров серии. Обладает плавной и расчетливой манерой вождения.",
+                gallery: [
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Felipe-Nasr-2022-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2022/01/Felipe-Nasr-2022-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2021/11/Felipe-Nasr-2021-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2020/01/Felipe-Nasr-2020-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2019/11/Felipe-Nasr-2019-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2018/01/Felipe-Nasr-2018-Daytona-24-S365-001.jpg"
+                ]
+            },
+            {
+                id: 3,
+                name: "Том Блумквист",
+                shortName: "Т. Блумквист",
+                team: "Meyer Shank Racing",
+                teamId: 3,
+                teamLogo: "https://sportscar365.com/wp-content/uploads/2023/01/Acura-Logo.png",
+                class: "gtp",
+                number: 60,
+                image: "https://sportscar365.com/wp-content/uploads/2023/01/Tom-Blomqvist-2022-Petit-Le-Mans-S365-001.jpg",
+                starts: 42,
+                wins: 8,
+                podiums: 18,
+                poles: 5,
+                bio: "Британский гонщик, чемпион IMSA 2022 года в классе DPi. Сын легендарного раллийного гонщика Стига Блумквиста. В 2023 году дебютировал в IndyCar. Начал карьеру в Формуле-BMW, затем выступал в Формуле-3 и Формуле-E. В IMSA с 2021 года. Обладает уникальным стилем вождения, сочетающим агрессию и точность. Особенно силен в квалификационных сессиях.",
+                gallery: [
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Tom-Blomqvist-2022-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2022/01/Tom-Blomqvist-2022-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2021/11/Tom-Blomqvist-2021-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2021/01/Tom-Blomqvist-2021-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2020/11/Tom-Blomqvist-2020-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2019/11/Tom-Blomqvist-2019-Petit-Le-Mans-S365-001.jpg"
+                ]
+            },
+            {
+                id: 4,
+                name: "Александр Росси",
+                shortName: "А. Росси",
+                team: "BMW M Team RLL",
+                teamId: 4,
+                teamLogo: "https://sportscar365.com/wp-content/uploads/2023/01/BMW-Logo.png",
+                class: "gtp",
+                number: 25,
+                image: "https://sportscar365.com/wp-content/uploads/2023/01/Alexander-Rossi-2022-Petit-Le-Mans-S365-001.jpg",
+                starts: 35,
+                wins: 5,
+                podiums: 12,
+                poles: 3,
+                bio: "Американский гонщик, победитель Indy 500 2016 года. С 2023 года совмещает выступления в IndyCar с программой в IMSA за заводскую команду BMW. Начал карьеру в Европе, выступал в GP2. В 2015-2016 - тест-пилот команды Формулы-1 Manor. С 2016 года - в IndyCar. В IMSA дебютировал в 2023 с переходом BMW на новый класс GTP. Известен своей стабильностью и тактическим мышлением.",
+                gallery: [
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Alexander-Rossi-2022-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2022/01/Alexander-Rossi-2022-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2021/11/Alexander-Rossi-2021-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2020/01/Alexander-Rossi-2020-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2019/11/Alexander-Rossi-2019-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2018/01/Alexander-Rossi-2018-Daytona-24-S365-001.jpg"
+                ]
+            },
+            {
+                id: 5,
+                name: "Бен Китинг",
+                shortName: "Б. Китинг",
+                team: "PR1/Mathiasen Motorsports",
+                teamId: 5,
+                teamLogo: "https://sportscar365.com/wp-content/uploads/2023/01/LMP2-Logo.png",
+                class: "lmp2",
+                number: 52,
+                image: "https://sportscar365.com/wp-content/uploads/2023/01/Ben-Keating-2022-Petit-Le-Mans-S365-001.jpg",
+                starts: 58,
+                wins: 9,
+                podiums: 22,
+                poles: 4,
+                bio: "Американский бизнесмен и гонщик-любитель, чемпион IMSA в классе LMP2 2021 года. Также выступает в гонках на выносливость WEC. Начал карьеру относительно поздно - в 2012 году. Известен как один из самых быстрых гонщиков-любителей. Владеет сетью автомобильных дилеров в Техасе. Особенно силен в длинных гонках, где проявляет завидную выносливость и концентрацию.",
+                gallery: [
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Ben-Keating-2022-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2022/01/Ben-Keating-2022-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2021/11/Ben-Keating-2021-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2020/01/Ben-Keating-2020-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2019/11/Ben-Keating-2019-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2018/01/Ben-Keating-2018-Daytona-24-S365-001.jpg"
+                ]
+            },
+            {
+                id: 6,
+                name: "Джордан Тейлор",
+                shortName: "Дж. Тейлор",
+                team: "Corvette Racing",
+                teamId: 6,
+                teamLogo: "https://sportscar365.com/wp-content/uploads/2023/01/Corvette-Logo.png",
+                class: "gtd",
+                number: 3,
+                image: "https://sportscar365.com/wp-content/uploads/2023/01/Jordan-Taylor-2022-Petit-Le-Mans-S365-001.jpg",
+                starts: 125,
+                wins: 28,
+                podiums: 65,
+                poles: 15,
+                bio: "Американский гонщик, сын легенды IMSA Уэйна Тейлора. Чемпион IMSA 2013 и 2017 годов. В 2023 году вернулся в Corvette Racing после нескольких лет в DPi. Начал карьеру в 2006 году. Известен своим универсальным стилем вождения и способностью адаптироваться к любым условиям. Также работает телевизионным экспертом на трансляциях IMSA. В свободное время участвует в гонках на симуляторах.",
+                gallery: [
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Jordan-Taylor-2022-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2022/01/Jordan-Taylor-2022-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2021/11/Jordan-Taylor-2021-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2020/01/Jordan-Taylor-2020-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2019/11/Jordan-Taylor-2019-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2018/01/Jordan-Taylor-2018-Daytona-24-S365-001.jpg"
+                ]
+            },
+            {
+                id: 7,
+                name: "Себастьен Бурде",
+                shortName: "С. Бурде",
+                team: "Cadillac Racing",
+                teamId: 1,
+                teamLogo: "https://sportscar365.com/wp-content/uploads/2023/01/Cadillac-Logo.png",
+                class: "gtp",
+                number: 1,
+                image: "https://sportscar365.com/wp-content/uploads/2023/01/Sebastien-Bourdais-2022-Petit-Le-Mans-S365-001.jpg",
+                starts: 45,
+                wins: 10,
+                podiums: 22,
+                poles: 7,
+                bio: "Французский гонщик, четырехкратный чемпион серии Champ Car. Бывший пилот Формулы-1. В IMSA с 2017 года. Обладает огромным опытом и техническим пониманием. Известен своей плавной и точной манерой вождения. Особенно силен в дождевых условиях и на городских трассах. Также участвует в программе развития молодых пилотов Cadillac.",
+                gallery: [
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Sebastien-Bourdais-2022-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2022/01/Sebastien-Bourdais-2022-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2021/11/Sebastien-Bourdais-2021-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2020/01/Sebastien-Bourdais-2020-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2019/11/Sebastien-Bourdais-2019-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2018/01/Sebastien-Bourdais-2018-Daytona-24-S365-001.jpg"
+                ]
+            },
+            {
+                id: 8,
+                name: "Мэттью Жамини",
+                shortName: "М. Жамини",
+                team: "Porsche Penske Motorsport",
+                teamId: 2,
+                teamLogo: "https://sportscar365.com/wp-content/uploads/2023/01/Porsche-Logo.png",
+                class: "gtp",
+                number: 7,
+                image: "https://sportscar365.com/wp-content/uploads/2023/01/Mathieu-Jaminet-2022-Petit-Le-Mans-S365-001.jpg",
+                starts: 32,
+                wins: 6,
+                podiums: 15,
+                poles: 4,
+                bio: "Французский гонщик, восходящая звезда спортивных гонок. Чемпион IMSA в классе GTD 2021 года. В 2023 перешел в GTP с новой программой Porsche. Начал карьеру в Европе, выступал в Porsche Supercup. Известен своей агрессивной манерой вождения и быстрой адаптацией к новым автомобилям. Особенно силен в квалификационных сессиях и на быстрых трассах.",
+                gallery: [
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Mathieu-Jaminet-2022-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2022/01/Mathieu-Jaminet-2022-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2021/11/Mathieu-Jaminet-2021-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2021/01/Mathieu-Jaminet-2021-Daytona-24-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2020/11/Mathieu-Jaminet-2020-Petit-Le-Mans-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2019/11/Mathieu-Jaminet-2019-Petit-Le-Mans-S365-001.jpg"
+                ]
+            }
+        ];
+
+        // Данные команд
+        const teamsData = [
+            {
+                id: 1,
+                name: "Cadillac Racing",
+                fullName: "Cadillac Racing",
+                class: "gtp",
+                logo: "https://sportscar365.com/wp-content/uploads/2023/01/Cadillac-Logo.png",
+                founded: 2017,
+                base: "Шарлотт, Северная Каролина, США",
+                director: "Лора Клаус",
+                bestResult: "Чемпион IMSA 2017, 2018, 2019",
+                description: "Официальная заводская команда Cadillac в классе GTP. Участвует в чемпионате IMSA с 2017 года. Использует прототип Cadillac V-Series.R с гибридной силовой установкой. Команда базируется в Шарлотте, Северная Каролина. В 2023 году дебютировала с новой машиной, разработанной по регламенту LMDh. Команда известна своей высокой надежностью и инновационными техническими решениями.",
+                drivers: [
+                    { id: 1, name: "Ренгер ван дер Занде", number: 1, image: "https://sportscar365.com/wp-content/uploads/2023/01/Renger-van-der-Zande-2022-Petit-Le-Mans-S365-002.jpg" },
+                    { id: 7, name: "Себастьен Бурде", number: 1, image: "https://sportscar365.com/wp-content/uploads/2023/01/Sebastien-Bourdais-2022-Petit-Le-Mans-S365-001.jpg" }
+                ],
+                gallery: [
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Cadillac-V-Series-R-2023-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Cadillac-V-Series-R-2023-S365-002.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Cadillac-V-Series-R-2023-S365-003.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2022/01/Cadillac-DPi-V.R-2022-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2021/01/Cadillac-DPi-V.R-2021-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2020/01/Cadillac-DPi-V.R-2020-S365-001.jpg"
+                ]
+            },
+            {
+                id: 2,
+                name: "Porsche Penske Motorsport",
+                fullName: "Porsche Penske Motorsport",
+                class: "gtp",
+                logo: "https://sportscar365.com/wp-content/uploads/2023/01/Porsche-Logo.png",
+                founded: 2023,
+                base: "Мансфилд, Огайо, США",
+                director: "Джонатан Диури",
+                bestResult: "Дебют в 2023",
+                description: "Совместная команда Porsche и Penske Racing, выступающая в классе GTP с новым Porsche 963. Объединяет немецкие инженерные традиции и американский гоночный опыт. Команда имеет две базы - в США и Германии. Porsche 963 разработан на основе концепции LMDh с гибридной силовой установкой. Команда ставит перед собой амбициозные цели по завоеванию титулов в IMSA и WEC.",
+                drivers: [
+                    { id: 2, name: "Фелипе Наср", number: 7, image: "https://sportscar365.com/wp-content/uploads/2023/01/Felipe-Nasr-2022-Petit-Le-Mans-S365-001.jpg" },
+                    { id: 8, name: "Мэттью Жамини", number: 7, image: "https://sportscar365.com/wp-content/uploads/2023/01/Mathieu-Jaminet-2022-Petit-Le-Mans-S365-001.jpg" }
+                ],
+                gallery: [
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Porsche-963-2023-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Porsche-963-2023-S365-002.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Porsche-963-2023-S365-003.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Porsche-963-2023-S365-004.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Porsche-963-2023-S365-005.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Porsche-963-2023-S365-006.jpg"
+                ]
+            },
+            {
+                id: 3,
+                name: "Meyer Shank Racing",
+                fullName: "Meyer Shank Racing with Curb-Agajanian",
+                class: "gtp",
+                logo: "https://sportscar365.com/wp-content/uploads/2023/01/Acura-Logo.png",
+                founded: 1989,
+                base: "Патерсон, Огайо, США",
+                director: "Майк Шанк",
+                bestResult: "Чемпион IMSA 2022 (DPi)",
+                description: "Команда-чемпион 2022 года в классе DPi. В 2023 перешла в GTP с новым Acura ARX-06. Команда базируется в Огайо и известна своими розовыми ливреями в поддержку борьбы с раком. Acura ARX-06 разработан совместно с Honda Performance Development и ORECA. Команда сочетает опыт гонок в IndyCar и IMSA, что делает ее одним из фаворитов сезона.",
+                drivers: [
+                    { id: 3, name: "Том Блумквист", number: 60, image: "https://sportscar365.com/wp-content/uploads/2023/01/Tom-Blomqvist-2022-Petit-Le-Mans-S365-001.jpg" },
+                    { name: "Колин Браун", number: 60, image: "https://sportscar365.com/wp-content/uploads/2023/01/Colin-Braun-2022-Petit-Le-Mans-S365-001.jpg" }
+                ],
+                gallery: [
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Acura-ARX-06-2023-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Acura-ARX-06-2023-S365-002.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Acura-ARX-06-2023-S365-003.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2022/01/Acura-ARX-05-2022-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2021/01/Acura-ARX-05-2021-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2020/01/Acura-ARX-05-2020-S365-001.jpg"
+                ]
+            },
+            {
+                id: 4,
+                name: "BMW M Team RLL",
+                fullName: "BMW M Team RLL",
+                class: "gtp",
+                logo: "https://sportscar365.com/wp-content/uploads/2023/01/BMW-Logo.png",
+                founded: 2009,
+                base: "Хиллсборо, Нью-Гэмпшир, США",
+                director: "Бобби Рэйхл",
+                bestResult: "Чемпион IMSA 2020 (GTLM)",
+                description: "Совместный проект BMW и Rahal Letterman Lanigan Racing. В 2023 дебютировала в GTP с BMW M Hybrid V8. Многократный чемпион в GT-классах. BMW M Hybrid V8 использует шасси Dallara и гибридную систему BMW. Команда известна своей стабильностью и тактическим мастерством. В 2023 году расширила программу до двух автомобилей в классе GTP.",
+                drivers: [
+                    { id: 4, name: "Александр Росси", number: 25, image: "https://sportscar365.com/wp-content/uploads/2023/01/Alexander-Rossi-2022-Petit-Le-Mans-S365-001.jpg" },
+                    { name: "Коннор Де Филиппи", number: 25, image: "https://sportscar365.com/wp-content/uploads/2023/01/Connor-De-Phillippi-2022-Petit-Le-Mans-S365-001.jpg" }
+                ],
+                gallery: [
+                    "https://sportscar365.com/wp-content/uploads/2023/01/BMW-M-Hybrid-V8-2023-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2023/01/BMW-M-Hybrid-V8-2023-S365-002.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2023/01/BMW-M-Hybrid-V8-2023-S365-003.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2022/01/BMW-M8-GTE-2022-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2021/01/BMW-M8-GTE-2021-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2020/01/BMW-M8-GTE-2020-S365-001.jpg"
+                ]
+            },
+            {
+                id: 5,
+                name: "PR1/Mathiasen Motorsports",
+                fullName: "PR1/Mathiasen Motorsports",
+                class: "lmp2",
+                logo: "https://sportscar365.com/wp-content/uploads/2023/01/LMP2-Logo.png",
+                founded: 1997,
+                base: "Вудленд-Хиллз, Калифорния, США",
+                director: "Бобби Ореггеро",
+                bestResult: "Чемпион IMSA 2021 (LMP2)",
+                description: "Одна из самых успешных команд в классе LMP2, чемпион 2021 года. Использует Oreca 07-Gibson. Известна развитием молодых талантов. Команда базируется в Калифорнии и участвует в IMSA с 2014 года. Oreca 07 - это проверенная платформа, доминирующая в классе LMP2. Команда особенно сильна в длинных гонках на выносливость.",
+                drivers: [
+                    { id: 5, name: "Бен Китинг", number: 52, image: "https://sportscar365.com/wp-content/uploads/2023/01/Ben-Keating-2022-Petit-Le-Mans-S365-001.jpg" },
+                    { name: "Пол-Лу Шатен", number: 52, image: "https://sportscar365.com/wp-content/uploads/2023/01/Paul-Loup-Chatin-2022-Petit-Le-Mans-S365-001.jpg" }
+                ],
+                gallery: [
+                    "https://sportscar365.com/wp-content/uploads/2023/01/PR1-Mathiasen-Oreca-2023-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2023/01/PR1-Mathiasen-Oreca-2023-S365-002.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2023/01/PR1-Mathiasen-Oreca-2023-S365-003.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2022/01/PR1-Mathiasen-Oreca-2022-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2021/01/PR1-Mathiasen-Oreca-2021-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2020/01/PR1-Mathiasen-Oreca-2020-S365-001.jpg"
+                ]
+            },
+            {
+                id: 6,
+                name: "Corvette Racing",
+                fullName: "Corvette Racing by Pratt Miller Motorsports",
+                class: "gtd",
+                logo: "https://sportscar365.com/wp-content/uploads/2023/01/Corvette-Logo.png",
+                founded: 1999,
+                base: "Плимут, Мичиган, США",
+                director: "Дуг Фини",
+                bestResult: "Многократный чемпион IMSA (GTLM/GTD)",
+                description: "Легендарная заводская команда Chevrolet, перешедшая в 2023 в GTD Pro с новым Corvette C8.R. Многократный чемпион в GT-классах с более чем 100 победами. Corvette C8.R - это первая среднедвигательная версия гоночного Corvette. Команда известна своей долгой историей успеха и преданностью американским технологиям. В 2023 году расширила программу до участия в WEC.",
+                drivers: [
+                    { id: 6, name: "Джордан Тейлор", number: 3, image: "https://sportscar365.com/wp-content/uploads/2023/01/Jordan-Taylor-2022-Petit-Le-Mans-S365-001.jpg" },
+                    { name: "Антонио Гарсия", number: 3, image: "https://sportscar365.com/wp-content/uploads/2023/01/Antonio-Garcia-2022-Petit-Le-Mans-S365-001.jpg" }
+                ],
+                gallery: [
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Corvette-C8.R-2023-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Corvette-C8.R-2023-S365-002.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2023/01/Corvette-C8.R-2023-S365-003.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2022/01/Corvette-C8.R-2022-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2021/01/Corvette-C8.R-2021-S365-001.jpg",
+                    "https://sportscar365.com/wp-content/uploads/2020/01/Corvette-C8.R-2020-S365-001.jpg"
+                ]
+            }
+        ];
+
+        // Инициализация страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            // Заполнение списка пилотов
+            renderPilots('all');
+            
+            // Заполнение списка команд
+            renderTeams();
+            
+            // Фильтрация пилотов
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    renderPilots(this.dataset.class);
+                });
+            });
+            
+            // Закрытие модальных окон
+            document.getElementById('closePilotModal').addEventListener('click', closePilotModal);
+            document.getElementById('closeTeamModal').addEventListener('click', closeTeamModal);
+            
+            // Закрытие по клику вне модального окна
+            window.addEventListener('click', function(event) {
+                if (event.target === document.getElementById('pilotModal')) {
+                    closePilotModal();
+                }
+                if (event.target === document.getElementById('teamModal')) {
+                    closeTeamModal();
+                }
+            });
+            
+            // Кнопка "Наверх"
+            const scrollTopBtn = document.getElementById('scrollTop');
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    scrollTopBtn.classList.add('active');
+                } else {
+                    scrollTopBtn.classList.remove('active');
+                }
+            });
+            
+            scrollTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Анимация секций при скролле
+            const sections = document.querySelectorAll('section');
+            window.addEventListener('scroll', function() {
+                sections.forEach(section => {
+                    const sectionTop = section.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (sectionTop < windowHeight - 100) {
+                        section.classList.add('animated');
+                    }
+                });
+            });
+            
+            // Инициализация анимации для видимых секций при загрузке
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (sectionTop < windowHeight - 100) {
+                    section.classList.add('animated');
+                }
+            });
+        });
+        
+        // Рендер списка пилотов
+        function renderPilots(selectedClass) {
+            const container = document.getElementById('pilotsContainer');
+            container.innerHTML = '';
+            
+            const filteredPilots = selectedClass === 'all' 
+                ? pilotsData 
+                : pilotsData.filter(pilot => pilot.class === selectedClass);
+            
+            filteredPilots.forEach(pilot => {
+                const card = document.createElement('div');
+                card.className = 'pilot-card';
+                card.dataset.id = pilot.id;
+                card.dataset.class = pilot.class;
+                
+                card.innerHTML = `
+                    <div class="pilot-number">${pilot.number}</div>
+                    <div class="pilot-image-container">
+                        <img src="${pilot.image}" alt="${pilot.shortName}" class="pilot-image">
+                    </div>
+                    <div class="pilot-content">
+                        <h3 class="pilot-name">${pilot.shortName}</h3>
+                        <div class="pilot-team">
+                            <img src="${pilot.teamLogo}" alt="${pilot.team}" class="pilot-team-logo">
+                            ${pilot.team}
+                        </div>
+                        <div class="pilot-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">${pilot.starts}</div>
+                                <div class="stat-label">Стартов</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${pilot.wins}</div>
+                                <div class="stat-label">Побед</div>
+                            </div>
+                        </div>
+                        <button class="view-profile">Профиль пилота</button>
+                    </div>
+                `;
+                
+                card.querySelector('.view-profile').addEventListener('click', function() {
+                    openPilotModal(pilot.id);
+                });
+                
+                container.appendChild(card);
+            });
+        }
+        
+        // Рендер списка команд
+        function renderTeams() {
+            const container = document.getElementById('teamsContainer');
+            container.innerHTML = '';
+            
+            teamsData.forEach(team => {
+                const card = document.createElement('div');
+                card.className = 'team-card';
+                card.dataset.id = team.id;
+                
+                // Найти пилотов команды
+                const teamDrivers = pilotsData.filter(pilot => pilot.teamId === team.id);
+                
+                card.innerHTML = `
+                    <div class="team-logo-container">
+                        <img src="${team.logo}" alt="${team.name}" class="team-logo">
+                    </div>
+                    <div class="team-content">
+                        <h3 class="team-name">${team.name}</h3>
+                        <span class="team-class ${team.class}">${team.class.toUpperCase()}</span>
+                        <div class="team-drivers">
+                            ${teamDrivers.map(driver => 
+                                `<span>${driver.name} (№${driver.number})</span>`
+                            ).join('')}
+                        </div>
+                        <button class="view-team">Подробнее о команде</button>
+                    </div>
+                `;
+                
+                card.querySelector('.view-team').addEventListener('click', function() {
+                    openTeamModal(team.id);
+                });
+                
+                container.appendChild(card);
+            });
+        }
+        
+        // Открытие модального окна пилота
+        function openPilotModal(pilotId) {
+            const pilot = pilotsData.find(p => p.id === pilotId);
+            if (!pilot) return;
+            
+            document.getElementById('modalPilotName').textContent = pilot.shortName;
+            document.getElementById('modalPilotFullName').textContent = pilot.name;
+            document.getElementById('modalPilotTeam').innerHTML = `
+                <img src="${pilot.teamLogo}" alt="${pilot.team}">
+                ${pilot.team}
+            `;
+            document.getElementById('modalPilotBio').textContent = pilot.bio;
+            document.getElementById('modalPilotImage').src = pilot.image;
+            document.getElementById('modalPilotStarts').textContent = pilot.starts;
+            document.getElementById('modalPilotWins').textContent = pilot.wins;
+            document.getElementById('modalPilotPodiums').textContent = pilot.podiums;
+            document.getElementById('modalPilotPoles').textContent = pilot.poles;
+            
+            // Заполнение галереи
+            const gallery = document.getElementById('pilotGallery');
+            gallery.innerHTML = '';
+            pilot.gallery.forEach(img => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `<img src="${img}" alt="${pilot.name}">`;
+                gallery.appendChild(item);
+            });
+            
+            const modal = document.getElementById('pilotModal');
+            modal.style.display = 'block';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Закрытие модального окна пилота
+        function closePilotModal() {
+            const modal = document.getElementById('pilotModal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+        
+        // Открытие модального окна команды
+        function openTeamModal(teamId) {
+            const team = teamsData.find(t => t.id === teamId);
+            if (!team) return;
+            
+            document.getElementById('modalTeamName').textContent = team.name;
+            document.getElementById('modalTeamFullName').textContent = team.fullName;
+            document.getElementById('modalTeamLogo').src = team.logo;
+            document.getElementById('modalTeamDesc').textContent = team.description;
+            document.getElementById('modalTeamBase').textContent = team.base;
+            document.getElementById('modalTeamFounded').textContent = team.founded;
+            document.getElementById('modalTeamDirector').textContent = team.director;
+            document.getElementById('modalTeamBestResult').textContent = team.bestResult;
+            
+            // Установка класса команды
+            const classElement = document.getElementById('modalTeamClass');
+            classElement.textContent = team.class.toUpperCase();
+            classElement.className = `modal-team-class ${team.class}`;
+            
+            // Заполнение списка пилотов
+            const driversContainer = document.querySelector('.modal-team-drivers');
+            driversContainer.innerHTML = '<h4>Пилоты команды:</h4>';
+            
+            team.drivers.forEach(driver => {
+                const driverElement = document.createElement('div');
+                driverElement.className = 'modal-team-driver';
+                
+                // Найти полные данные пилота, если есть ID
+                const fullDriver = driver.id ? pilotsData.find(p => p.id === driver.id) : null;
+                
+                driverElement.innerHTML = `
+                    <img src="${fullDriver ? fullDriver.image : driver.image}" alt="${driver.name}">
+                    <div>
+                        <div class="modal-team-driver-name">${driver.name}</div>
+                        <div class="modal-team-driver-number">№${driver.number}</div>
+                    </div>
+                `;
+                
+                driversContainer.appendChild(driverElement);
+            });
+            
+            // Заполнение галереи
+            const gallery = document.getElementById('teamGallery');
+            gallery.innerHTML = '';
+            team.gallery.forEach(img => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `<img src="${img}" alt="${team.name}">`;
+                gallery.appendChild(item);
+            });
+            
+            const modal = document.getElementById('teamModal');
+            modal.style.display = 'block';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Закрытие модального окна команды
+        function closeTeamModal() {
+            const modal = document.getElementById('teamModal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+    </script>
+</body>
+</html>

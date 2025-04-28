@@ -10,6 +10,8 @@ urlpatterns = [
     path('table/', include('imsa_table.urls')),  
     path('gallery/', include('imsa_gallery.urls')),
     path('schedule/', include('imsa_schedule.urls')),
+    path('world/', include('imsa_world.urls')),
+    path('player/', include('imsa_player.urls')),
     path('news/', include('imsa_news.urls')),  
     path('users/', include('imsa_users.urls')),  
  ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

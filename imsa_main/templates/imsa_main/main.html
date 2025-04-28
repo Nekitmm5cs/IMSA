@@ -107,6 +107,7 @@
         #chat-send:hover {
             background-color: #0056b3;
         }
+        
     </style>
 </head>
 <body>
@@ -115,12 +116,7 @@
         <img src="{% static 'imsa_main\images\car.png'%}" class="pic" alt="IMSA Logo">
         <nav>
             <ul>
-                <li><a href="#">Мир IMSA &bigtriangledown;</a>
-                    <ul>
-                        <li><a href="#">Регламент IMSA</a></li>
-                        <li><a href="#">Классы авто</a></li>
-                    </ul>
-                </li>
+                <li><a href="{% url 'world' %}">Регламент</a></li>
                 <li><a href="#">Спортивные события &bigtriangledown;</a>
                     <ul>
                         <li><a href="{% url 'table' %}">Таблица лидеров</a></li>                        
@@ -128,20 +124,18 @@
                         <li><a href="{% url 'gallery' %}">Галерея</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Новости IMSA &bigtriangledown;</a>
+                <li><a href="#">Автопресса &bigtriangledown;</a>
                     <ul>
-                        <li><a href="{% url 'news:news_list' %}">Последние новости</a></li>
+                        <li><a href="{% url 'news:news_list' %}">Последние новости</a>
+                        <li><a href="{% url 'schedule' %}">Расписание гонок</a></li></li>
                         <li><a href="#">Интервью</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Участники чемпионата &bigtriangledown;</a>
+                <li><a href="{% url 'player' %}">Участники чемпионата &bigtriangledown;</a>
                     <ul>
-                        <li><a href="#">Пилоты</a></li>
-                        <li><a href="#">Экипаж</a></li>
-                        <li><a href="#">Партнеры IMSA</a></li>
+                        <li><a href="{% url 'create_team'%}">Команда</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Рекорды IMSA</a></li>
                 <li><a href="#">Настройки &bigtriangledown;</a>
                     <ul>
                         {% if user.is_authenticated %}
