@@ -824,7 +824,7 @@
         <!-- Классы автомобилей -->
         <section id="car-classes">
             <div class="section-header">
-                <h2>Классы автомобилей</h2>
+                <h2>Типы автомобилей</h2>
             </div>
             <div class="section-content">
                 <div class="content-block">
@@ -836,6 +836,11 @@
                     <div class="speed-display">Скорость: <span id="speedValue">0</span> км/ч</div>
                     <div class="track-path"></div>
                     <div class="track-car"></div>
+                    <div id="raceFinished" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(10, 34, 64, 0.9); color: white; padding: 2rem; border-radius: 8px; text-align: center; z-index: 20;">
+                        <h3 style="color: var(--imsa-gold);">Заезд завершен!</h3>
+                        <p>Показательное круговое тестирование завершено</p>
+                        <button onclick="resetRace()" style="background: var(--imsa-red); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; margin-top: 1rem; cursor: pointer;">Запустить снова</button>
+                    </div>
                     
                     <!-- Чекпоинты -->
                     <div class="checkpoint" style="top: 20%; left: 20%;" data-number="1">
@@ -864,6 +869,15 @@
                     <div class="driver-change">
                         <i class="fas fa-user-friends"></i>
                     </div>
+                    
+                    <!-- Траектория движения -->
+                    <svg width="100%" height="100%" style="position: absolute; top: 0; left: 0; z-index: 1;">
+                        <path d="M20%,20% L80%,20% L80%,50% L50%,50% L50%,80% L20%,80% Z" 
+                              stroke="rgba(227, 25, 55, 0.5)" 
+                              stroke-width="2" 
+                              fill="none"
+                              stroke-dasharray="5,3" />
+                    </svg>
                 </div>
                 
                 <div class="media-block">
@@ -971,6 +985,103 @@
             </div>
         </section>
         
+        <section id="driving-techniques">
+            <div class="section-header">
+                <h2>Техники вождения в гонках на выносливость</h2>
+            </div>
+            <div class="section-content">
+                <div class="content-block">
+                    <p>Гонки на выносливость требуют от пилотов особого мастерства, сочетающего скорость с сохранением ресурсов автомобиля. Вот ключевые аспекты профессионального вождения в IMSA:</p>
+                </div>
+                
+                <div class="grid-2col">
+                    <div class="content-block">
+                        <h3>1. Управление на высоких скоростях</h3>
+                        <ul>
+                            <li><strong>Точность траектории:</strong> Оптимальные линии прохождения поворотов для минимального времени круга</li>
+                            <li><strong>Контроль заноса:</strong> Управляемое скольжение в быстрых поворотах</li>
+                            <li><strong>Аэродинамическая эффективность:</strong> Использование воздушного потока от впереди идущих автомобилей</li>
+                            <li><strong>Торможение:</strong> Позднее и резкое торможение с максимальным использованием ABS</li>
+                        </ul>
+                        
+                        <div class="media-image" style="margin-top: 1.5rem;">
+                            <img src="https://www.motortrend.com/uploads/sites/5/2020/01/Cadillac-DPi-18.jpg" alt="Высокоскоростное прохождение поворота" class="uniform-photo">
+                            <div class="photo-caption">Оптимальная траектория в высокоскоростном повороте</div>
+                        </div>
+                    </div>
+                    
+                    <div class="content-block">
+                        <h3>2. Экономичное вождение</h3>
+                        <ul>
+                            <li><strong>Плавное ускорение:</strong> Минимизация резких нажатий на педаль газа</li>
+                            <li><strong>Раннее переключение:</strong> Переключение на повышенную передачу при 80-85% от максимальных оборотов</li>
+                            <li><strong>Использование наката:</strong> Движение на нейтральной передаче в подходящих местах трассы</li>
+                            <li><strong>Гибридные системы:</strong> Оптимальное использование рекуперации энергии</li>
+                        </ul>
+                        
+                        <div class="speed-meter" style="margin: 1.5rem 0;">
+                            <div class="speed-fill" style="width: 65%; background: linear-gradient(90deg, var(--imsa-blue), var(--imsa-gold));"></div>
+                        </div>
+                        <p style="text-align: center;">Оптимальный уровень агрессивности вождения для экономии ресурсов</p>
+                    </div>
+                </div>
+                
+                <div class="grid-2col" style="margin-top: 2rem;">
+                    <div class="content-block">
+                        <h3>3. Управление шинами</h3>
+                        <ul>
+                            <li><strong>Прогрев шин:</strong> Постепенное увеличение нагрузки в первые 2-3 круга</li>
+                            <li><strong>Равномерный износ:</strong> Корректировка стиля вождения для равномерного распределения нагрузки</li>
+                            <li><strong>Температурный контроль:</strong> Мониторинг давления и температуры в реальном времени</li>
+                            <li><strong>Адаптация к условиям:</strong> Изменение техники под дождь или меняющиеся условия трассы</li>
+                        </ul>
+                        
+                        <div class="media-image" style="margin-top: 1.5rem;">
+                            <img src="https://www.michelinmotorsport.com/wp-content/uploads/2021/03/2021_IMSA_SeaLV_0370.jpg" alt="Управление шинами" class="uniform-photo">
+                            <div class="photo-caption">Анализ состояния шин во время пит-стопа</div>
+                        </div>
+                    </div>
+                    
+                    <div class="content-block">
+                        <h3>4. Тактическое вождение</h3>
+                        <ul>
+                            <li><strong>Обгоны:</strong> Выбор оптимальных точек для атак с учетом классов автомобилей</li>
+                            <li><strong>Защита позиции:</strong> Блокирование траектории без нарушения правил</li>
+                            <li><strong>Трафик:</strong> Эффективное прохождение более медленных автомобилей</li>
+                            <li><strong>Экономия времени:</strong> Минимизация потерь в зонах желтых флагов</li>
+                        </ul>
+                        
+                        <div class="stats-grid" style="margin-top: 1rem;">
+                            <div class="stat-item"><strong>Среднее число обгонов:</strong> 15-20 за 6-часовую гонку</div>
+                            <div class="stat-item"><strong>Потери на трафике:</strong> 0.5-1.5 сек/круг</div>
+                            <div class="stat-item"><strong>Экономия топлива:</strong> До 10% при правильной технике</div>
+                            <div class="stat-item"><strong>Увеличение срока шин:</strong> 20-30% при бережном вождении</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-block" style="margin-top: 2rem;">
+                    <h3>5. Ночное вождение</h3>
+                    <div class="media-block">
+                        <div class="media-text">
+                            <p>24-часовые гонки требуют особых навыков вождения в темноте:</p>
+                            <ul>
+                                <li>Адаптация зрения к условиям ограниченной видимости</li>
+                                <li>Использование периферийного зрения для ориентации на трассе</li>
+                                <li>Особая осторожность при обгонах и прохождении поворотов</li>
+                                <li>Концентрация на маркерах трассы и сигналах фар</li>
+                            </ul>
+                        </div>
+                        <div class="media-image">
+                            <img src="https://sportscar365.com/wp-content/uploads/2023/01/LAT-20230128-108478-1-e1675018056876.jpg" alt="Ночное вождение" class="uniform-photo">
+                            <div class="photo-caption">Ночной отрезок 24 часов Дайтоны</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
         <!-- Легендарные гонки -->
         <section id="iconic-races">
             <div class="section-header">
@@ -1197,10 +1308,25 @@
                         <h4>Очки чемпионата</h4>
                         <p>Начисляются по системе: 350-320-300-280-265-250-240-230-220-210 и далее с шагом -5 до 20 места. Дополнительные очки за поул-позицию и быстрый круг.</p>
                     </div>
+
+                    <div class="rule-card">
+                        <h4>Система судейства</h4>
+                        <p>Гонки контролируются главным судьей, заместителями и судьями на трассе. Используется система видеонаблюдения с 20+ камер. Нарушения фиксируются автоматическими системами и визуально.</p>
+                    </div>
                     
                     <div class="rule-card">
-                        <h4>Технические регламенты</h4>
-                        <p>GTP: гибридные системы с рекуперацией энергии, 500 кВт (670 л.с.), минимальный вес 1030 кг. GTD: основаны на дорожных автомобилях, ~550 л.с., вес 1250 кг.</p>
+                        <h4>Критерии оценок</h4>
+                        <p>Оценивается скорость, стабильность, экономичность и взаимодействие с командой. Пилоты проходят тесты на физическую подготовку перед сезоном.</p>
+                    </div>
+                    
+                    <div class="rule-card">
+                        <h4>Штрафные санкции</h4>
+                        <p>Drive-through (проезд через пит-лейн без остановки), Stop & Go (остановка на 10 сек), добавление времени к финишному результату, дисквалификация.</p>
+                    </div>
+                    
+                    <div class="rule-card">
+                        <h4>Процедура старта</h4>
+                        <p>Формирование по классам, двойная линия, запрет обгонов до первой тормозной зоны. Нарушения караются позиционными штрафами.</p>
                     </div>
                 </div>
                 
@@ -1334,7 +1460,6 @@
             window.addEventListener('scroll', function() {
                 const scrollPosition = window.pageYOffset;
                 const headerBg = document.querySelector('.header-bg');
-                const footerBg = document.querySelector('footer:before');
                 
                 if (headerBg) {
                     headerBg.style.transform = 'translateY(' + scrollPosition * 0.5 + 'px)';
@@ -1351,23 +1476,108 @@
                     this.style.transform = 'translateY(0)';
                 });
             });
-            
-            // Анимация скорости на трек-карте
+    
+            // Анимация трассы
             let lapCount = 1;
-            const speedValues = [0, 120, 210, 280, 340, 310, 260, 190, 110, 80];
+            const maxLaps = 10;
             const speedDisplay = document.getElementById('speedValue');
             const lapCounter = document.getElementById('lapCount');
+            const raceFinished = document.getElementById('raceFinished');
+            const trackCar = document.querySelector('.track-car');
+            let animationId;
             
-            setInterval(() => {
-                const currentIndex = (lapCount - 1) % speedValues.length;
-                speedDisplay.textContent = speedValues[currentIndex];
-                
-                if (currentIndex === speedValues.length - 1) {
-                    lapCount++;
-                    if (lapCount > 10) lapCount = 1;
-                    lapCounter.textContent = lapCount;
+            // Точки траектории (в % от размеров контейнера)
+            const pathPoints = [
+                { x: 20, y: 20 },  // Старт
+                { x: 80, y: 20 },  // Прямая
+                { x: 80, y: 50 },  // Поворот 1
+                { x: 50, y: 50 },  // Прямая
+                { x: 50, y: 80 },  // Поворот 2
+                { x: 20, y: 80 },  // Прямая
+                { x: 20, y: 20 }   // Финиш
+            ];
+            
+            // Скорости для разных участков трассы
+            const segmentSpeeds = [0, 340, 280, 210, 260, 190, 120];
+            
+            // Длина каждого сегмента
+            function calculateSegmentLengths() {
+                const lengths = [];
+                for (let i = 0; i < pathPoints.length - 1; i++) {
+                    const dx = pathPoints[i+1].x - pathPoints[i].x;
+                    const dy = pathPoints[i+1].y - pathPoints[i].y;
+                    lengths.push(Math.sqrt(dx*dx + dy*dy));
                 }
-            }, 800);
+                return lengths;
+            }
+            
+            const segmentLengths = calculateSegmentLengths();
+            const totalPathLength = segmentLengths.reduce((sum, len) => sum + len, 0);
+            
+            // Анимация движения
+            function animateCarAlongPath(startTime) {
+                const duration = 20000; // 20 секунд на полный круг
+                const elapsed = Date.now() - startTime;
+                const progress = (elapsed % duration) / duration;
+                
+                // Позиция вдоль всей трассы
+                let pathPosition = progress * totalPathLength;
+                let segmentIndex = 0;
+                let accumulatedLength = 0;
+                
+                // Находим текущий сегмент
+                while (pathPosition > accumulatedLength + segmentLengths[segmentIndex]) {
+                    accumulatedLength += segmentLengths[segmentIndex];
+                    segmentIndex++;
+                }
+                
+                // Прогресс внутри текущего сегмента
+                const segmentProgress = (pathPosition - accumulatedLength) / segmentLengths[segmentIndex];
+                
+                // Плавное изменение скорости
+                const currentSpeed = segmentSpeeds[segmentIndex];
+                const nextSpeed = segmentSpeeds[(segmentIndex + 1) % segmentSpeeds.length];
+                const speed = currentSpeed + (nextSpeed - currentSpeed) * segmentProgress;
+                speedDisplay.textContent = Math.round(speed);
+                
+                // Позиция машины
+                const startPoint = pathPoints[segmentIndex];
+                const endPoint = pathPoints[segmentIndex + 1] || pathPoints[0];
+                
+                const x = startPoint.x + (endPoint.x - startPoint.x) * segmentProgress;
+                const y = startPoint.y + (endPoint.y - startPoint.y) * segmentProgress;
+                
+                trackCar.style.left = x + '%';
+                trackCar.style.top = y + '%';
+                
+                // Проверка на завершение круга
+                if (segmentIndex === pathPoints.length - 2 && segmentProgress > 0.95) {
+                    const currentLap = Math.floor(elapsed / duration) + 1;
+                    if (currentLap !== lapCount) {
+                        lapCount = currentLap;
+                        lapCounter.textContent = lapCount;
+                        
+                        if (lapCount > maxLaps) {
+                            raceFinished.style.display = 'block';
+                            cancelAnimationFrame(animationId);
+                            return;
+                        }
+                    }
+                }
+                
+                animationId = requestAnimationFrame(() => animateCarAlongPath(startTime));
+            }
+            
+            // Сброс гонки
+            window.resetRace = function() {
+                lapCount = 1;
+                lapCounter.textContent = lapCount;
+                raceFinished.style.display = 'none';
+                animateCarAlongPath(Date.now());
+            };
+            
+            // Запуск анимации трассы
+            animateCarAlongPath(Date.now());
             
             // Кнопки сравнения технологий
             const showGtpTech = document.getElementById('showGtpTech');

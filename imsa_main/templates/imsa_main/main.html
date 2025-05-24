@@ -108,6 +108,145 @@
             background-color: #0056b3;
         }
         
+        /* Стили для слайдеров */
+        .slider-section {
+            margin: 30px auto;
+            max-width: 1200px;
+            padding: 20px;
+            background-color: rgba(43, 43, 43, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .slider-title {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+            height: 300px;
+        }
+        
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 100%;
+        }
+        
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        
+        .slide img {
+            max-width: 100%;
+            max-height: 200px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        
+        .slide-caption {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #555;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .slider-dot.active {
+            background-color: #007bff;
+        }
+        
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 123, 255, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .slider-arrow:hover {
+            background-color: rgba(0, 123, 255, 0.8);
+        }
+        
+        .slider-arrow.prev {
+            left: 10px;
+        }
+        
+        .slider-arrow.next {
+            right: 10px;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            background-color: rgba(43, 43, 43, 0.8);
+            margin: 20px auto;
+            max-width: 1200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .welcome-section h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        
+        .auth-links {
+            margin-top: 20px;
+        }
+        
+        .auth-links a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .auth-links a:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -127,7 +266,6 @@
                 <li><a href="#">Автопресса &bigtriangledown;</a>
                     <ul>
                         <li><a href="{% url 'news:news_list' %}">Последние новости</a>
-                        <li><a href="{% url 'schedule' %}">Расписание гонок</a></li></li>
                         <li><a href="#">Интервью</a></li>
                     </ul>
                 </li>
@@ -152,13 +290,156 @@
     </header>
 
     <main>
-        <h1>Добро пожаловать в IMSA SportsCar Championship!</h1>
-        {% if not user.is_authenticated %}
-            <div class="auth-links">
-                <a href="{% url 'login' %}">Войти</a>
-                <a href="{% url 'register' %}">Зарегистрироваться</a>
+        <div class="welcome-section">
+            <h1>Добро пожаловать в IMSA SportsCar Championship!</h1>
+            <p>Самые захватывающие гонки сезона уже начались. Следите за обновлениями и не пропустите ни одного поворота!</p>
+            {% if not user.is_authenticated %}
+                <div class="auth-links">
+                    <a href="{% url 'login' %}">Войти</a>
+                    <a href="{% url 'register' %}">Зарегистрироваться</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Слайдер Таблица лидеров -->
+        <div class="slider-section">
+            <h2 class="slider-title">Таблица лидеров</h2>
+            <div class="slider-container">
+                <button class="slider-arrow prev">&lt;</button>
+                <div class="slider">
+                    <div class="slide">
+                        <img src="{% static 'imsa_main/images/leader1.jpg' %}" alt="Лидер 1">
+                        <div class="slide-caption">Джон Доу - текущий лидер чемпионата с 250 очками</div>
+                    </div>
+                    <div class="slide">
+                        <img src="{% static 'imsa_main/images/leader2.jpg' %}" alt="Лидер 2">
+                        <div class="slide-caption">Команда "Speed Masters" лидирует в командном зачете</div>
+                    </div>
+                    <div class="slide">
+                        <img src="{% static 'imsa_main/images/leader3.jpg' %}" alt="Лидер 3">
+                        <div class="slide-caption">Лучший новичок сезона - Марк Смит</div>
+                    </div>
+                </div>
+                <button class="slider-arrow next">&gt;</button>
             </div>
-        {% endif %}
+            <div class="slider-nav">
+                <div class="slider-dot active"></div>
+                <div class="slider-dot"></div>
+                <div class="slider-dot"></div>
+            </div>
+        </div>
+
+        <!-- Слайдер Галерея -->
+        <div class="slider-section">
+            <h2 class="slider-title">Галерея</h2>
+            <div class="slider-container">
+                <button class="slider-arrow prev">&lt;</button>
+                <div class="slider">
+                    <div class="slide">
+                        <img src="{% static 'imsa_main/images/gallery1.jpg' %}" alt="Галерея 1">
+                        <div class="slide-caption">Захватывающий момент на Daytona International Speedway</div>
+                    </div>
+                    <div class="slide">
+                        <img src="{% static 'imsa_main/images/gallery2.jpg' %}" alt="Галерея 2">
+                        <div class="slide-caption">Ночная гонка в Себринге - зрелище невероятной красоты</div>
+                    </div>
+                    <div class="slide">
+                        <img src="{% static 'imsa_main/images/gallery3.jpg' %}" alt="Галерея 3">
+                        <div class="slide-caption">Пит-стоп команды Corvette Racing</div>
+                    </div>
+                </div>
+                <button class="slider-arrow next">&gt;</button>
+            </div>
+            <div class="slider-nav">
+                <div class="slider-dot active"></div>
+                <div class="slider-dot"></div>
+                <div class="slider-dot"></div>
+            </div>
+        </div>
+
+        <!-- Слайдер Последние новости -->
+        <div class="slider-section">
+            <h2 class="slider-title">Последние новости</h2>
+            <div class="slider-container">
+                <button class="slider-arrow prev">&lt;</button>
+                <div class="slider">
+                    <div class="slide">
+                        <img src="{% static 'imsa_main/images/news1.jpg' %}" alt="Новость 1">
+                        <div class="slide-caption">Новый рекорд круга на Laguna Seca</div>
+                    </div>
+                    <div class="slide">
+                        <img src="{% static 'imsa_main/images/news2.jpg' %}" alt="Новость 2">
+                        <div class="slide-caption">Представлен обновленный Porsche 911 GT3 R</div>
+                    </div>
+                    <div class="slide">
+                        <img src="{% static 'imsa_main/images/news3.jpg' %}" alt="Новость 3">
+                        <div class="slide-caption">Анонсированы изменения в регламенте на следующий сезон</div>
+                    </div>
+                </div>
+                <button class="slider-arrow next">&gt;</button>
+            </div>
+            <div class="slider-nav">
+                <div class="slider-dot active"></div>
+                <div class="slider-dot"></div>
+                <div class="slider-dot"></div>
+            </div>
+        </div>
+
+        <!-- Слайдер Участники чемпионата -->
+        <div class="slider-section">
+            <h2 class="slider-title">Участники чемпионата</h2>
+            <div class="slider-container">
+                <button class="slider-arrow prev">&lt;</button>
+                <div class="slider">
+                    <div class="slide">
+                        <img src="{% static 'imsa_main/images/driver1.jpg' %}" alt="Участник 1">
+                        <div class="slide-caption">Том Кристенсен - чемпион прошлого сезона</div>
+                    </div>
+                    <div class="slide">
+                        <img src="{% static 'imsa_main/images/driver2.jpg' %}" alt="Участник 2">
+                        <div class="slide-caption">Команда Cadillac Racing представляет новый состав</div>
+                    </div>
+                    <div class="slide">
+                        <img src="{% static 'imsa_main/images/driver3.jpg' %}" alt="Участник 3">
+                        <div class="slide-caption">Молодой талант - Лиам Нилсон дебютирует в IMSA</div>
+                    </div>
+                </div>
+                <button class="slider-arrow next">&gt;</button>
+            </div>
+            <div class="slider-nav">
+                <div class="slider-dot active"></div>
+                <div class="slider-dot"></div>
+                <div class="slider-dot"></div>
+            </div>
+        </div>
+
+        <!-- Слайдер Пройти тест -->
+        <div class="slider-section">
+            <h2 class="slider-title">Пройти тест</h2>
+            <div class="slider-container">
+                <button class="slider-arrow prev">&lt;</button>
+                <div class="slider">
+                    <div class="slide">
+                        <img src="{% static 'imsa_main/images/test1.jpg' %}" alt="Тест 1">
+                        <div class="slide-caption">Узнайте, какая гоночная серия вам подходит</div>
+                    </div>
+                    <div class="slide">
+                        <img src="{% static 'imsa_main/images/test2.jpg' %}" alt="Тест 2">
+                        <div class="slide-caption">Тест на знание правил IMSA SportsCar Championship</div>
+                    </div>
+                    <div class="slide">
+                        <img src="{% static 'imsa_main/images/test3.jpg' %}" alt="Тест 3">
+                        <div class="slide-caption">Какой вы тип гонщика? Пройдите тест и узнайте!</div>
+                    </div>
+                </div>
+                <button class="slider-arrow next">&gt;</button>
+            </div>
+            <div class="slider-nav">
+                <div class="slider-dot active"></div>
+                <div class="slider-dot"></div>
+                <div class="slider-dot"></div>
+            </div>
+        </div>
     </main>
 
     {% if user.is_authenticated %}
@@ -276,6 +557,54 @@
                 // Первоначальная загрузка сообщений
                 fetchMessages();
             }
+
+            // Логика для слайдеров
+            document.querySelectorAll('.slider-section').forEach(section => {
+                const container = section.querySelector('.slider-container');
+                const slider = container.querySelector('.slider');
+                const slides = slider.querySelectorAll('.slide');
+                const prevBtn = container.querySelector('.prev');
+                const nextBtn = container.querySelector('.next');
+                const dots = section.querySelectorAll('.slider-dot');
+                
+                let currentIndex = 0;
+                const slideCount = slides.length;
+                
+                function updateSlider() {
+                    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+                    
+                    // Обновление активной точки
+                    dots.forEach((dot, index) => {
+                        dot.classList.toggle('active', index === currentIndex);
+                    });
+                }
+                
+                // Переключение на следующий слайд
+                nextBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex + 1) % slideCount;
+                    updateSlider();
+                });
+                
+                // Переключение на предыдущий слайд
+                prevBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+                    updateSlider();
+                });
+                
+                // Переключение по точкам
+                dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        currentIndex = index;
+                        updateSlider();
+                    });
+                });
+                
+                // Автоматическое перелистывание
+                setInterval(() => {
+                    currentIndex = (currentIndex + 1) % slideCount;
+                    updateSlider();
+                }, 5000);
+            });
         });
     </script>
 </body>

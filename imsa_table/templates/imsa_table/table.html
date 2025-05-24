@@ -1,10 +1,10 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Race Championship Table</title>
+    <title>Турнирная таблица гонок</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -64,6 +64,22 @@
             font-size: 14px;
             position: sticky;
             top: 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        th:hover {
+            background-color: #ff1a1a;
+        }
+
+        th.sorted-asc::after {
+            content: " ↑";
+            font-size: 12px;
+        }
+
+        th.sorted-desc::after {
+            content: " ↓";
+            font-size: 12px;
         }
 
         td {
@@ -107,6 +123,20 @@
             transform: scale(1.2);
         }
 
+        /* Стиль для автомобиля */
+        .car-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .car-icon {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
         /* Форма добавления участника */
         .add-form {
             max-width: 800px;
@@ -126,7 +156,7 @@
             justify-content: center;
         }
 
-        .form-row input {
+        .form-row input, .form-row select {
             padding: 10px;
             border: 1px solid #444;
             border-radius: 5px;
@@ -136,7 +166,7 @@
             min-width: 120px;
         }
 
-        .form-row input:focus {
+        .form-row input:focus, .form-row select:focus {
             outline: none;
             border-color: #e10600;
         }
@@ -162,6 +192,49 @@
             box-shadow: 0 5px 10px rgba(225, 6, 0, 0.3);
         }
 
+        /* Сортировка и фильтрация */
+        .filter-sort-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filter-group {
+            position: relative;
+            min-width: 200px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #e10600;
+            font-size: 14px;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 8px 15px;
+            background-color: #333;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 5px;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 12px;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #e10600;
+        }
+
         /* Адаптивность */
         @media (max-width: 768px) {
             .table-container {
@@ -173,9 +246,18 @@
                 font-size: 12px;
             }
             
-            .form-row input {
+            .form-row input, .form-row select {
                 min-width: 100px;
                 padding: 8px;
+            }
+            
+            .filter-sort-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-group {
+                width: 90%;
             }
         }
 
@@ -199,6 +281,7 @@
             }
             
             .form-row input, 
+            .form-row select,
             .form-row button {
                 width: 100%;
                 max-width: 100%;
@@ -228,22 +311,74 @@
     </style>
 </head>
 <body>
-    <h2>Race Championship Standings</h2>
+    <h2>Турнирная таблица чемпионата</h2>
+
+    <!-- Фильтрация и сортировка -->
+    <div class="filter-sort-container">
+        <div class="filter-group">
+            <label for="sort-select">Сортировка:</label>
+            <select id="sort-select" class="filter-select">
+                <option value="total-desc">По общим очкам (по убыванию)</option>
+                <option value="total-asc">По общим очкам (по возрастанию)</option>
+                <option value="name-asc">По имени гонщика (А-Я)</option>
+                <option value="name-desc">По имени гонщика (Я-А)</option>
+                <option value="best-race-desc">По лучшему результату</option>
+                <option value="consistency-asc">По стабильности результатов</option>
+                <option value="car-asc">По автомобилю (А-Я)</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label for="filter-track">Фильтр по трассе:</label>
+            <select id="filter-track" class="filter-select">
+                <option value="all">Все трассы</option>
+                <option value="daytona">Daytona</option>
+                <option value="sebring">Sebring</option>
+                <option value="weathertech">WeatherTech</option>
+                <option value="virginia">Virginia</option>
+                <option value="atlanta">Atlanta</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label for="filter-points">Фильтр по очкам:</label>
+            <select id="filter-points" class="filter-select">
+                <option value="all">Все результаты</option>
+                <option value="top10">Топ 10</option>
+                <option value="top5">Топ 5</option>
+                <option value="above-avg">Выше среднего</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-car">Фильтр по авто:</label>
+            <select id="filter-car" class="filter-select">
+                <option value="all">Все автомобили</option>
+                <option value="porsche">Porsche</option>
+                <option value="ferrari">Ferrari</option>
+                <option value="bmw">BMW</option>
+                <option value="audi">Audi</option>
+                <option value="mercedes">Mercedes</option>
+                <option value="corvette">Corvette</option>
+            </select>
+        </div>
+    </div>
 
     <div class="table-container">
         <table id="race-table">
             <thead>
                 <tr>
-                    <th>Pos</th>
-                    <th>Driver</th>
-                    <th class="track-header" data-track="Daytona International Speedway">DAY</th>
-                    <th class="track-header" data-track="Sebring International Raceway">SEB</th>
-                    <th class="track-header" data-track="WeatherTech Raceway Laguna Seca">WTR</th>
-                    <th class="track-header" data-track="Virginia International Raceway">VIR</th>
-                    <th class="track-header" data-track="Michelin Raceway Road Atlanta">ATL</th>
-                    <th>Total</th>
+                    <th data-sort="position">Поз</th>
+                    <th data-sort="name">Гонщик</th>
+                    <th data-sort="car">Автомобиль</th>
+                    <th class="track-header" data-track="Daytona International Speedway" data-sort="daytona">DAY</th>
+                    <th class="track-header" data-track="Sebring International Raceway" data-sort="sebring">SEB</th>
+                    <th class="track-header" data-track="WeatherTech Raceway Laguna Seca" data-sort="weathertech">WTR</th>
+                    <th class="track-header" data-track="Virginia International Raceway" data-sort="virginia">VIR</th>
+                    <th class="track-header" data-track="Michelin Raceway Road Atlanta" data-sort="atlanta">ATL</th>
+                    <th data-sort="total">Всего</th>
                     {% if user.is_authenticated and user.username == "root" %}
-                    <th>Actions</th>
+                    <th>Действия</th>
                     {% endif %}
                 </tr>
             </thead>
@@ -253,6 +388,24 @@
                     <tr>
                         <td>{{ forloop.counter }}</td>
                         <td>{{ participant.name }}</td>
+                        <td>
+                            <div class="car-info">
+                                {% if participant.car == "Porsche" %}
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Porsche_logo.png/640px-Porsche_logo.png" alt="Porsche" class="car-icon">
+                                {% elif participant.car == "Ferrari" %}
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Ferrari_Logo.svg/1200px-Ferrari_Logo.svg.png" alt="Ferrari" class="car-icon">
+                                {% elif participant.car == "BMW" %}
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/1200px-BMW.svg.png" alt="BMW" class="car-icon">
+                                {% elif participant.car == "Audi" %}
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Audi-Logo_2016.svg/1200px-Audi-Logo_2016.svg.png" alt="Audi" class="car-icon">
+                                {% elif participant.car == "Mercedes" %}
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Mercedes-Logo.svg/1200px-Mercedes-Logo.svg.png" alt="Mercedes" class="car-icon">
+                                {% elif participant.car == "Corvette" %}
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Chevrolet_Corvette_logo.svg/1200px-Chevrolet_Corvette_logo.svg.png" alt="Corvette" class="car-icon">
+                                {% endif %}
+                                {{ participant.car }}
+                            </div>
+                        </td>
                         <td>{{ participant.daytona }}</td>
                         <td>{{ participant.sebring }}</td>
                         <td>{{ participant.weathertech }}</td>
@@ -261,15 +414,15 @@
                         <td><strong>{{ participant.total }}</strong></td>
                         {% if user.is_authenticated and user.username == "root" %}
                         <td class="action-links">
-                            <a href="{% url 'edit_participant' participant.id %}" title="Edit">✏️</a>
-                            <a href="{% url 'delete_participant' participant.id %}" title="Delete">❌</a>
+                            <a href="{% url 'edit_participant' participant.id %}" title="Редактировать">✏️</a>
+                            <a href="{% url 'delete_participant' participant.id %}" title="Удалить">❌</a>
                         </td>
                         {% endif %}
                     </tr>
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="9">No data available</td>
+                        <td colspan="10">Нет данных</td>
                     </tr>
                 {% endif %}
             </tbody>
@@ -279,32 +432,208 @@
     <!-- Форма для добавления нового участника (только для root) -->
     {% if user.is_authenticated and user.username == "root" %}
     <div class="add-form">
-        <h3>Add New Participant</h3>
+        <h3>Добавить нового участника</h3>
         <form method="post" action="{% url 'table' %}">
             {% csrf_token %}
             <div class="form-row">
-                <input type="text" name="name" placeholder="Driver Name" required>
-                <input type="number" name="daytona" placeholder="Daytona Points" step="0.1" required>
-                <input type="number" name="sebring" placeholder="Sebring Points" step="0.1" required>
+                <input type="text" name="name" placeholder="Имя гонщика" required>
+                <select name="car" required>
+                    <option value="" disabled selected>Выберите автомобиль</option>
+                    <option value="Porsche">Porsche</option>
+                    <option value="Ferrari">Ferrari</option>
+                    <option value="BMW">BMW</option>
+                    <option value="Audi">Audi</option>
+                    <option value="Mercedes">Mercedes</option>
+                    <option value="Corvette">Corvette</option>
+                </select>
             </div>
             <div class="form-row">
-                <input type="number" name="weathertech" placeholder="WeatherTech Points" step="0.1" required>
-                <input type="number" name="virginia" placeholder="Virginia Points" step="0.1" required>
-                <input type="number" name="atlanta" placeholder="Atlanta Points" step="0.1" required>
+                <input type="number" name="daytona" placeholder="Очки Daytona" step="0.1" required>
+                <input type="number" name="sebring" placeholder="Очки Sebring" step="0.1" required>
+                <input type="number" name="weathertech" placeholder="Очки WeatherTech" step="0.1" required>
             </div>
             <div class="form-row">
-                <button type="submit">Add Participant</button>
+                <input type="number" name="virginia" placeholder="Очки Virginia" step="0.1" required>
+                <input type="number" name="atlanta" placeholder="Очки Atlanta" step="0.1" required>
+                <button type="submit">Добавить участника</button>
             </div>
         </form>
     </div>
     {% endif %}
 
     <script>
-        // Добавляем эффект при наведении на строки таблицы
-        document.querySelectorAll('#race-table tbody tr').forEach(row => {
-            row.addEventListener('mouseenter', function() {
-                this.style.transition = 'all 0.3s ease';
+        document.addEventListener('DOMContentLoaded', function() {
+            const table = document.getElementById('race-table');
+            const tbody = table.querySelector('tbody');
+            let rows = Array.from(tbody.querySelectorAll('tr'));
+            const ths = table.querySelectorAll('th[data-sort]');
+            const sortSelect = document.getElementById('sort-select');
+            const filterTrack = document.getElementById('filter-track');
+            const filterPoints = document.getElementById('filter-points');
+            const filterCar = document.getElementById('filter-car');
+            
+            // Сохраняем исходные данные для фильтрации
+            const originalData = rows.map(row => {
+                const cells = row.querySelectorAll('td');
+                return {
+                    element: row,
+                    name: cells[1].textContent,
+                    car: cells[2].textContent.trim(),
+                    daytona: parseFloat(cells[3].textContent) || 0,
+                    sebring: parseFloat(cells[4].textContent) || 0,
+                    weathertech: parseFloat(cells[5].textContent) || 0,
+                    virginia: parseFloat(cells[6].textContent) || 0,
+                    atlanta: parseFloat(cells[7].textContent) || 0,
+                    total: parseFloat(cells[8].textContent) || 0
+                };
             });
+            
+            // Функция для вычисления стандартного отклонения
+            function calculateStdDev(points) {
+                const avg = points.reduce((sum, val) => sum + val, 0) / points.length;
+                const squareDiffs = points.map(val => Math.pow(val - avg, 2));
+                return Math.sqrt(squareDiffs.reduce((sum, val) => sum + val, 0) / squareDiffs.length);
+            }
+            
+            // Функция сортировки
+            function sortTable(sortBy, order) {
+                rows.sort((a, b) => {
+                    const aData = originalData.find(item => item.element === a);
+                    const bData = originalData.find(item => item.element === b);
+                    
+                    let aValue, bValue;
+                    
+                    switch(sortBy) {
+                        case 'best-race':
+                            aValue = Math.max(aData.daytona, aData.sebring, aData.weathertech, aData.virginia, aData.atlanta);
+                            bValue = Math.max(bData.daytona, bData.sebring, bData.weathertech, bData.virginia, bData.atlanta);
+                            break;
+                        case 'consistency':
+                            const aPoints = [aData.daytona, aData.sebring, aData.weathertech, aData.virginia, aData.atlanta];
+                            const bPoints = [bData.daytona, bData.sebring, bData.weathertech, bData.virginia, bData.atlanta];
+                            aValue = calculateStdDev(aPoints);
+                            bValue = calculateStdDev(bPoints);
+                            break;
+                        case 'name':
+                            aValue = aData.name.toLowerCase();
+                            bValue = bData.name.toLowerCase();
+                            break;
+                        case 'car':
+                            aValue = aData.car.toLowerCase();
+                            bValue = bData.car.toLowerCase();
+                            break;
+                        case 'total':
+                        default:
+                            aValue = aData.total;
+                            bValue = bData.total;
+                    }
+                    
+                    if (order === 'asc') {
+                        return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+                    } else {
+                        return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+                    }
+                });
+                
+                // Обновляем позиции (Поз)
+                rows.forEach((row, index) => {
+                    row.querySelector('td').textContent = index + 1;
+                });
+                
+                // Очищаем и перезаполняем tbody
+                tbody.innerHTML = '';
+                rows.forEach(row => tbody.appendChild(row));
+                
+                // Обновляем заголовки столбцов
+                ths.forEach(th => {
+                    th.classList.remove('sorted-asc', 'sorted-desc');
+                });
+            }
+            
+            // Функция фильтрации
+            function applyFilters() {
+                const trackFilter = filterTrack.value;
+                const pointsFilter = filterPoints.value;
+                const carFilter = filterCar.value;
+                
+                // Вычисляем среднее количество очков для фильтра "Выше среднего"
+                let avgPoints = 0;
+                if (pointsFilter === 'above-avg') {
+                    const totalPoints = originalData.reduce((sum, item) => sum + item.total, 0);
+                    avgPoints = totalPoints / originalData.length;
+                }
+                
+                rows = originalData
+                    .filter(item => {
+                        // Фильтр по трассе
+                        if (trackFilter !== 'all') {
+                            const trackValue = item[trackFilter];
+                            return trackValue > 0; // Показываем только тех, у кого есть очки на этой трассе
+                        }
+                        return true;
+                    })
+                    .filter(item => {
+                        // Фильтр по очкам
+                        switch(pointsFilter) {
+                            case 'top5':
+                                return item.total >= originalData
+                                    .map(i => i.total)
+                                    .sort((a, b) => b - a)[4] || 0;
+                            case 'top10':
+                                return item.total >= originalData
+                                    .map(i => i.total)
+                                    .sort((a, b) => b - a)[9] || 0;
+                            case 'above-avg':
+                                return item.total > avgPoints;
+                            default:
+                                return true;
+                        }
+                    })
+                    .filter(item => {
+                        // Фильтр по автомобилю
+                        if (carFilter !== 'all') {
+                            return item.car.toLowerCase().includes(carFilter.toLowerCase());
+                        }
+                        return true;
+                    })
+                    .map(item => item.element);
+                
+                // Применяем текущую сортировку к отфильтрованным данным
+                const [currentSort, currentOrder] = sortSelect.value.split('-');
+                sortTable(currentSort, currentOrder);
+            }
+            
+            // Обработчики событий
+            sortSelect.addEventListener('change', function() {
+                const [sortBy, order] = this.value.split('-');
+                sortTable(sortBy, order);
+            });
+            
+            filterTrack.addEventListener('change', applyFilters);
+            filterPoints.addEventListener('change', applyFilters);
+            filterCar.addEventListener('change', applyFilters);
+            
+            // Обработчики для заголовков столбцов
+            ths.forEach(th => {
+                th.addEventListener('click', () => {
+                    const sortBy = th.dataset.sort;
+                    let order = 'asc';
+                    
+                    // Если уже сортируется по этому столбцу, меняем порядок
+                    if (th.classList.contains('sorted-asc')) {
+                        order = 'desc';
+                    } else if (th.classList.contains('sorted-desc')) {
+                        order = 'asc';
+                    }
+                    
+                    // Обновляем выпадающий список сортировки
+                    sortSelect.value = `${sortBy}-${order}`;
+                    sortTable(sortBy, order);
+                });
+            });
+            
+            // Инициализация таблицы
+            applyFilters();
         });
     </script>
 </body>

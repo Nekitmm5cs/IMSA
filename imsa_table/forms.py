@@ -1,12 +1,13 @@
 from django import forms
-from .models import RaceParticipant
+from .models import Participant
 
-class RaceParticipantForm(forms.ModelForm):
+class ParticipantForm(forms.ModelForm):
     class Meta:
-        model = RaceParticipant
-        fields = ['name', 'daytona', 'sebring', 'weathertech', 'virginia', 'atlanta']
+        model = Participant
+        fields = ['name', 'car', 'daytona', 'sebring', 'weathertech', 'virginia', 'atlanta']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Введите имя участника'}),
+            'car': forms.Select(attrs={'class': 'form-control'}),
             'daytona': forms.NumberInput(attrs={'placeholder': 'Введите баллы для Daytona'}),
             'sebring': forms.NumberInput(attrs={'placeholder': 'Введите баллы для Sebring'}),
             'weathertech': forms.NumberInput(attrs={'placeholder': 'Введите баллы для WeatherTech'}),

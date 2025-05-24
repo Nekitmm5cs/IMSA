@@ -1,4 +1,3 @@
-# imsa_gallery/models.py
 from django.db import models
 
 class GalleryImage(models.Model):
