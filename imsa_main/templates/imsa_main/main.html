@@ -1,610 +1,981 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMSA SportsCar Championship</title>
-    <link rel="stylesheet" href="{% static 'imsa_main/css/main.css' %}">
+    <title>IMSA SportsCar Championship | Luxury Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* Стили для кнопки чата */
-        #chat-button {
+        :root {
+            --dark-gray: #1a1a1a;
+            --medium-gray: #2d2d2d;
+            --light-gray: #3d3d3d;
+            --gold: #c5a467;
+            --gold-light: #d4b87c;
+            --gold-dark: #b08c54;
+            --text-light: #e6e6e6;
+            --text-dark: #333333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-gray);
+            color: var(--text-light);
+            overflow-x: hidden;
+            background-image: url('{% static "imsa_main/images/marble-texture.jpg" %}');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        
+        /* Luxury Overlay */
+        .luxury-overlay {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background-color: #007bff;
-            color: white;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 26, 26, 0.85);
+            z-index: -1;
         }
-
-        #chat-button:hover {
-            background-color: #0056b3;
-        }
-
-        /* Стили для окна чата */
-        #chat-window {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 300px;
-            height: 400px;
-            background-color: rgb(43, 43, 43);
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-            transition: transform 0.3s ease-in-out;
-            transform: translateY(100%);
-        }
-
-        #chat-window.open {
-            transform: translateY(0);
-        }
-
-        #chat-header {
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+        
+        /* Шапка в стиле Менсотри */
+        header {
+            background: rgba(29, 29, 29, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--gold);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
         }
-
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-decoration: none;
+            letter-spacing: 1px;
+            position: relative;
+            padding-right: 15px;
+        }
+        
+        .logo1::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 30px;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+        }
+        
+        .pic {
+            height: 40px;
+            margin-left: 15px;
+            filter: brightness(0) saturate(100%) invert(77%) sepia(31%) saturate(376%) hue-rotate(6deg) brightness(92%) contrast(85%);
+            transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+        
+        .pic:hover {
+            transform: rotate(15deg) scale(1.1);
+        }
+        
+        /* Навигация с золотыми акцентами */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            position: relative;
+            margin: 0 12px;
+        }
+        
+        nav ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            padding: 12px 18px;
+            border-radius: 4px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        nav ul li a:hover::before {
+            width: 100%;
+        }
+        
+        nav ul li a i {
+            margin-right: 10px;
+            font-size: 1rem;
+            color: var(--gold);
+        }
+        
+        nav ul li a:hover {
+            color: var(--gold-light);
+        }
+        
+        /* Выпадающее меню */
+        nav ul li ul {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(45, 45, 45, 0.98);
+            width: 240px;
+            padding: 10px 0;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transform: translateY(15px);
+            border: 1px solid rgba(197, 164, 103, 0.2);
+            border-top: none;
+        }
+        
+        nav ul li:hover ul {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        nav ul li ul li {
+            margin: 0;
+            width: 100%;
+        }
+        
+        nav ul li ul li a {
+            padding: 12px 20px;
+            width: 100%;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            border-radius: 0;
+        }
+        
+        nav ul li ul li a:hover {
+            background: rgba(197, 164, 103, 0.1);
+        }
+        
+        /* Основное содержимое */
+        main {
+            margin-top: 80px;
+            padding: 60px 5%;
+        }
+        
+        /* Герой-секция с эффектом параллакса */
+        .hero {
+            height: 90vh;
+            background: 
+                linear-gradient(rgba(26, 26, 26, 0.7), rgba(26, 26, 26, 0.3)),
+                url('{% static "imsa_main/images/luxury-race.jpg" %}') center/cover no-repeat fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 80px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--gold);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('{% static "imsa_main/images/gold-pattern.png" %}') center/cover;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 40px;
+            background: rgba(45, 45, 45, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            border: 1px solid rgba(197, 164, 103, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--gold);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .hero h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: var(--gold);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            color: var(--text-light);
+        }
+        
+        /* Кнопки с золотым эффектом */
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 14px 32px;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .btn i {
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: var(--text-dark);
+            box-shadow: 0 5px 15px rgba(197, 164, 103, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(197, 164, 103, 0.6);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(197, 164, 103, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(197, 164, 103, 0.3);
+        }
+        
+        /* Карточки с эффектом наведения */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 80px 0;
+        }
+        
+        .feature-card {
+            background: rgba(45, 45, 45, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            padding: 40px 30px;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid rgba(197, 164, 103, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(197, 164, 103, 0.3);
+            border-color: var(--gold);
+        }
+        
+        .feature-card i {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            color: var(--gold);
+        }
+        
+        .feature-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--gold-light);
+        }
+        
+        .feature-card p {
+            color: rgba(230, 230, 230, 0.8);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+        
+        /* Гоночный трек с анимацией */
+        .race-track-container {
+            margin: 100px 0;
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--gold);
+        }
+        
+        .race-track {
+            height: 100%;
+            background: url('{% static "imsa_main/images/luxury-track.jpg" %}') repeat-x;
+            background-size: cover;
+            animation: trackMove 20s linear infinite;
+        }
+        
+        @keyframes trackMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 100% 0; }
+        }
+        
+        .luxury-car {
+            position: absolute;
+            width: 150px;
+            height: 60px;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: url('{% static "imsa_main/images/luxury-car.png" %}') no-repeat;
+            background-size: contain;
+            filter: drop-shadow(0 0 10px rgba(197, 164, 103, 0.7));
+            animation: carBounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes carBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+        
+        /* Секция счетчиков */
+        .counter-section {
+            text-align: center;
+            margin: 120px 0;
+        }
+        
+        .counter-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: var(--gold);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .counter-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: var(--gold);
+        }
+        
+        .counters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 50px;
+            margin-top: 60px;
+        }
+        
+        .counter-item {
+            background: rgba(45, 45, 45, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            padding: 40px 30px;
+            min-width: 220px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(197, 164, 103, 0.2);
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        .counter-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(197, 164, 103, 0.3);
+            border-color: var(--gold);
+        }
+        
+        .counter {
+            font-size: 3.5rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .counter-label {
+            color: rgba(230, 230, 230, 0.8);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Роскошный чат */
+        #chat-button {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: var(--text-dark);
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(197, 164, 103, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            z-index: 1000;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        #chat-button:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 15px 40px rgba(197, 164, 103, 0.7);
+        }
+        
+        #chat-window {
+            position: fixed;
+            bottom: 140px;
+            right: 40px;
+            width: 380px;
+            height: 550px;
+            background: rgba(45, 45, 45, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            border: 1px solid var(--gold);
+            overflow: hidden;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        #chat-window.open {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        #chat-header {
+            padding: 20px;
+            background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+            color: var(--text-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+        
         #chat-close {
             background: none;
             border: none;
-            color: white;
-            font-size: 20px;
+            color: var(--text-dark);
+            font-size: 24px;
             cursor: pointer;
+            transition: transform 0.3s;
         }
-
+        
+        #chat-close:hover {
+            transform: rotate(90deg);
+        }
+        
         #chat-messages {
             flex: 1;
-            padding: 10px;
-            overflow-y: scroll;
-            border-bottom: 1px solid #ccc;
-            color: white;
-        }
-
-        #chat-form {
-            display: flex;
-            padding: 10px;
-        }
-
-        #chat-input {
-            flex: 1;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: rgb(55, 55, 55);
-            color: white;
-        }
-
-        #chat-send {
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            margin-left: 10px;
-            cursor: pointer;
-        }
-
-        #chat-send:hover {
-            background-color: #0056b3;
-        }
-        
-        /* Стили для слайдеров */
-        .slider-section {
-            margin: 30px auto;
-            max-width: 1200px;
             padding: 20px;
-            background-color: rgba(43, 43, 43, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-        
-        .slider-title {
-            color: #007bff;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-        
-        .slider-container {
-            position: relative;
-            overflow: hidden;
-            height: 300px;
-        }
-        
-        .slider {
-            display: flex;
-            transition: transform 0.5s ease;
-            height: 100%;
-        }
-        
-        .slide {
-            min-width: 100%;
-            height: 100%;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
+            gap: 15px;
+            background: url('{% static "imsa_main/images/gold-pattern.png" %}') center/cover;
+            opacity: 0.05;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            position: relative;
+            animation: messageIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes messageIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: var(--text-dark);
+            border-bottom-right-radius: 0;
+        }
+        
+        .other-message {
+            align-self: flex-start;
+            background: rgba(61, 61, 61, 0.9);
+            border-bottom-left-radius: 0;
+        }
+        
+        #chat-form {
+            display: flex;
             padding: 20px;
-            box-sizing: border-box;
-            text-align: center;
+            background: rgba(45, 45, 45, 0.9);
+            border-top: 1px solid rgba(197, 164, 103, 0.3);
         }
         
-        .slide img {
-            max-width: 100%;
-            max-height: 200px;
-            margin-bottom: 15px;
-            border-radius: 5px;
+        #chat-input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid rgba(197, 164, 103, 0.3);
+            border-radius: 4px;
+            background: rgba(61, 61, 61, 0.8);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s;
         }
         
-        .slide-caption {
-            font-size: 16px;
-            margin-top: 10px;
+        #chat-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(197, 164, 103, 0.3);
         }
         
-        .slider-nav {
-            display: flex;
-            justify-content: center;
-            margin-top: 15px;
-        }
-        
-        .slider-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: #555;
-            margin: 0 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .slider-dot.active {
-            background-color: #007bff;
-        }
-        
-        .slider-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 123, 255, 0.5);
-            color: white;
+        #chat-send {
+            margin-left: 15px;
+            padding: 0 25px;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: var(--text-dark);
             border: none;
-            padding: 10px;
+            border-radius: 4px;
             cursor: pointer;
-            z-index: 10;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
+            transition: all 0.3s;
+            font-weight: 600;
         }
         
-        .slider-arrow:hover {
-            background-color: rgba(0, 123, 255, 0.8);
+        #chat-send:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(197, 164, 103, 0.3);
         }
         
-        .slider-arrow.prev {
-            left: 10px;
+        /* Адаптивность */
+        @media (max-width: 1200px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
         }
         
-        .slider-arrow.next {
-            right: 10px;
+        @media (max-width: 992px) {
+            header {
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            .logo-container {
+                margin-bottom: 20px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 5px;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
         }
         
-        .welcome-section {
-            text-align: center;
-            padding: 40px 20px;
-            color: white;
-            background-color: rgba(43, 43, 43, 0.8);
-            margin: 20px auto;
-            max-width: 1200px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        @media (max-width: 768px) {
+            .hero {
+                height: 70vh;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            #chat-window {
+                width: 90%;
+                right: 5%;
+            }
         }
         
-        .welcome-section h1 {
-            color: #007bff;
-            margin-bottom: 20px;
-        }
-        
-        .auth-links {
-            margin-top: 20px;
-        }
-        
-        .auth-links a {
-            display: inline-block;
-            margin: 0 10px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        
-        .auth-links a:hover {
-            background-color: #0056b3;
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .counter-item {
+                min-width: 150px;
+                padding: 30px 20px;
+            }
+            
+            .counter {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <a href="#" class="logo1">IMSA SportsCar Championship</a>
-        <img src="{% static 'imsa_main\images\car.png'%}" class="pic" alt="IMSA Logo">
-        <nav>
-            <ul>
-                <li><a href="{% url 'world' %}">Регламент</a></li>
-                <li><a href="#">Спортивные события &bigtriangledown;</a>
-                    <ul>
-                        <li><a href="{% url 'table' %}">Таблица лидеров</a></li>                        
-                        <li><a href="{% url 'schedule' %}">Расписание гонок</a></li>
-                        <li><a href="{% url 'gallery' %}">Галерея</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Автопресса &bigtriangledown;</a>
-                    <ul>
-                        <li><a href="{% url 'news:news_list' %}">Последние новости</a>
-                        <li><a href="#">Интервью</a></li>
-                    </ul>
-                </li>
-                <li><a href="{% url 'player' %}">Участники чемпионата &bigtriangledown;</a>
-                    <ul>
-                        <li><a href="{% url 'create_team'%}">Команда</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Настройки &bigtriangledown;</a>
-                    <ul>
-                        {% if user.is_authenticated %}
-                            <li><a href="{% url 'profile' %}">Мой профиль</a></li>
-                            <li><a href="{% url 'test' %}">Пройти тест</a></li>
-                        {% else %}
-                            <li><a href="{% url 'login' %}">Авторизация/Регистрация</a></li>
-                        {% endif %}
-                        <li><a href="#">Сообщить о сбое</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </header>
+    <!-- Luxury Overlay -->
+    <div class="luxury-overlay"></div>
+    
+    <!-- В разделе навигации header -->
+<header>
+    <div class="logo-container">
+        <a href="#" class="logo1">IMSA Championship</a>
+        <img src="{% static 'imsa_main/images/car.png' %}" class="pic" alt="IMSA Logo">
+    </div>
+    
+    <nav>
+        <ul>
+            <li><a href="{% url 'world' %}"><i class="fas fa-scroll"></i> Регламент</a></li>
+            <li><a href="#"><i class="fas fa-trophy"></i> События ▾</a>
+                <ul>
+                    <li><a href="{% url 'table' %}"><i class="fas fa-medal"></i> Таблица</a></li>
+                    <li><a href="{% url 'schedule' %}"><i class="far fa-calendar-alt"></i> Расписание</a></li>
+                    <li><a href="{% url 'gallery' %}"><i class="far fa-images"></i> Галерея</a></li>
+                </ul>
+            </li>
+            <li><a href="#"><i class="fas fa-newspaper"></i> Пресса ▾</a>
+                <ul>
+                    <li><a href="{% url 'news:news_list' %}"><i class="fas fa-rss"></i> Новости</a></li>
+                    <li><a href="#"><i class="fas fa-video"></i> Видео</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'player' %}"><i class="fas fa-users"></i> Участники</a></li>
+            <li><a href="{% url 'test' %}"><i class="fas fa-question"></i> Тест</a></li>  <!-- Добавленная вкладка -->
+            <li><a href="#"><i class="fas fa-cog"></i> Настройки ▾</a>
+                <ul>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'profile' %}"><i class="fas fa-user-tie"></i> Профиль</a></li>
+                        <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Выход</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Вход</a></li>
+                        <li><a href="{% url 'register' %}"><i class="fas fa-user-plus"></i> Регистрация</a></li>
+                    {% endif %}
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
 
     <main>
-        <div class="welcome-section">
-            <h1>Добро пожаловать в IMSA SportsCar Championship!</h1>
-            <p>Самые захватывающие гонки сезона уже начались. Следите за обновлениями и не пропустите ни одного поворота!</p>
-            {% if not user.is_authenticated %}
-                <div class="auth-links">
-                    <a href="{% url 'login' %}">Войти</a>
-                    <a href="{% url 'register' %}">Зарегистрироваться</a>
-                </div>
-            {% endif %}
+        <!-- Герой-секция -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Элитный Автоспорт</h1>
+                <p>Окунитесь в мир роскошных гоночных соревнований, где сочетаются скорость, стиль и престиж.</p>
+                {% if not user.is_authenticated %}
+                    <div class="cta-buttons">
+                        <a href="{% url 'login' %}" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Войти</a>
+                        <a href="{% url 'register' %}" class="btn btn-secondary"><i class="fas fa-user-plus"></i> Регистрация</a>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- Особенности -->
+        <section class="features">
+            <div class="feature-card">
+                <i class="fas fa-gem"></i>
+                <h3>Премиум Класс</h3>
+                <p>Только самые престижные автомобили и профессиональные гонщики участвуют в наших соревнованиях.</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-globe-europe"></i>
+                <h3>Эксклюзивные Локации</h3>
+                <p>Гонки проходят на самых известных и престижных трассах мира.</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-champagne-glasses"></i>
+                <h3>VIP Мероприятия</h3>
+                <p>Доступ к эксклюзивным вечеринкам и мероприятиям для участников и гостей.</p>
+            </div>
+        </section>
+
+        <!-- Гоночный трек -->
+        <div class="race-track-container">
+            <div class="race-track"></div>
+            <div class="luxury-car"></div>
         </div>
 
-        <!-- Слайдер Таблица лидеров -->
-        <div class="slider-section">
-            <h2 class="slider-title">Таблица лидеров</h2>
-            <div class="slider-container">
-                <button class="slider-arrow prev">&lt;</button>
-                <div class="slider">
-                    <div class="slide">
-                        <img src="{% static 'imsa_main/images/leader1.jpg' %}" alt="Лидер 1">
-                        <div class="slide-caption">Джон Доу - текущий лидер чемпионата с 250 очками</div>
-                    </div>
-                    <div class="slide">
-                        <img src="{% static 'imsa_main/images/leader2.jpg' %}" alt="Лидер 2">
-                        <div class="slide-caption">Команда "Speed Masters" лидирует в командном зачете</div>
-                    </div>
-                    <div class="slide">
-                        <img src="{% static 'imsa_main/images/leader3.jpg' %}" alt="Лидер 3">
-                        <div class="slide-caption">Лучший новичок сезона - Марк Смит</div>
-                    </div>
+        <!-- Счетчики -->
+        <section class="counter-section">
+            <h2>IMSA в Цифрах</h2>
+            <div class="counters">
+                <div class="counter-item">
+                    <div class="counter" data-target="12">0</div>
+                    <div class="counter-label">Этапов в сезоне</div>
                 </div>
-                <button class="slider-arrow next">&gt;</button>
-            </div>
-            <div class="slider-nav">
-                <div class="slider-dot active"></div>
-                <div class="slider-dot"></div>
-                <div class="slider-dot"></div>
-            </div>
-        </div>
-
-        <!-- Слайдер Галерея -->
-        <div class="slider-section">
-            <h2 class="slider-title">Галерея</h2>
-            <div class="slider-container">
-                <button class="slider-arrow prev">&lt;</button>
-                <div class="slider">
-                    <div class="slide">
-                        <img src="{% static 'imsa_main/images/gallery1.jpg' %}" alt="Галерея 1">
-                        <div class="slide-caption">Захватывающий момент на Daytona International Speedway</div>
-                    </div>
-                    <div class="slide">
-                        <img src="{% static 'imsa_main/images/gallery2.jpg' %}" alt="Галерея 2">
-                        <div class="slide-caption">Ночная гонка в Себринге - зрелище невероятной красоты</div>
-                    </div>
-                    <div class="slide">
-                        <img src="{% static 'imsa_main/images/gallery3.jpg' %}" alt="Галерея 3">
-                        <div class="slide-caption">Пит-стоп команды Corvette Racing</div>
-                    </div>
+                
+                <div class="counter-item">
+                    <div class="counter" data-target="45">0</div>
+                    <div class="counter-label">Элитных команд</div>
                 </div>
-                <button class="slider-arrow next">&gt;</button>
-            </div>
-            <div class="slider-nav">
-                <div class="slider-dot active"></div>
-                <div class="slider-dot"></div>
-                <div class="slider-dot"></div>
-            </div>
-        </div>
-
-        <!-- Слайдер Последние новости -->
-        <div class="slider-section">
-            <h2 class="slider-title">Последние новости</h2>
-            <div class="slider-container">
-                <button class="slider-arrow prev">&lt;</button>
-                <div class="slider">
-                    <div class="slide">
-                        <img src="{% static 'imsa_main/images/news1.jpg' %}" alt="Новость 1">
-                        <div class="slide-caption">Новый рекорд круга на Laguna Seca</div>
-                    </div>
-                    <div class="slide">
-                        <img src="{% static 'imsa_main/images/news2.jpg' %}" alt="Новость 2">
-                        <div class="slide-caption">Представлен обновленный Porsche 911 GT3 R</div>
-                    </div>
-                    <div class="slide">
-                        <img src="{% static 'imsa_main/images/news3.jpg' %}" alt="Новость 3">
-                        <div class="slide-caption">Анонсированы изменения в регламенте на следующий сезон</div>
-                    </div>
+                
+                <div class="counter-item">
+                    <div class="counter" data-target="150">0</div>
+                    <div class="counter-label">Топовых пилотов</div>
                 </div>
-                <button class="slider-arrow next">&gt;</button>
-            </div>
-            <div class="slider-nav">
-                <div class="slider-dot active"></div>
-                <div class="slider-dot"></div>
-                <div class="slider-dot"></div>
-            </div>
-        </div>
-
-        <!-- Слайдер Участники чемпионата -->
-        <div class="slider-section">
-            <h2 class="slider-title">Участники чемпионата</h2>
-            <div class="slider-container">
-                <button class="slider-arrow prev">&lt;</button>
-                <div class="slider">
-                    <div class="slide">
-                        <img src="{% static 'imsa_main/images/driver1.jpg' %}" alt="Участник 1">
-                        <div class="slide-caption">Том Кристенсен - чемпион прошлого сезона</div>
-                    </div>
-                    <div class="slide">
-                        <img src="{% static 'imsa_main/images/driver2.jpg' %}" alt="Участник 2">
-                        <div class="slide-caption">Команда Cadillac Racing представляет новый состав</div>
-                    </div>
-                    <div class="slide">
-                        <img src="{% static 'imsa_main/images/driver3.jpg' %}" alt="Участник 3">
-                        <div class="slide-caption">Молодой талант - Лиам Нилсон дебютирует в IMSA</div>
-                    </div>
+                
+                <div class="counter-item">
+                    <div class="counter" data-target="1000000">0</div>
+                    <div class="counter-label">VIP зрителей</div>
                 </div>
-                <button class="slider-arrow next">&gt;</button>
             </div>
-            <div class="slider-nav">
-                <div class="slider-dot active"></div>
-                <div class="slider-dot"></div>
-                <div class="slider-dot"></div>
-            </div>
-        </div>
-
-        <!-- Слайдер Пройти тест -->
-        <div class="slider-section">
-            <h2 class="slider-title">Пройти тест</h2>
-            <div class="slider-container">
-                <button class="slider-arrow prev">&lt;</button>
-                <div class="slider">
-                    <div class="slide">
-                        <img src="{% static 'imsa_main/images/test1.jpg' %}" alt="Тест 1">
-                        <div class="slide-caption">Узнайте, какая гоночная серия вам подходит</div>
-                    </div>
-                    <div class="slide">
-                        <img src="{% static 'imsa_main/images/test2.jpg' %}" alt="Тест 2">
-                        <div class="slide-caption">Тест на знание правил IMSA SportsCar Championship</div>
-                    </div>
-                    <div class="slide">
-                        <img src="{% static 'imsa_main/images/test3.jpg' %}" alt="Тест 3">
-                        <div class="slide-caption">Какой вы тип гонщика? Пройдите тест и узнайте!</div>
-                    </div>
-                </div>
-                <button class="slider-arrow next">&gt;</button>
-            </div>
-            <div class="slider-nav">
-                <div class="slider-dot active"></div>
-                <div class="slider-dot"></div>
-                <div class="slider-dot"></div>
-            </div>
-        </div>
+        </section>
     </main>
 
     {% if user.is_authenticated %}
         <!-- Кнопка чата -->
-        <button id="chat-button">💬</button>
+        <button id="chat-button"><i class="fas fa-comments"></i></button>
 
         <!-- Окно чата -->
         <div id="chat-window">
             <div id="chat-header">
-                <span>Чат</span>
-                <button id="chat-close">×</button>
+                <span><i class="fas fa-comment-dots"></i> Премиум Чат</span>
+                <button id="chat-close"><i class="fas fa-times"></i></button>
             </div>
-            <div id="chat-messages"></div>
+            <div id="chat-messages">
+                <!-- Сообщения будут добавляться здесь -->
+            </div>
             <form id="chat-form">
                 <input type="hidden" id="user-id" value="{{ request.user.id }}">
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                <input type="text" id="chat-input" placeholder="Type your message...">
-                <button type="submit" id="chat-send">Send</button>
+                <input type="text" id="chat-input" placeholder="Напишите сообщение..." autocomplete="off">
+                <button type="submit" id="chat-send"><i class="fas fa-paper-plane"></i></button>
             </form>
         </div>
     {% endif %}
 
     <script>
+        // Анимация счетчиков
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            const speed = 200;
+            
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText.replace(/,/g, '');
+                const increment = target / speed;
+                
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment).toLocaleString();
+                    setTimeout(animateCounters, 1);
+                } else {
+                    counter.innerText = target.toLocaleString();
+                }
+            });
+        }
+        
+        // Параллакс эффект для герой-секции
+        const hero = document.querySelector('.hero');
+        window.addEventListener('scroll', function() {
+            const scrollValue = window.scrollY;
+            hero.style.backgroundPositionY = scrollValue * 0.5 + 'px';
+        });
+        
+        // Логика чата
         document.addEventListener('DOMContentLoaded', function() {
-            const chatButton = document.getElementById('chat-button');
-            const chatWindow = document.getElementById('chat-window');
-            const chatClose = document.getElementById('chat-close');
-            const chatMessages = document.getElementById('chat-messages');
-            const chatForm = document.getElementById('chat-form');
-            const chatInput = document.getElementById('chat-input');
-            const userIdElement = document.getElementById('user-id');
-            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-            if (userIdElement) {
-                const userId = userIdElement.value;
-
+            // Запуск анимации счетчиков при прокрутке
+            window.addEventListener('scroll', function() {
+                const counterSection = document.querySelector('.counter-section');
+                const position = counterSection.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (position < screenPosition) {
+                    animateCounters();
+                    window.removeEventListener('scroll', this);
+                }
+            });
+            
+            // Чат только для авторизованных пользователей
+            if (document.getElementById('chat-button')) {
+                const chatButton = document.getElementById('chat-button');
+                const chatWindow = document.getElementById('chat-window');
+                const chatClose = document.getElementById('chat-close');
+                const chatMessages = document.getElementById('chat-messages');
+                const chatForm = document.getElementById('chat-form');
+                const chatInput = document.getElementById('chat-input');
+                const userId = document.getElementById('user-id').value;
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                
                 // Открытие/закрытие чата
                 chatButton.addEventListener('click', () => {
-                    chatWindow.classList.add('open');
                     chatWindow.style.display = 'flex';
+                    setTimeout(() => {
+                        chatWindow.classList.add('open');
+                    }, 10);
+                    chatInput.focus();
                 });
-
+                
                 chatClose.addEventListener('click', () => {
                     chatWindow.classList.remove('open');
                     setTimeout(() => {
                         chatWindow.style.display = 'none';
-                    }, 300);
+                    }, 500);
                 });
-
-                // Функция для получения сообщений
-                function fetchMessages() {
+                
+                // Функция для добавления сообщения
+                function addMessage(message, isUser) {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.classList.add('message');
+                    messageDiv.classList.add(isUser ? 'user-message' : 'other-message');
+                    messageDiv.innerHTML = message;
+                    chatMessages.appendChild(messageDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+                
+                // Загрузка сообщений
+                function loadMessages() {
                     fetch('/get_messages/')
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Ошибка сети');
-                            }
-                            return response.json();
-                        })
+                        .then(response => response.json())
                         .then(data => {
-                            chatMessages.innerHTML = ''; // Очистка текущих сообщений
+                            chatMessages.innerHTML = '';
                             data.messages.forEach(msg => {
-                                const messageElement = document.createElement('div');
-                                messageElement.innerHTML = `<strong>${msg.username}:</strong> ${msg.message}`;
-                                chatMessages.appendChild(messageElement);
+                                addMessage(
+                                    `<strong>${msg.username}:</strong> ${msg.message}`,
+                                    msg.user_id == userId
+                                );
                             });
-                            chatMessages.scrollTop = chatMessages.scrollHeight; // Прокрутка вниз
-                        })
-                        .catch(error => {
-                            console.error('Ошибка при загрузке сообщений:', error);
                         });
                 }
-
+                
                 // Отправка сообщения
                 chatForm.addEventListener('submit', function(e) {
                     e.preventDefault();
                     const message = chatInput.value.trim();
-
-                    if (!message) {
-                        alert('Сообщение не может быть пустым.');
-                        return;
-                    }
-
-                    fetch('/send_message/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRFToken': csrfToken
-                        },
-                        body: JSON.stringify({
-                            user_id: userId,
-                            message: message
-                        })
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Ошибка сети');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.status === 'ok') {
-                            chatInput.value = ''; // Очистка поля ввода
-                            fetchMessages(); // Обновление сообщений
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Ошибка:', error);
-                        alert('Не удалось отправить сообщение. Попробуйте снова.');
-                    });
-                });
-
-                // Обновление сообщений каждые 2 секунды
-                setInterval(fetchMessages, 2000);
-
-                // Первоначальная загрузка сообщений
-                fetchMessages();
-            }
-
-            // Логика для слайдеров
-            document.querySelectorAll('.slider-section').forEach(section => {
-                const container = section.querySelector('.slider-container');
-                const slider = container.querySelector('.slider');
-                const slides = slider.querySelectorAll('.slide');
-                const prevBtn = container.querySelector('.prev');
-                const nextBtn = container.querySelector('.next');
-                const dots = section.querySelectorAll('.slider-dot');
-                
-                let currentIndex = 0;
-                const slideCount = slides.length;
-                
-                function updateSlider() {
-                    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
                     
-                    // Обновление активной точки
-                    dots.forEach((dot, index) => {
-                        dot.classList.toggle('active', index === currentIndex);
-                    });
-                }
-                
-                // Переключение на следующий слайд
-                nextBtn.addEventListener('click', () => {
-                    currentIndex = (currentIndex + 1) % slideCount;
-                    updateSlider();
+                    if (message) {
+                        fetch('/send_message/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': csrfToken
+                            },
+                            body: JSON.stringify({
+                                user_id: userId,
+                                message: message
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'ok') {
+                                chatInput.value = '';
+                                loadMessages();
+                            }
+                        });
+                    }
                 });
                 
-                // Переключение на предыдущий слайд
-                prevBtn.addEventListener('click', () => {
-                    currentIndex = (currentIndex - 1 + slideCount) % slideCount;
-                    updateSlider();
-                });
-                
-                // Переключение по точкам
-                dots.forEach((dot, index) => {
-                    dot.addEventListener('click', () => {
-                        currentIndex = index;
-                        updateSlider();
-                    });
-                });
-                
-                // Автоматическое перелистывание
-                setInterval(() => {
-                    currentIndex = (currentIndex + 1) % slideCount;
-                    updateSlider();
-                }, 5000);
-            });
+                // Загрузка сообщений каждые 2 секунды
+                loadMessages();
+                setInterval(loadMessages, 2000);
+            }
         });
     </script>
 </body>

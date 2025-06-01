@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Загрузка изображения</title>
+    <title>Загрузка медиа</title>
     <style>
         :root {
             --primary-color: #e63946;
@@ -71,14 +71,8 @@
             padding: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             transition: var(--transition);
-            transform: translateY(0);
             position: relative;
             overflow: hidden;
-        }
-
-        .upload-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
 
         .upload-card::before {
@@ -93,7 +87,6 @@
 
         .form-group {
             margin-bottom: 25px;
-            position: relative;
         }
 
         .form-group label {
@@ -124,6 +117,14 @@
         textarea.form-control {
             min-height: 100px;
             resize: vertical;
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 1em;
         }
 
         .file-input-wrapper {
@@ -177,14 +178,10 @@
             transition: var(--transition);
         }
 
-        .file-input-label:hover .file-input-button {
-            background: (237, 189, 94);
-        }
-
         .submit-btn {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, var(--primary-color), 237, 189, 94);
+            background: var(--primary-color);
             color: white;
             border: none;
             border-radius: 8px;
@@ -194,14 +191,12 @@
             letter-spacing: 1px;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(237, 189, 94);
         }
 
         .submit-btn:hover {
-            background: linear-gradient(237, 189, 94);
+            background: #c1121f;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgb(230, 189, 108);
-        } 
+        }
 
         .back-link {
             display: inline-block;
@@ -216,10 +211,6 @@
         .back-link:hover {
             color: var(--primary-color);
             transform: translateX(-3px);
-        }
-
-        .back-link i {
-            margin-right: 5px;
         }
 
         .error-message {
@@ -241,7 +232,6 @@
             text-decoration: underline;
         }
 
-        /* Анимации */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -251,7 +241,6 @@
             animation: fadeIn 0.6s ease forwards;
         }
 
-        /* Адаптивность */
         @media (max-width: 576px) {
             h1 {
                 font-size: 1.8rem;
@@ -266,12 +255,11 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     {% if user.is_authenticated and user.username == "root" %}
     <div class="upload-container">
-        <h1>Загрузить изображение</h1>
+        <h1>Загрузка медиа</h1>
         
         <div class="upload-card">
             <form method="post" enctype="multipart/form-data">
@@ -288,12 +276,20 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>Изображение</label>
+                    <label for="id_media_type">Тип медиа</label>
+                    <select name="media_type" class="form-control" id="id_media_type" required>
+                        <option value="image">Изображение</option>
+                        <option value="video">Видео</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Файл</label>
                     <div class="file-input-wrapper">
                         <label class="file-input-label">
                             <span class="file-input-text">Выберите файл...</span>
                             <span class="file-input-button">Обзор</span>
-                            <input type="file" name="image" required id="id_image">
+                            <input type="file" name="file" required id="id_file">
                         </label>
                     </div>
                 </div>
@@ -303,26 +299,20 @@
         </div>
         
         <a href="{% url 'gallery' %}" class="back-link">
-            <i class="fas fa-arrow-left"></i> Назад к галерее
+            ← Назад к галерее
         </a>
     </div>
     {% else %}
     <div class="error-message">
-        <p>У вас нет прав для загрузки изображений.</p>
+        <p>У вас нет прав для загрузки медиафайлов.</p>
         <a href="{% url 'gallery' %}" class="error-link">Вернуться в галерею</a>
     </div>
     {% endif %}
 
     <script>
-        // Обновление текста при выборе файла
-        document.getElementById('id_image').addEventListener('change', function(e) {
+        document.getElementById('id_file').addEventListener('change', function(e) {
             const fileName = e.target.files[0] ? e.target.files[0].name : 'Выберите файл...';
             document.querySelector('.file-input-text').textContent = fileName;
-        });
-
-        // Плавное появление формы
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('.upload-card').style.opacity = '1';
         });
     </script>
 </body>

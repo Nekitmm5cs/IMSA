@@ -1,13 +1,1258 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой профиль</title>
+    <title>Профиль пользователя | IMSA SportsCar Championship</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Стили шапки профиля */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            padding: 30px;
+            border-radius: 10px;
+            color: white;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://www.imsa.com/wp-content/uploads/sites/32/2023/01/2023-rolex-24-overview-hero.jpg') center/cover;
+            opacity: 0.3;
+            z-index: 0;
+        }
+        
+        .profile-avatar {
+            position: relative;
+            z-index: 1;
+            margin-right: 30px;
+        }
+        
+        .profile-avatar img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .profile-avatar img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .avatar-upload {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .avatar-upload:hover {
+            background: #f0f0f0;
+            transform: scale(1.1);
+        }
+        
+        .upload-btn {
+            color: #1a2a6c;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        .profile-info {
+            flex-grow: 1;
+            z-index: 1;
+        }
+        
+        .profile-info h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .username {
+            margin: 5px 0 15px;
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .stars {
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: #FFD700;
+            margin-right: 10px;
+        }
+        
+        .rating-value {
+            font-weight: 600;
+            font-size: 18px;
+        }
+        
+        .location {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+        }
+        
+        .location i {
+            margin-right: 8px;
+        }
+        
+        .profile-actions {
+            z-index: 1;
+        }
+        
+        .btn-create-team, .btn-view-team {
+            background: #FFD700;
+            color: #1a2a6c;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-create-team:hover, .btn-view-team:hover {
+            background: #ffcc00;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        }
+        
+        /* Основное содержимое профиля */
+        .profile-content {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .profile-sidebar {
+            flex: 0 0 300px;
+        }
+        
+        .profile-main {
+            flex: 1;
+        }
+        
+        .profile-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-card h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #1a2a6c;
+            font-size: 20px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .info-value {
+            color: #1a2a6c;
+            font-weight: 500;
+        }
+        
+        /* Навыки */
+        .skills-card .skill-item {
+            margin-bottom: 15px;
+        }
+        
+        .skill-name {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .skill-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .skill-level {
+            height: 100%;
+            background: linear-gradient(90deg, #1a2a6c, #b21f1f);
+            border-radius: 4px;
+            transition: width 1s ease-in-out;
+        }
+        
+        .skill-edit {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+        
+        .skill-edit input[type="range"] {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        
+        .skill-value {
+            width: 30px;
+            text-align: center;
+            font-weight: 600;
+            color: #1a2a6c;
+        }
+        
+        /* Секции профиля */
+        .profile-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+        
+        .section-header h2 {
+            margin: 0;
+            color: #1a2a6c;
+            font-size: 22px;
+        }
+        
+        .btn-edit {
+            background: none;
+            border: none;
+            color: #1a2a6c;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-edit:hover {
+            color: #b21f1f;
+            transform: scale(1.1);
+        }
+        
+        /* Биография */
+        .bio-content {
+            line-height: 1.6;
+            color: #444;
+        }
+        
+        .bio-edit {
+            width: 100%;
+            min-height: 150px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            resize: vertical;
+        }
+        
+        .bio-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-save, .btn-cancel {
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-save {
+            background: #1a2a6c;
+            color: white;
+            border: none;
+        }
+        
+        .btn-save:hover {
+            background: #14215e;
+        }
+        
+        .btn-cancel {
+            background: #f0f0f0;
+            color: #555;
+            border: 1px solid #ddd;
+        }
+        
+        .btn-cancel:hover {
+            background: #e0e0e0;
+        }
+        
+        /* Достижения */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .achievement-item {
+            display: flex;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .achievement-item:hover {
+            background: #f0f0f0;
+            transform: translateY(-3px);
+        }
+        
+        .achievement-icon {
+            margin-right: 15px;
+            color: #FFD700;
+            font-size: 24px;
+        }
+        
+        .achievement-info h4 {
+            margin-bottom: 5px;
+            color: #1a2a6c;
+        }
+        
+        .achievement-info p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .achievement-date {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .achievement-edit {
+            display: none;
+            margin-top: 10px;
+        }
+        
+        .achievement-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .achievement-form input,
+        .achievement-form textarea {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .achievement-form textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+        
+        .achievement-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-add-achievement {
+            background: #1a2a6c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        
+        .btn-add-achievement:hover {
+            background: #14215e;
+        }
+        
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            padding: 20px;
+            background: #1a2a6c;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+        }
+        
+        .close-modal {
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .close-modal:hover {
+            color: #FFD700;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .form-group input[type="text"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn-submit {
+            background: #1a2a6c;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn-submit:hover {
+            background: #14215e;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .profile-content {
+                flex-direction: column;
+            }
+            
+            .profile-sidebar {
+                flex: 1;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px 20px;
+            }
+            
+            .profile-avatar {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .profile-actions {
+                margin-top: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Добро пожаловать, {{ user.username }}!</h1>
-    <p>Это ваш профиль.</p>
-    <a href="{% url 'logout' %}">Выйти</a>
+    <div class="container">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="Аватар пользователя" id="profile-avatar-img">
+                <div class="avatar-upload">
+                    <label for="avatar-upload" class="upload-btn">
+                        <i class="fas fa-camera"></i>
+                    </label>
+                    <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+                </div>
+            </div>
+            <div class="profile-info">
+                <h1>Александр Петров</h1>
+                <p class="username">@alex_racer</p>
+                <div class="rating">
+                    <span class="stars">★★★★☆</span>
+                    <span class="rating-value">4.2</span>
+                </div>
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Москва, Россия</span>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <!-- Используйте полный путь с namespace -->
+        <a href="{% url 'create_team' %}" class="btn-create-team">Создать команду</a>
+
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-sidebar">
+                <div class="profile-card">
+                    <h3>Личная информация</h3>
+                    <div class="info-item">
+                        <span class="info-label">Дата рождения:</span>
+                        <span class="info-value">15.03.1990</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Лицензия:</span>
+                        <span class="info-value">FIA Grade B</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Опыт:</span>
+                        <span class="info-value">8 лет</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Роль:</span>
+                        <span class="info-value">Пилот</span>
+                    </div>
+                </div>
+
+                <div class="profile-card skills-card">
+                    <h3>Навыки</h3>
+                    <div class="skill-item">
+                        <span class="skill-name">Скорость</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" id="speed-level" style="width: 85%"></div>
+                        </div>
+                        <div class="skill-edit" id="speed-edit" style="display: none;">
+                            <input type="range" min="0" max="100" value="85" id="speed-input">
+                            <span class="skill-value" id="speed-value">85</span>%
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Выносливость</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" id="endurance-level" style="width: 78%"></div>
+                        </div>
+                        <div class="skill-edit" id="endurance-edit" style="display: none;">
+                            <input type="range" min="0" max="100" value="78" id="endurance-input">
+                            <span class="skill-value" id="endurance-value">78</span>%
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Техника</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" id="technique-level" style="width: 82%"></div>
+                        </div>
+                        <div class="skill-edit" id="technique-edit" style="display: none;">
+                            <input type="range" min="0" max="100" value="82" id="technique-input">
+                            <span class="skill-value" id="technique-value">82</span>%
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Стратегия</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" id="strategy-level" style="width: 75%"></div>
+                        </div>
+                        <div class="skill-edit" id="strategy-edit" style="display: none;">
+                            <input type="range" min="0" max="100" value="75" id="strategy-input">
+                            <span class="skill-value" id="strategy-value">75</span>%
+                        </div>
+                    </div>
+                    <div class="skill-actions" id="skill-actions" style="display: none; margin-top: 15px;">
+                        <button class="btn-save" id="saveSkillsBtn">Сохранить</button>
+                        <button class="btn-cancel" id="cancelSkillsBtn">Отмена</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-main">
+                <div class="profile-section">
+                    <div class="section-header">
+                        <h2>Биография</h2>
+                        <button class="btn-edit" id="editBioBtn"><i class="fas fa-edit"></i></button>
+                    </div>
+                    <div class="bio-content" id="bioContent">
+                        <p>Профессиональный пилот с 8-летним опытом участия в гонках на выносливость. Специализируюсь на классе GTD, но также имею опыт вождения прототипов LMP2.</p>
+                        <p>Начал карьеру в российских кольцевых гонках, затем перешел в международные серии. Участник таких престижных гонок как 24 часа Дайтоны и 12 часов Себринга.</p>
+                        <p>В 2022 году вошел в топ-10 пилотов IMSA SportsCar Championship в классе GTD. Считаю, что успех в гонках на выносливость зависит не только от скорости, но и от командной работы и стратегического мышления.</p>
+                    </div>
+                    <textarea class="bio-edit" id="bioEdit" style="display: none;">Профессиональный пилот с 8-летним опытом участия в гонках на выносливость. Специализируюсь на классе GTD, но также имею опыт вождения прототипов LMP2.
+
+Начал карьеру в российских кольцевых гонках, затем перешел в международные серии. Участник таких престижных гонок как 24 часа Дайтоны и 12 часов Себринга.
+
+В 2022 году вошел в топ-10 пилотов IMSA SportsCar Championship в классе GTD. Считаю, что успех в гонках на выносливость зависит не только от скорости, но и от командной работы и стратегического мышления.</textarea>
+                    <div class="bio-actions" id="bioActions" style="display: none;">
+                        <button class="btn-save" id="saveBioBtn">Сохранить</button>
+                        <button class="btn-cancel" id="cancelBioBtn">Отмена</button>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <div class="section-header">
+                        <h2>Достижения</h2>
+                        <button class="btn-edit" id="editAchievementsBtn"><i class="fas fa-edit"></i></button>
+                    </div>
+                    <div class="achievements-grid" id="achievementsContainer">
+                        <!-- Достижения будут добавляться динамически -->
+                    </div>
+                    <button class="btn-add-achievement" id="addAchievementBtn" style="display: none;">Добавить достижение</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Редактирование биографии
+        const editBioBtn = document.getElementById('editBioBtn');
+        const saveBioBtn = document.getElementById('saveBioBtn');
+        const cancelBioBtn = document.getElementById('cancelBioBtn');
+        const bioContent = document.getElementById('bioContent');
+        const bioEdit = document.getElementById('bioEdit');
+        const bioActions = document.getElementById('bioActions');
+        
+        editBioBtn.addEventListener('click', () => {
+            bioContent.style.display = 'none';
+            bioEdit.style.display = 'block';
+            bioActions.style.display = 'flex';
+        });
+        
+        cancelBioBtn.addEventListener('click', () => {
+            bioContent.style.display = 'block';
+            bioEdit.style.display = 'none';
+            bioActions.style.display = 'none';
+            bioEdit.value = bioContent.textContent.trim();
+        });
+        
+        saveBioBtn.addEventListener('click', () => {
+            const newBio = bioEdit.value;
+            
+            // Отправка данных на сервер
+            fetch('/save_bio/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    bio: newBio
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    bioContent.innerHTML = newBio.replace(/\n/g, '<br>');
+                    bioContent.style.display = 'block';
+                    bioEdit.style.display = 'none';
+                    bioActions.style.display = 'none';
+                    showNotification('Биография успешно сохранена');
+                } else {
+                    throw new Error(data.message || 'Ошибка сохранения');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                showNotification('Ошибка при сохранении биографии');
+            });
+        });
+        
+        // Редактирование навыков
+        const saveSkillsBtn = document.getElementById('saveSkillsBtn');
+        const cancelSkillsBtn = document.getElementById('cancelSkillsBtn');
+        
+        // Показать редактор навыков
+        function showSkillsEditor() {
+            document.querySelectorAll('.skill-edit').forEach(edit => {
+                edit.style.display = 'flex';
+            });
+            document.getElementById('skill-actions').style.display = 'flex';
+        }
+        
+        // Скрыть редактор навыков
+        function hideSkillsEditor() {
+            document.querySelectorAll('.skill-edit').forEach(edit => {
+                edit.style.display = 'none';
+            });
+            document.getElementById('skill-actions').style.display = 'none';
+        }
+        
+        // Обработчики для ползунков навыков
+        document.getElementById('speed-input').addEventListener('input', function() {
+            document.getElementById('speed-level').style.width = this.value + '%';
+            document.getElementById('speed-value').textContent = this.value;
+        });
+        
+        document.getElementById('endurance-input').addEventListener('input', function() {
+            document.getElementById('endurance-level').style.width = this.value + '%';
+            document.getElementById('endurance-value').textContent = this.value;
+        });
+        
+        document.getElementById('technique-input').addEventListener('input', function() {
+            document.getElementById('technique-level').style.width = this.value + '%';
+            document.getElementById('technique-value').textContent = this.value;
+        });
+        
+        document.getElementById('strategy-input').addEventListener('input', function() {
+            document.getElementById('strategy-level').style.width = this.value + '%';
+            document.getElementById('strategy-value').textContent = this.value;
+        });
+        
+        // Сохранение навыков
+        saveSkillsBtn.addEventListener('click', function() {
+            const skills = {
+                speed: parseInt(document.getElementById('speed-input').value),
+                endurance: parseInt(document.getElementById('endurance-input').value),
+                technique: parseInt(document.getElementById('technique-input').value),
+                strategy: parseInt(document.getElementById('strategy-input').value)
+            };
+            
+            // Отправка данных на сервер
+            fetch('/save_skills/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(skills)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    hideSkillsEditor();
+                    showNotification('Навыки успешно сохранены');
+                } else {
+                    throw new Error(data.message || 'Ошибка сохранения');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                showNotification('Ошибка при сохранении навыков');
+            });
+        });
+        
+        // Отмена редактирования навыков
+        cancelSkillsBtn.addEventListener('click', function() {
+            // Восстановление исходных значений
+            document.getElementById('speed-input').value = 85;
+            document.getElementById('speed-level').style.width = '85%';
+            document.getElementById('speed-value').textContent = '85';
+            
+            document.getElementById('endurance-input').value = 78;
+            document.getElementById('endurance-level').style.width = '78%';
+            document.getElementById('endurance-value').textContent = '78';
+            
+            document.getElementById('technique-input').value = 82;
+            document.getElementById('technique-level').style.width = '82%';
+            document.getElementById('technique-value').textContent = '82';
+            
+            document.getElementById('strategy-input').value = 75;
+            document.getElementById('strategy-level').style.width = '75%';
+            document.getElementById('strategy-value').textContent = '75';
+            
+            hideSkillsEditor();
+        });
+        
+        // Добавляем кнопку редактирования навыков
+        const skillsCard = document.querySelector('.skills-card');
+        const skillsHeader = skillsCard.querySelector('h3');
+        
+        const editSkillsButton = document.createElement('button');
+        editSkillsButton.className = 'btn-edit';
+        editSkillsButton.innerHTML = '<i class="fas fa-edit"></i>';
+        editSkillsButton.addEventListener('click', showSkillsEditor);
+        
+        skillsHeader.appendChild(editSkillsButton);
+        
+        // Редактирование достижений
+        const editAchievementsBtn = document.getElementById('editAchievementsBtn');
+        const addAchievementBtn = document.getElementById('addAchievementBtn');
+        const achievementsContainer = document.getElementById('achievementsContainer');
+        
+        let isEditingAchievements = false;
+        
+        editAchievementsBtn.addEventListener('click', function() {
+            isEditingAchievements = !isEditingAchievements;
+            
+            if (isEditingAchievements) {
+                // Показать редактор для всех достижений
+                document.querySelectorAll('.achievement-item').forEach(item => {
+                    const editForm = item.querySelector('.achievement-edit');
+                    if (editForm) {
+                        editForm.style.display = 'block';
+                    }
+                });
+                addAchievementBtn.style.display = 'block';
+                editAchievementsBtn.innerHTML = '<i class="fas fa-check"></i>';
+            } else {
+                // Скрыть редактор для всех достижений
+                document.querySelectorAll('.achievement-edit').forEach(edit => {
+                    edit.style.display = 'none';
+                });
+                addAchievementBtn.style.display = 'none';
+                editAchievementsBtn.innerHTML = '<i class="fas fa-edit"></i>';
+            }
+        });
+        
+        // Добавление нового достижения
+        addAchievementBtn.addEventListener('click', function() {
+            const newAchievement = createAchievementElement({
+                title: '',
+                description: '',
+                date: new Date().getFullYear().toString(),
+                isNew: true
+            });
+            
+            achievementsContainer.prepend(newAchievement);
+            
+            // Показать форму редактирования для нового достижения
+            const editForm = newAchievement.querySelector('.achievement-edit');
+            editForm.style.display = 'block';
+        });
+        
+        // Создание элемента достижения
+        function createAchievementElement(achievement) {
+            const achievementItem = document.createElement('div');
+            achievementItem.className = 'achievement-item';
+            
+            achievementItem.innerHTML = `
+                <div class="achievement-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="achievement-info">
+                    <h4>${achievement.title || 'Новое достижение'}</h4>
+                    <p>${achievement.description || 'Описание достижения'}</p>
+                    <span class="achievement-date">${achievement.date}</span>
+                </div>
+                <div class="achievement-edit" style="display: none;">
+                    <form class="achievement-form">
+                        <input type="text" placeholder="Название" value="${achievement.title || ''}" class="achievement-title">
+                        <textarea placeholder="Описание" class="achievement-description">${achievement.description || ''}</textarea>
+                        <input type="text" placeholder="Год" value="${achievement.date}" class="achievement-date-input">
+                        <div class="achievement-actions">
+                            <button type="button" class="btn-save save-achievement">Сохранить</button>
+                            <button type="button" class="btn-cancel cancel-achievement">Отмена</button>
+                            ${achievement.isNew ? '' : '<button type="button" class="btn-cancel delete-achievement">Удалить</button>'}
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            // Обработчики для формы достижения
+            const saveBtn = achievementItem.querySelector('.save-achievement');
+            const cancelBtn = achievementItem.querySelector('.cancel-achievement');
+            const deleteBtn = achievementItem.querySelector('.delete-achievement');
+            
+            saveBtn.addEventListener('click', function() {
+                const title = achievementItem.querySelector('.achievement-title').value;
+                const description = achievementItem.querySelector('.achievement-description').value;
+                const date = achievementItem.querySelector('.achievement-date-input').value;
+                
+                // Обновляем отображаемую информацию
+                const info = achievementItem.querySelector('.achievement-info');
+                info.querySelector('h4').textContent = title;
+                info.querySelector('p').textContent = description;
+                info.querySelector('.achievement-date').textContent = date;
+                
+                // Скрываем форму редактирования
+                achievementItem.querySelector('.achievement-edit').style.display = 'none';
+                
+                // Если это новое достижение, сохраняем на сервер
+                if (achievement.isNew) {
+                    saveAchievementToServer({
+                        title: title,
+                        description: description,
+                        date: date
+                    }, achievementItem);
+                } else {
+                    // Обновляем существующее достижение на сервере
+                    updateAchievementOnServer({
+                        id: achievement.id,
+                        title: title,
+                        description: description,
+                        date: date
+                    });
+                }
+            });
+            
+            cancelBtn.addEventListener('click', function() {
+                if (achievement.isNew) {
+                    achievementItem.remove();
+                } else {
+                    achievementItem.querySelector('.achievement-edit').style.display = 'none';
+                }
+            });
+            
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', function() {
+                    if (confirm('Вы уверены, что хотите удалить это достижение?')) {
+                        deleteAchievementFromServer(achievement.id, achievementItem);
+                    }
+                });
+            }
+            
+            return achievementItem;
+        }
+        
+        // Сохранение достижения на сервер
+        function saveAchievementToServer(achievement, element) {
+            fetch('/save_achievement/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(achievement)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    showNotification('Достижение успешно сохранено');
+                    // Обновляем элемент с ID из сервера
+                    element.dataset.id = data.id;
+                } else {
+                    throw new Error(data.message || 'Ошибка сохранения');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                showNotification('Ошибка при сохранении достижения');
+            });
+        }
+        
+        // Обновление достижения на сервере
+        function updateAchievementOnServer(achievement) {
+            fetch('/update_achievement/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(achievement)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    showNotification('Достижение успешно обновлено');
+                } else {
+                    throw new Error(data.message || 'Ошибка обновления');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                showNotification('Ошибка при обновлении достижения');
+            });
+        }
+        
+        // Удаление достижения с сервера
+        function deleteAchievementFromServer(id, element) {
+            fetch('/delete_achievement/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ id: id })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    element.remove();
+                    showNotification('Достижение успешно удалено');
+                } else {
+                    throw new Error(data.message || 'Ошибка удаления');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                showNotification('Ошибка при удалении достижения');
+            });
+        }
+        
+        // Загрузка аватара
+        const avatarUpload = document.getElementById('avatar-upload');
+        const avatarImg = document.getElementById('profile-avatar-img');
+        
+        avatarUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    avatarImg.src = event.target.result;
+                    
+                    // Отправка на сервер
+                    const formData = new FormData();
+                    formData.append('avatar', file);
+                    
+                    fetch('/upload_avatar/', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken')
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            showNotification('Аватар успешно обновлен');
+                        } else {
+                            throw new Error(data.message || 'Ошибка загрузки');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Ошибка:', error);
+                        showNotification('Ошибка при загрузке аватара');
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Функция показа уведомлений
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = '#1a2a6c';
+            notification.style.color = 'white';
+            notification.style.padding = '15px 25px';
+            notification.style.borderRadius = '5px';
+            notification.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+            notification.style.zIndex = '1000';
+            notification.style.animation = 'fadeIn 0.3s ease';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+            
+            // Добавляем стили для анимации
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                @keyframes fadeOut {
+                    from { opacity: 1; transform: translateY(0); }
+                    to { opacity: 0; transform: translateY(20px); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Функция для получения CSRF токена
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        
+        // Загрузка данных при открытии страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            // Анимация навыков
+            const skillLevels = document.querySelectorAll('.skill-level');
+            skillLevels.forEach(level => {
+                const width = level.style.width;
+                level.style.width = '0';
+                setTimeout(() => {
+                    level.style.width = width;
+                }, 100);
+            });
+            
+            // Загрузка данных профиля с сервера
+            fetch('/get_profile_data/')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Обновление биографии
+                        if (data.bio) {
+                            bioContent.innerHTML = data.bio.replace(/\n/g, '<br>');
+                            bioEdit.value = data.bio;
+                        }
+                        
+                        // Обновление навыков
+                        if (data.skills) {
+                            document.getElementById('speed-input').value = data.skills.speed;
+                            document.getElementById('speed-level').style.width = data.skills.speed + '%';
+                            document.getElementById('speed-value').textContent = data.skills.speed;
+                            
+                            document.getElementById('endurance-input').value = data.skills.endurance;
+                            document.getElementById('endurance-level').style.width = data.skills.endurance + '%';
+                            document.getElementById('endurance-value').textContent = data.skills.endurance;
+                            
+                            document.getElementById('technique-input').value = data.skills.technique;
+                            document.getElementById('technique-level').style.width = data.skills.technique + '%';
+                            document.getElementById('technique-value').textContent = data.skills.technique;
+                            
+                            document.getElementById('strategy-input').value = data.skills.strategy;
+                            document.getElementById('strategy-level').style.width = data.skills.strategy + '%';
+                            document.getElementById('strategy-value').textContent = data.skills.strategy;
+                        }
+                        
+                        // Загрузка достижений
+                        if (data.achievements && data.achievements.length > 0) {
+                            achievementsContainer.innerHTML = '';
+                            data.achievements.forEach(achievement => {
+                                const achievementElement = createAchievementElement({
+                                    id: achievement.id,
+                                    title: achievement.title,
+                                    description: achievement.description,
+                                    date: achievement.date
+                                });
+                                achievementsContainer.appendChild(achievementElement);
+                            });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка загрузки данных профиля:', error);
+                });
+                function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            // Пример AJAX-запроса с CSRF
+            fetch('/save_profile/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(data)
+            })
+        });
+    </script>
 </body>
 </html>

@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import GalleryImage
+from .models import MediaItem  # Измените GalleryImage на MediaItem
 
-# Register your models here.
-admin.site.register(GalleryImage)
+@admin.register(MediaItem)
+class MediaItemAdmin(admin.ModelAdmin):
+    list_display = ('title', 'media_type', 'uploaded_at')
+    list_filter = ('media_type',)
+    search_fields = ('title', 'description')

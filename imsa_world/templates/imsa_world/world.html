@@ -3,61 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMSA - Гонки на выносливость</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>IMSA Championship | Premium Motorsport</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&family=Oswald:wght@400;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f8f8f8;
+            --gray: #2a2a2a;
+            --gold: #c5a467;
+            --gold-light: #d4b87c;
+            --gold-dark: #b08c54;
+            --accent: #e31937;
             --imsa-blue: #0a2240;
             --imsa-red: #e31937;
             --imsa-gold: #d4af37;
-            --imsa-dark: #1a1a1a;
-            --imsa-light: #f8f9fa;
         }
         
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
         
         body {
             font-family: 'Roboto Condensed', sans-serif;
-            line-height: 1.7;
-            color: var(--imsa-dark);
-            background-color: #f5f5f5;
-            font-size: 18px;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
         
+        /* Luxury Overlay */
+        .luxury-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(18, 18, 18, 0.9), rgba(10, 10, 10, 0.95));
+            z-index: -1;
+        }
+        
+        /* Header */
         header {
-            background: linear-gradient(135deg, var(--imsa-blue) 0%, #1a3a6a 100%);
-            color: white;
-            padding: 4rem 1rem;
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--gold);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        /* Navigation */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            position: relative;
+            margin: 0 0.5rem;
+        }
+        
+        nav ul li a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.8rem 1.2rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        nav ul li a i {
+            margin-right: 8px;
+            color: var(--gold);
+        }
+        
+        nav ul li a:hover {
+            color: var(--gold-light);
+            background: rgba(197, 164, 103, 0.1);
+        }
+        
+        /* Dropdown */
+        nav ul li ul {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--gray);
+            width: 220px;
+            padding: 0.5rem 0;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            transform: translateY(10px);
+            border: 1px solid rgba(197, 164, 103, 0.2);
+            border-top: none;
+        }
+        
+        nav ul li:hover ul {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        nav ul li ul li {
+            margin: 0;
+            width: 100%;
+        }
+        
+        nav ul li ul li a {
+            padding: 0.8rem 1.5rem;
+            width: 100%;
+            font-size: 0.9rem;
+            border-radius: 0;
+        }
+        
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            min-height: 600px;
+            background: 
+                linear-gradient(rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.5)),
+                url('https://sportscar365.com/wp-content/uploads/2024/01/GALSTAD-IMSA-R24-DIS-0124-0124-019373-2.jpg') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            border-radius: 8px;
+            margin-bottom: 4rem;
             position: relative;
             overflow: hidden;
-            margin-bottom: 3rem;
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--gold);
         }
         
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
+        .hero-content {
+            max-width: 800px;
+            padding: 3rem;
+            background: rgba(42, 42, 42, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            border: 1px solid rgba(197, 164, 103, 0.3);
+        }
+        
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            color: var(--light);
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 0.5rem;
+        }
+        
+        .btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: var(--darker);
+            box-shadow: 0 4px 15px rgba(197, 164, 103, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(197, 164, 103, 0.6);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(197, 164, 103, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        /* Sections */
+        .section {
+            margin-bottom: 5rem;
+            background: var(--gray);
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
             position: relative;
-            z-index: 2;
         }
         
-        .header-bg {
+        .section-header {
+            background: var(--imsa-red);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2.5rem;
+        }
+        
+        .section-header:before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://sportscar365.com/wp-content/uploads/2024/01/GALSTAD-IMSA-R24-DIS-0124-0124-019373-2.jpg') center/cover no-repeat;
-            opacity: 0.3;
-            z-index: 1;
+            background: linear-gradient(45deg, transparent 65%, rgba(255,255,255,0.2) 100%);
+        }
+        
+        .section-content {
+            padding: 2.5rem;
         }
         
         h1, h2, h3, h4 {
@@ -77,6 +285,7 @@
             font-size: 2.5rem;
             position: relative;
             display: inline-block;
+            color: var(--gold);
         }
         
         h2:after {
@@ -86,11 +295,12 @@
             left: 0;
             width: 60px;
             height: 4px;
-            background: var(--imsa-gold);
+            background: var(--gold);
         }
         
         h3 {
             font-size: 1.8rem;
+            color: var(--gold-light);
         }
         
         h4 {
@@ -109,37 +319,51 @@
             padding: 0 1.5rem;
         }
         
-        section {
-            margin-bottom: 4rem;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            overflow: hidden;
-            position: relative;
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
         
-        .section-header {
-            background: var(--imsa-red);
-            color: white;
-            padding: 1.5rem;
-            position: relative;
+        .card {
+            background: var(--darker);
+            border-radius: 8px;
             overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(197, 164, 103, 0.2);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         }
         
-        .section-header:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(197, 164, 103, 0.2);
+            border-color: var(--gold);
+        }
+        
+        .card-img {
             width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent 65%, rgba(255,255,255,0.2) 100%);
+            height: 200px;
+            object-fit: cover;
         }
         
-        .section-content {
-            padding: 2.5rem;
+        .card-content {
+            padding: 1.5rem;
         }
         
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--gold-light);
+        }
+        
+        .card p {
+            color: rgba(248, 248, 248, 0.8);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Grid Layouts */
         .grid-2col, .grid-3col {
             display: grid;
             gap: 2.5rem;
@@ -198,129 +422,27 @@
         .photo-caption {
             margin-top: 0.8rem;
             font-size: 0.95rem;
-            color: #666;
+            color: rgba(248, 248, 248, 0.7);
             text-align: center;
             font-style: italic;
         }
         
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.2rem;
-            margin: 1.5rem 0;
-        }
-        
-        .stat-item {
-            background: #f5f5f5;
-            padding: 1rem;
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            border-left: 3px solid var(--imsa-blue);
-        }
-        
-        .stat-item:hover {
-            background: var(--imsa-blue);
-            color: white;
-            transform: translateY(-3px);
-        }
-        
-        p {
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
-        
-        ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem;
-        }
-        
-        li {
-            margin-bottom: 0.8rem;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-        
-        li:before {
-            content: '•';
-            color: var(--imsa-red);
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-        
-        /* Новые стильные элементы */
-        .speed-meter {
-            width: 100%;
-            height: 20px;
-            background: #eee;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .speed-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--imsa-blue), var(--imsa-red));
-            width: 0;
-            transition: width 1.5s ease-out;
-            border-radius: 10px;
-        }
-        
-        .interactive-card {
-            perspective: 1000px;
-            cursor: pointer;
-        }
-        
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            transition: transform 0.8s;
-            transform-style: preserve-3d;
-        }
-        
-        .interactive-card:hover .card-inner {
-            transform: rotateY(180deg);
-        }
-        
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
+        /* Track Animation */
+        .track-container {
+            height: 400px;
+            background: var(--darker);
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .card-front {
-            background: var(--imsa-blue);
-            color: white;
-        }
-        
-        .card-back {
-            background: var(--imsa-red);
-            color: white;
-            transform: rotateY(180deg);
+            margin: 4rem 0;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--gold);
         }
         
         .track-map {
             width: 100%;
-            height: 400px;
-            background: #f0f0f0;
-            border-radius: 8px;
+            height: 100%;
+            background: url('https://www.daytonainternationalspeedway.com/wp-content/uploads/sites/85/2021/12/Daytona-Road-Course-Map-2021.jpg') center/cover;
             position: relative;
-            overflow: hidden;
-            margin: 1.5rem 0;
-            background-image: url('https://www.daytonainternationalspeedway.com/wp-content/uploads/sites/85/2021/12/Daytona-Road-Course-Map-2021.jpg');
-            background-size: cover;
-            background-position: center;
         }
         
         .track-path {
@@ -338,7 +460,7 @@
             position: absolute;
             width: 24px;
             height: 24px;
-            background: var(--imsa-red);
+            background: var(--accent);
             border-radius: 50%;
             top: 20%;
             left: 20%;
@@ -364,7 +486,7 @@
             position: absolute;
             width: 16px;
             height: 16px;
-            background: var(--imsa-gold);
+            background: var(--gold);
             border-radius: 50%;
             border: 2px solid white;
             z-index: 5;
@@ -484,100 +606,143 @@
             box-shadow: 0 0 8px rgba(0,0,0,0.2);
         }
         
-        .timing-table {
-            width: 100%;
-            border-collapse: collapse;
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-item {
+            background: var(--darker);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 3px solid var(--gold);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            background: var(--imsa-blue);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(248, 248, 248, 0.8);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
             margin: 1.5rem 0;
         }
         
-        .timing-table th, .timing-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+            margin: 2rem 0;
         }
         
-        .timing-table th {
-            background-color: var(--imsa-blue);
-            color: white;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--darker);
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(197, 164, 103, 0.2);
+        }
+        
+        th {
+            background: rgba(197, 164, 103, 0.2);
+            color: var(--gold);
             font-weight: 600;
             text-transform: uppercase;
             font-size: 0.9rem;
         }
         
-        .timing-table tr:nth-child(even) {
-            background-color: #f9f9f9;
+        tr:hover {
+            background: rgba(197, 164, 103, 0.05);
         }
         
-        .timing-table tr:hover {
-            background-color: #f1f1f1;
-        }
-        
-        .position {
-            font-weight: bold;
-            color: var(--imsa-blue);
-        }
-        
-        .team-name {
-            font-weight: 600;
-        }
-        
-        .driver-name {
-            color: #555;
-        }
-        
-        .gap {
-            color: var(--imsa-red);
-            font-weight: 600;
-        }
-        
-        .lap-time {
-            font-family: 'Courier New', monospace;
-        }
-        
-        .tyre-icon {
-            display: inline-block;
-            width: 20px;
+        /* Speed Meter */
+        .speed-meter {
+            width: 100%;
             height: 20px;
-            border-radius: 50%;
             background: #333;
-            color: white;
-            text-align: center;
-            line-height: 20px;
-            font-size: 12px;
-            margin-right: 5px;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+            position: relative;
         }
         
-        .tyre-soft {
-            background: #ff5555;
+        .speed-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--imsa-blue), var(--imsa-red));
+            width: 0;
+            transition: width 1.5s ease-out;
+            border-radius: 10px;
         }
         
-        .tyre-medium {
-            background: #ffcc00;
-            color: #333;
-        }
-        
-        .tyre-hard {
-            background: #ffffff;
-            color: #333;
-            border: 1px solid #ccc;
-        }
-        
-        .tyre-wet {
-            background: #0099ff;
-        }
-        
-        .interactive-timing {
+        /* Interactive Card */
+        .interactive-card {
+            perspective: 1000px;
             cursor: pointer;
-            transition: all 0.3s;
         }
         
-        .interactive-timing:hover {
-            transform: translateX(5px);
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
         }
         
-        /* Новые стили для добавленных секций */
+        .interactive-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .card-front {
+            background: var(--imsa-blue);
+            color: white;
+        }
+        
+        .card-back {
+            background: var(--imsa-red);
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        /* Legends */
         .legend-card {
-            background: white;
+            background: var(--darker);
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -598,6 +763,7 @@
             padding: 1.5rem;
         }
         
+        /* Rules */
         .rules-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -605,17 +771,18 @@
         }
         
         .rule-card {
-            background: #f9f9f9;
+            background: var(--darker);
             border-left: 4px solid var(--imsa-blue);
             padding: 1.5rem;
             border-radius: 0 8px 8px 0;
         }
         
         .rule-card h4 {
-            color: var(--imsa-blue);
+            color: var(--gold-light);
             margin-bottom: 0.8rem;
         }
         
+        /* Photo Grid */
         .photo-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -653,20 +820,12 @@
             font-size: 0.9rem;
         }
         
-        .historic-series-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        
+        /* Footer */
         footer {
-            background: var(--imsa-dark);
-            color: white;
+            background: var(--darker);
+            padding: 4rem 2rem;
             text-align: center;
-            padding: 4rem 1rem;
-            margin-top: 5rem;
-            clip-path: polygon(0 10%, 100% 0, 100% 100%, 0% 100%);
+            border-top: 1px solid var(--gold);
             position: relative;
         }
         
@@ -683,16 +842,17 @@
         }
         
         .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
             position: relative;
             z-index: 1;
         }
         
         .footer-logo {
-            font-size: 2.5rem;
-            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold);
             margin-bottom: 1.5rem;
-            color: var(--imsa-gold);
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
         }
         
         .social-links {
@@ -703,17 +863,35 @@
         }
         
         .social-links a {
-            color: white;
+            color: var(--light);
             font-size: 1.5rem;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
         }
         
         .social-links a:hover {
-            transform: translateY(-5px) scale(1.2);
-            color: var(--imsa-gold);
+            color: var(--gold);
+            transform: translateY(-3px);
         }
         
+        .copyright {
+            color: rgba(248, 248, 248, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
         @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
             .grid-3col {
                 grid-template-columns: 1fr 1fr;
             }
@@ -729,12 +907,17 @@
         }
         
         @media (max-width: 768px) {
-            .grid-2col, .grid-3col {
-                grid-template-columns: 1fr;
+            .hero {
+                height: 70vh;
+                min-height: 500px;
             }
             
-            h1 {
-                font-size: 2.5rem;
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-content {
+                padding: 2rem;
             }
             
             h2 {
@@ -753,27 +936,63 @@
                 height: 280px;
             }
             
-            header, footer {
-                clip-path: none;
+            .grid-2col, .grid-3col {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                display: block;
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+            
+            .stats, .stats-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-bg"></div>
-        <div class="header-content">
-            <h1>IMSA WeatherTech Championship</h1>
-            <p class="subtitle">Элитные гонки на выносливость Северной Америки</p>
-            <div class="speed-meter">
-                <div class="speed-fill" id="headerSpeed"></div>
-            </div>
-        </div>
-    </header>
+    <div class="luxury-overlay"></div>
     
-    <div class="container">
+    <header>
+        <div class="logo-container">
+            <a href="#" class="logo">IMSA</a>
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="#about-imsa"><i class="fas fa-info-circle"></i> О чемпионате</a></li>
+                <li><a href="#car-classes"><i class="fas fa-car"></i> Классы</a></li>
+                <li><a href="#iconic-races"><i class="fas fa-flag-checkered"></i> Гонки</a></li>
+                <li><a href="#technology"><i class="fas fa-cogs"></i> Технологии</a></li>
+                <li><a href="#legends"><i class="fas fa-trophy"></i> Легенды</a></li>
+                <li><a href="#rules"><i class="fas fa-book"></i> Правила</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>IMSA WeatherTech Championship</h1>
+                <p>Элитные гонки на выносливость Северной Америки. Высокие технологии, адреналин и престиж.</p>
+                <div>
+                    <a href="#about-imsa" class="btn btn-primary"><i class="fas fa-play"></i> Узнать больше</a>
+                    <a href="#iconic-races" class="btn btn-secondary"><i class="fas fa-calendar-alt"></i> Календарь</a>
+                </div>
+            </div>
+        </section>
+        
         <!-- О IMSA -->
-        <section id="about-imsa">
+        <section id="about-imsa" class="section">
             <div class="section-header">
                 <h2>О чемпионате IMSA</h2>
             </div>
@@ -822,7 +1041,7 @@
         </section>
         
         <!-- Классы автомобилей -->
-        <section id="car-classes">
+        <section id="car-classes" class="section">
             <div class="section-header">
                 <h2>Типы автомобилей</h2>
             </div>
@@ -830,56 +1049,6 @@
                 <div class="content-block">
                     <p>Чемпионат IMSA WeatherTech SportsCar Championship включает несколько классов автомобилей, каждый со своими техническими характеристиками и особенностями. Это создает разнообразие и позволяет участвовать как заводским командам, так и частным коллективам.</p>
                 </div>
-                
-                <div class="track-map">
-                    <div class="lap-counter">Круг: <span id="lapCount">1</span>/10</div>
-                    <div class="speed-display">Скорость: <span id="speedValue">0</span> км/ч</div>
-                    <div class="track-path"></div>
-                    <div class="track-car"></div>
-                    <div id="raceFinished" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(10, 34, 64, 0.9); color: white; padding: 2rem; border-radius: 8px; text-align: center; z-index: 20;">
-                        <h3 style="color: var(--imsa-gold);">Заезд завершен!</h3>
-                        <p>Показательное круговое тестирование завершено</p>
-                        <button onclick="resetRace()" style="background: var(--imsa-red); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; margin-top: 1rem; cursor: pointer;">Запустить снова</button>
-                    </div>
-                    
-                    <!-- Чекпоинты -->
-                    <div class="checkpoint" style="top: 20%; left: 20%;" data-number="1">
-                        <div class="checkpoint-info">Старт/Финиш</div>
-                    </div>
-                    <div class="checkpoint" style="top: 20%; left: 80%;" data-number="2">
-                        <div class="checkpoint-info">Высокоскоростной поворот</div>
-                    </div>
-                    <div class="checkpoint" style="top: 50%; left: 80%;" data-number="3">
-                        <div class="checkpoint-info">Тормозная зона</div>
-                    </div>
-                    <div class="checkpoint" style="top: 50%; left: 50%;" data-number="4">
-                        <div class="checkpoint-info">Шикана</div>
-                    </div>
-                    <div class="checkpoint" style="top: 80%; left: 50%;" data-number="5">
-                        <div class="checkpoint-info">S-образные повороты</div>
-                    </div>
-                    <div class="checkpoint" style="top: 80%; left: 20%;" data-number="6">
-                        <div class="checkpoint-info">Зона обгона</div>
-                    </div>
-                    
-                    <div class="pit-stop">
-                        <i class="fas fa-gas-pump"></i>
-                    </div>
-                    
-                    <div class="driver-change">
-                        <i class="fas fa-user-friends"></i>
-                    </div>
-                    
-                    <!-- Траектория движения -->
-                    <svg width="100%" height="100%" style="position: absolute; top: 0; left: 0; z-index: 1;">
-                        <path d="M20%,20% L80%,20% L80%,50% L50%,50% L50%,80% L20%,80% Z" 
-                              stroke="rgba(227, 25, 55, 0.5)" 
-                              stroke-width="2" 
-                              fill="none"
-                              stroke-dasharray="5,3" />
-                    </svg>
-                </div>
-                
                 <div class="media-block">
                     <div class="media-text">
                         <h3>GTP (Grand Touring Prototype)</h3>
@@ -921,71 +1090,74 @@
                 <!-- Таблица текущих результатов -->
                 <div class="content-block">
                     <h3>Текущие результаты сезона (GTP класс)</h3>
-                    <table class="timing-table">
-                        <thead>
-                            <tr>
-                                <th>Поз.</th>
-                                <th>Команда</th>
-                                <th>Пилоты</th>
-                                <th>Шины</th>
-                                <th>Круги</th>
-                                <th>Время</th>
-                                <th>Отрыв</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="interactive-timing">
-                                <td class="position">1</td>
-                                <td class="team-name">Cadillac Racing</td>
-                                <td class="driver-name">Bourdais / van der Zande</td>
-                                <td><span class="tyre-icon tyre-medium">M</span></td>
-                                <td>245</td>
-                                <td class="lap-time">1:34.456</td>
-                                <td class="gap">-</td>
-                            </tr>
-                            <tr class="interactive-timing">
-                                <td class="position">2</td>
-                                <td class="team-name">Porsche Penske Motorsport</td>
-                                <td class="driver-name">Tandy / Jaminet</td>
-                                <td><span class="tyre-icon tyre-soft">S</span></td>
-                                <td>245</td>
-                                <td class="lap-time">1:34.678</td>
-                                <td class="gap">+2.222</td>
-                            </tr>
-                            <tr class="interactive-timing">
-                                <td class="position">3</td>
-                                <td class="team-name">BMW M Team RLL</td>
-                                <td class="driver-name">Eng / Farfus</td>
-                                <td><span class="tyre-icon tyre-hard">H</span></td>
-                                <td>244</td>
-                                <td class="lap-time">1:35.123</td>
-                                <td class="gap">+1 круг</td>
-                            </tr>
-                            <tr class="interactive-timing">
-                                <td class="position">4</td>
-                                <td class="team-name">Acura ARX-06</td>
-                                <td class="driver-name">Taylor / Albuquerque</td>
-                                <td><span class="tyre-icon tyre-medium">M</span></td>
-                                <td>244</td>
-                                <td class="lap-time">1:34.789</td>
-                                <td class="gap">+1 круг</td>
-                            </tr>
-                            <tr class="interactive-timing">
-                                <td class="position">5</td>
-                                <td class="team-name">Whelen Engineering Racing</td>
-                                <td class="driver-name">Derani / Sims</td>
-                                <td><span class="tyre-icon tyre-soft">S</span></td>
-                                <td>243</td>
-                                <td class="lap-time">1:34.901</td>
-                                <td class="gap">+2 круга</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Поз.</th>
+                                    <th>Команда</th>
+                                    <th>Пилоты</th>
+                                    <th>Шины</th>
+                                    <th>Круги</th>
+                                    <th>Время</th>
+                                    <th>Отрыв</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Cadillac Racing</td>
+                                    <td>Bourdais / van der Zande</td>
+                                    <td>M</td>
+                                    <td>245</td>
+                                    <td>1:34.456</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Porsche Penske Motorsport</td>
+                                    <td>Tandy / Jaminet</td>
+                                    <td>S</td>
+                                    <td>245</td>
+                                    <td>1:34.678</td>
+                                    <td>+2.222</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>BMW M Team RLL</td>
+                                    <td>Eng / Farfus</td>
+                                    <td>H</td>
+                                    <td>244</td>
+                                    <td>1:35.123</td>
+                                    <td>+1 круг</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Acura ARX-06</td>
+                                    <td>Taylor / Albuquerque</td>
+                                    <td>M</td>
+                                    <td>244</td>
+                                    <td>1:34.789</td>
+                                    <td>+1 круг</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Whelen Engineering Racing</td>
+                                    <td>Derani / Sims</td>
+                                    <td>S</td>
+                                    <td>243</td>
+                                    <td>1:34.901</td>
+                                    <td>+2 круга</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
         
-        <section id="driving-techniques">
+        <!-- Техники вождения -->
+        <section id="driving-techniques" class="section">
             <div class="section-header">
                 <h2>Техники вождения в гонках на выносливость</h2>
             </div>
@@ -1083,7 +1255,7 @@
 
 
         <!-- Легендарные гонки -->
-        <section id="iconic-races">
+        <section id="iconic-races" class="section">
             <div class="section-header">
                 <h2>Легендарные гонки</h2>
             </div>
@@ -1168,7 +1340,7 @@
         </section>
         
         <!-- Технологии -->
-        <section id="technology">
+        <section id="technology" class="section">
             <div class="section-header">
                 <h2>Технологии IMSA</h2>
             </div>
@@ -1204,10 +1376,10 @@
                         <div class="speed-fill" id="techComparison" style="width: 0%;"></div>
                     </div>
                     <div style="display: flex; justify-content: space-between;">
-                        <button id="showGtpTech" class="tech-button" style="background: var(--imsa-blue); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer;">GTP Технологии</button>
-                        <button id="showGtdTech" class="tech-button" style="background: var(--imsa-red); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer;">GTD Технологии</button>
+                        <button id="showGtpTech" class="btn btn-primary" style="padding: 0.5rem 1rem;">GTP Технологии</button>
+                        <button id="showGtdTech" class="btn btn-primary" style="padding: 0.5rem 1rem; background: var(--imsa-red);">GTD Технологии</button>
                     </div>
-                    <div id="techInfo" style="margin-top: 1.5rem; padding: 1.5rem; background: #f9f9f9; border-radius: 8px; display: none;">
+                    <div id="techInfo" style="margin-top: 1.5rem; padding: 1.5rem; background: var(--darker); border-radius: 8px; display: none;">
                         <h4 id="techTitle">Технологии GTP</h4>
                         <p id="techDescription">Выберите класс для отображения информации о технологиях</p>
                     </div>
@@ -1216,7 +1388,7 @@
         </section>
         
         <!-- Легенды IMSA -->
-        <section id="legends">
+        <section id="legends" class="section">
             <div class="section-header">
                 <h2>Легенды IMSA</h2>
             </div>
@@ -1269,12 +1441,16 @@
                         <img src="https://s3.us-east-2.amazonaws.com/prod.mm.com/img/carforsale/EsperanteGTR1Lead1.jpeg" alt="Panoz GTR-1">
                         <div class="photo-caption">Panoz GTR-1 с уникальным дизайном</div>
                     </div>
+                    <div class="photo-cell">
+                        <img src="https://a.d-cd.net/TiAAAgHDIeA-960.jpg" alt="Panoz GTR-1">
+                        <div class="photo-caption">Дух 70-х: IMSA Datsun 240z</div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Правила и регламент -->
-        <section id="rules">
+        <section id="rules" class="section">
             <div class="section-header">
                 <h2>Правила и регламент</h2>
             </div>
@@ -1283,12 +1459,7 @@
                     <p>IMSA имеет сложную систему правил, разработанную для обеспечения честной конкуренции между разными классами автомобилей и производителями.</p>
                 </div>
                 
-                <div class="rules-grid">
-                    <div class="rule-card">
-                        <h4>Баланс производительности (BoP)</h4>
-                        <p>Система, которая регулирует вес, мощность и аэродинамику автомобилей, чтобы выровнять их шансы на победу. BoP постоянно корректируется на основе данных с трассы.</p>
-                    </div>
-                    
+                <div class="rules-grid">  
                     <div class="rule-card">
                         <h4>Минимальное время пит-стопа</h4>
                         <p>Для GTP класса - 30 секунд, для GTD - 35 секунд. Включает время заправки, смены шин и пилотов. Нарушение карается штрафами.</p>
@@ -1333,8 +1504,8 @@
                 <!-- Фотогалерея технических аспектов -->
                 <div class="photo-grid">
                     <div class="photo-cell">
-                        <img src="https://cdn-1.motorsport.com/static/img/news/img-4452.jpg" alt="Баланс производительности">
-                        <div class="photo-caption">Процесс настройки BoP</div>
+                        <img src="https://cdn-7.motorsport.com/images/vmt/B6bZPKB6/s1/imsa-first-pitstop-for-zanard-1.jpg" alt="Баланс производительности">
+                        <div class="photo-caption">Пит-стоп</div>
                     </div>
                     <div class="photo-cell">
                         <img src="https://autosport.com.ru/files/styles/896x504/public/feature/2024/06/25/667704c19b68dd0011a882ab-04-scuderia-ferrari-spanish-gp-sat.jpg?itok=LyRayzt-" alt="Технический осмотр">
@@ -1348,12 +1519,16 @@
                         <img src="https://riapo.ru/upload/Fest/905.jpg" alt="Судейская коллегия">
                         <div class="photo-caption">Судейская коллегия IMSA</div>
                     </div>
+                    <div class="photo-cell">
+                        <img src="https://www.imsa.com/wp-content/uploads/sites/32/2023/08/04/GALSTAD-ROLEX-DIS-0123-02506b7_08042023-625x340.jpg" alt="Судейская коллегия">
+                        <div class="photo-caption">Стартовая линия</div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Исторические серии IMSA -->
-        <section id="historic-series">
+        <section id="historic-series" class="section">
             <div class="section-header">
                 <h2>Исторические серии IMSA</h2>
             </div>
@@ -1413,49 +1588,55 @@
                 </div>
             </div>
         </section>
-    </div>
+    </main>
     
     <footer>
         <div class="footer-content">
             <div class="footer-logo">IMSA</div>
             <p>International Motor Sports Association</p>
+            
             <div class="social-links">
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-youtube"></i></a>
             </div>
-            <p>© 2023 WeatherTech SportsCar Championship</p>
-            <p>Все права защищены</p>
+            
+            <p class="copyright">© 2023 WeatherTech SportsCar Championship. Все права защищены.</p>
         </div>
     </footer>
-
+    
     <script>
-        // Анимация при загрузке страницы
+        // Ожидаем полной загрузки DOM
         document.addEventListener('DOMContentLoaded', function() {
-            const animateItems = document.querySelectorAll('.content-block, .media-block');
-            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+    
+            // Animate elements when they come into view
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.style.opacity = 1;
-                        entry.target.style.transform = 'translateY(0)';
+                        entry.target.classList.add('animate');
                     }
                 });
-            }, { threshold: 0.1 });
-            
-            animateItems.forEach(item => {
-                item.style.opacity = 0;
-                item.style.transform = 'translateY(30px)';
-                item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(item);
+            }, {
+                threshold: 0.1
             });
-            
-            // Анимация спидометра в шапке
-            setTimeout(() => {
-                document.getElementById('headerSpeed').style.width = '100%';
-            }, 500);
-            
+    
+            document.querySelectorAll('.card, .section-header, .content-block, .media-block').forEach(el => {
+                observer.observe(el);
+            });
+    
             // Параллакс эффект для фоновых изображений
             window.addEventListener('scroll', function() {
                 const scrollPosition = window.pageYOffset;
@@ -1465,7 +1646,7 @@
                     headerBg.style.transform = 'translateY(' + scrollPosition * 0.5 + 'px)';
                 }
             });
-            
+    
             // Интерактивные элементы
             const statItems = document.querySelectorAll('.stat-item');
             statItems.forEach(item => {
@@ -1477,108 +1658,111 @@
                 });
             });
     
-            // Анимация трассы
-            let lapCount = 1;
-            const maxLaps = 10;
+            // Анимация трассы (если элементы существуют)
             const speedDisplay = document.getElementById('speedValue');
             const lapCounter = document.getElementById('lapCount');
             const raceFinished = document.getElementById('raceFinished');
             const trackCar = document.querySelector('.track-car');
-            let animationId;
-            
-            // Точки траектории (в % от размеров контейнера)
-            const pathPoints = [
-                { x: 20, y: 20 },  // Старт
-                { x: 80, y: 20 },  // Прямая
-                { x: 80, y: 50 },  // Поворот 1
-                { x: 50, y: 50 },  // Прямая
-                { x: 50, y: 80 },  // Поворот 2
-                { x: 20, y: 80 },  // Прямая
-                { x: 20, y: 20 }   // Финиш
-            ];
-            
-            // Скорости для разных участков трассы
-            const segmentSpeeds = [0, 340, 280, 210, 260, 190, 120];
-            
-            // Длина каждого сегмента
-            function calculateSegmentLengths() {
-                const lengths = [];
-                for (let i = 0; i < pathPoints.length - 1; i++) {
-                    const dx = pathPoints[i+1].x - pathPoints[i].x;
-                    const dy = pathPoints[i+1].y - pathPoints[i].y;
-                    lengths.push(Math.sqrt(dx*dx + dy*dy));
+    
+            if (speedDisplay && lapCounter && raceFinished && trackCar) {
+                let lapCount = 1;
+                const maxLaps = 10;
+                let animationId;
+    
+                // Точки траектории (в % от размеров контейнера)
+                const pathPoints = [
+                    { x: 20, y: 20 },  // Старт
+                    { x: 80, y: 20 },  // Прямая
+                    { x: 80, y: 50 },  // Поворот 1
+                    { x: 50, y: 50 },  // Прямая
+                    { x: 50, y: 80 },  // Поворот 2
+                    { x: 20, y: 80 },  // Прямая
+                    { x: 20, y: 20 }   // Финиш
+                ];
+    
+                // Скорости для разных участков трассы
+                const segmentSpeeds = [0, 340, 280, 210, 260, 190, 120];
+    
+                // Длина каждого сегмента
+                function calculateSegmentLengths() {
+                    const lengths = [];
+                    for (let i = 0; i < pathPoints.length - 1; i++) {
+                        const dx = pathPoints[i+1].x - pathPoints[i].x;
+                        const dy = pathPoints[i+1].y - pathPoints[i].y;
+                        lengths.push(Math.sqrt(dx*dx + dy*dy));
+                    }
+                    return lengths;
                 }
-                return lengths;
-            }
-            
-            const segmentLengths = calculateSegmentLengths();
-            const totalPathLength = segmentLengths.reduce((sum, len) => sum + len, 0);
-            
-            // Анимация движения
-            function animateCarAlongPath(startTime) {
-                const duration = 20000; // 20 секунд на полный круг
-                const elapsed = Date.now() - startTime;
-                const progress = (elapsed % duration) / duration;
-                
-                // Позиция вдоль всей трассы
-                let pathPosition = progress * totalPathLength;
-                let segmentIndex = 0;
-                let accumulatedLength = 0;
-                
-                // Находим текущий сегмент
-                while (pathPosition > accumulatedLength + segmentLengths[segmentIndex]) {
-                    accumulatedLength += segmentLengths[segmentIndex];
-                    segmentIndex++;
-                }
-                
-                // Прогресс внутри текущего сегмента
-                const segmentProgress = (pathPosition - accumulatedLength) / segmentLengths[segmentIndex];
-                
-                // Плавное изменение скорости
-                const currentSpeed = segmentSpeeds[segmentIndex];
-                const nextSpeed = segmentSpeeds[(segmentIndex + 1) % segmentSpeeds.length];
-                const speed = currentSpeed + (nextSpeed - currentSpeed) * segmentProgress;
-                speedDisplay.textContent = Math.round(speed);
-                
-                // Позиция машины
-                const startPoint = pathPoints[segmentIndex];
-                const endPoint = pathPoints[segmentIndex + 1] || pathPoints[0];
-                
-                const x = startPoint.x + (endPoint.x - startPoint.x) * segmentProgress;
-                const y = startPoint.y + (endPoint.y - startPoint.y) * segmentProgress;
-                
-                trackCar.style.left = x + '%';
-                trackCar.style.top = y + '%';
-                
-                // Проверка на завершение круга
-                if (segmentIndex === pathPoints.length - 2 && segmentProgress > 0.95) {
-                    const currentLap = Math.floor(elapsed / duration) + 1;
-                    if (currentLap !== lapCount) {
-                        lapCount = currentLap;
-                        lapCounter.textContent = lapCount;
-                        
-                        if (lapCount > maxLaps) {
-                            raceFinished.style.display = 'block';
-                            cancelAnimationFrame(animationId);
-                            return;
+    
+                const segmentLengths = calculateSegmentLengths();
+                const totalPathLength = segmentLengths.reduce((sum, len) => sum + len, 0);
+    
+                // Анимация движения
+                function animateCarAlongPath(startTime) {
+                    const duration = 20000; // 20 секунд на полный круг
+                    const elapsed = Date.now() - startTime;
+                    const progress = (elapsed % duration) / duration;
+    
+                    // Позиция вдоль всей трассы
+                    let pathPosition = progress * totalPathLength;
+                    let segmentIndex = 0;
+                    let accumulatedLength = 0;
+    
+                    // Находим текущий сегмент
+                    while (pathPosition > accumulatedLength + segmentLengths[segmentIndex]) {
+                        accumulatedLength += segmentLengths[segmentIndex];
+                        segmentIndex++;
+                    }
+    
+                    // Прогресс внутри текущего сегмента
+                    const segmentProgress = (pathPosition - accumulatedLength) / segmentLengths[segmentIndex];
+    
+                    // Плавное изменение скорости
+                    const currentSpeed = segmentSpeeds[segmentIndex];
+                    const nextSpeed = segmentSpeeds[(segmentIndex + 1) % segmentSpeeds.length];
+                    const speed = currentSpeed + (nextSpeed - currentSpeed) * segmentProgress;
+                    speedDisplay.textContent = Math.round(speed);
+    
+                    // Позиция машины
+                    const startPoint = pathPoints[segmentIndex];
+                    const endPoint = pathPoints[segmentIndex + 1] || pathPoints[0];
+    
+                    const x = startPoint.x + (endPoint.x - startPoint.x) * segmentProgress;
+                    const y = startPoint.y + (endPoint.y - startPoint.y) * segmentProgress;
+    
+                    trackCar.style.left = x + '%';
+                    trackCar.style.top = y + '%';
+    
+                    // Проверка на завершение круга
+                    if (segmentIndex === pathPoints.length - 2 && segmentProgress > 0.95) {
+                        const currentLap = Math.floor(elapsed / duration) + 1;
+                        if (currentLap !== lapCount) {
+                            lapCount = currentLap;
+                            lapCounter.textContent = lapCount;
+    
+                            if (lapCount > maxLaps) {
+                                raceFinished.style.display = 'block';
+                                cancelAnimationFrame(animationId);
+                                return;
+                            }
                         }
                     }
+    
+                    animationId = requestAnimationFrame(() => animateCarAlongPath(startTime));
                 }
-                
-                animationId = requestAnimationFrame(() => animateCarAlongPath(startTime));
-            }
-            
-            // Сброс гонки
-            window.resetRace = function() {
-                lapCount = 1;
-                lapCounter.textContent = lapCount;
-                raceFinished.style.display = 'none';
+    
+                // Сброс гонки
+                window.resetRace = function() {
+                    lapCount = 1;
+                    lapCounter.textContent = lapCount;
+                    raceFinished.style.display = 'none';
+                    animateCarAlongPath(Date.now());
+                };
+    
+                // Запуск анимации трассы
                 animateCarAlongPath(Date.now());
-            };
-            
-            // Запуск анимации трассы
-            animateCarAlongPath(Date.now());
-            
+            }
+    
             // Кнопки сравнения технологий
             const showGtpTech = document.getElementById('showGtpTech');
             const showGtdTech = document.getElementById('showGtdTech');
@@ -1586,46 +1770,56 @@
             const techTitle = document.getElementById('techTitle');
             const techDescription = document.getElementById('techDescription');
             const techComparison = document.getElementById('techComparison');
-            
-            showGtpTech.addEventListener('click', function() {
-                techInfo.style.display = 'block';
-                techTitle.textContent = 'Технологии GTP';
-                techDescription.textContent = 'GTP класс использует передовые гибридные системы с рекуперацией энергии при торможении. Эти автомобили оснащены активной аэродинамикой, включая регулируемые антикрылья и диффузоры. Системы управления энергопотреблением позволяют оптимизировать производительность на разных участках трассы.';
-                techComparison.style.width = '80%';
-                techComparison.style.background = 'linear-gradient(90deg, var(--imsa-blue), var(--imsa-gold))';
-            });
-            
-            showGtdTech.addEventListener('click', function() {
-                techInfo.style.display = 'block';
-                techTitle.textContent = 'Технологии GTD';
-                techDescription.textContent = 'GTD класс основан на серийных автомобилях с модификациями для гонок. Основные технологии включают улучшенные тормозные системы, облегченные кузова и доработанные двигатели. Аэродинамика оптимизирована для баланса между прижимной силой и сопротивлением. Электронные системы помогают пилотам контролировать автомобиль.';
-                techComparison.style.width = '60%';
-                techComparison.style.background = 'linear-gradient(90deg, var(--imsa-red), var(--imsa-gold))';
+    
+            if (showGtpTech && showGtdTech && techInfo && techTitle && techDescription && techComparison) {
+                showGtpTech.addEventListener('click', function() {
+                    techInfo.style.display = 'block';
+                    techTitle.textContent = 'Технологии GTP';
+                    techDescription.textContent = 'GTP класс использует передовые гибридные системы с рекуперацией энергии при торможении. Эти автомобили оснащены активной аэродинамикой, включая регулируемые антикрылья и диффузоры. Системы управления энергопотреблением позволяют оптимизировать производительность на разных участках трассы.';
+                    techComparison.style.width = '80%';
+                    techComparison.style.background = 'linear-gradient(90deg, var(--imsa-blue), var(--imsa-gold))';
+                });
+    
+                showGtdTech.addEventListener('click', function() {
+                    techInfo.style.display = 'block';
+                    techTitle.textContent = 'Технологии GTD';
+                    techDescription.textContent = 'GTD класс основан на серийных автомобилях с модификациями для гонок. Основные технологии включают улучшенные тормозные системы, облегченные кузова и доработанные двигатели. Аэродинамика оптимизирована для баланса между прижимной силой и сопротивлением. Электронные системы помогают пилотам контролировать автомобиль.';
+                    techComparison.style.width = '60%';
+                    techComparison.style.background = 'linear-gradient(90deg, var(--imsa-red), var(--imsa-gold))';
+                });
+            }
+    
+            // Функция для показа информации о гонках
+            function showRaceInfo(race) {
+                let title, description;
+    
+                switch(race) {
+                    case 'petit-lemans':
+                        title = 'Petit Le Mans';
+                        description = '10-часовая гонка на Road Atlanta является кульминацией сезона IMSA. Проводится с 1998 года, это американский аналог 24 часов Ле-Мана. Трасса сочетает высокоскоростные прямые и технические секции.';
+                        break;
+                    case 'watkins-glen':
+                        title = '6 часов Уоткинс-Глена';
+                        description = 'Проводится на легендарной трассе в штате Нью-Йорк с 1948 года. Быстрые повороты и изменения высот делают эту гонку одной из самых сложных в календаре.';
+                        break;
+                    case 'long-beach':
+                        title = 'Long Beach Grand Prix';
+                        description = 'Единственная уличная гонка в календаре IMSA. Проводится с 1975 года на временной трассе в Калифорнии. 100-минутный спринт требует максимальной концентрации от пилотов.';
+                        break;
+                    default:
+                        title = 'Гонка IMSA';
+                        description = 'Выберите гонку для получения подробной информации.';
+                }
+    
+                alert(`${title}\n\n${description}`);
+            }
+    
+            // Назначаем обработчики для интерактивных карточек гонок
+            document.querySelectorAll('.interactive-card[onclick]').forEach(card => {
+                const race = card.getAttribute('onclick').match(/'([^']+)'/)[1];
+                card.addEventListener('click', () => showRaceInfo(race));
             });
         });
-        
-        function showRaceInfo(race) {
-            let title, description;
-            
-            switch(race) {
-                case 'petit-lemans':
-                    title = 'Petit Le Mans';
-                    description = '10-часовая гонка на Road Atlanta является кульминацией сезона IMSA. Проводится с 1998 года, это американский аналог 24 часов Ле-Мана. Трасса сочетает высокоскоростные прямые и технические секции.';
-                    break;
-                case 'watkins-glen':
-                    title = '6 часов Уоткинс-Глена';
-                    description = 'Проводится на легендарной трассе в штате Нью-Йорк с 1948 года. Быстрые повороты и изменения высот делают эту гонку одной из самых сложных в календаре.';
-                    case 'long-beach':
-                    title = 'Long Beach Grand Prix';
-                    description = 'Единственная уличная гонка в календаре IMSA. Проводится с 1975 года на временной трассе в Калифорнии. 100-минутный спринт требует максимальной концентрации от пилотов.';
-                    break;
-                default:
-                    title = 'Гонка IMSA';
-                    description = 'Выберите гонку для получения подробной информации.';
-            }
-            
-            alert(`${title}\n\n${description}`);
-        }
     </script>
 </body>
 </html>

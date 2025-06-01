@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://translate.yandex.net/website-widget/v1/widget.js?widgetId=ytWidget&pageLang=en&widgetTheme=light&autoMode=false" async></script>
     <style>
         :root {
             --imsa-blue: #0a2240;
@@ -852,6 +853,96 @@
                 lastUpdateEl.textContent = `Последнее обновление: ${lastFetchTime.toLocaleTimeString('ru-RU', options)}`;
             }
         }
+
+        async function translateText(text, targetLang = 'ru') {
+    // В реальном проекте используйте официальный API Yandex.Translate
+    // Это демо-реализация, которая может не работать в продакшене
+    try {
+        const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`);
+        const data = await response.json();
+        return data[0][0][0];
+    } catch (error) {
+        console.error("Translation error:", error);
+        return text; // Возвращаем оригинальный текст в случае ошибки
+    }
+    }
+
+    async function processNewArticles(doc) {
+        const articles = doc.querySelectorAll('.card-news-item');
+        
+        if (articles.length === 0) return;
+        
+        let newArticles = [];
+        
+        for (const article of Array.from(articles)) {
+            const link = article.querySelector('a').href;
+            const title = article.querySelector('h3').textContent.trim();
+            const date = article.querySelector('.article-category').textContent.trim();
+            const excerpt = article.querySelector('.article-excerpt').textContent.trim();
+            const imgElem = article.querySelector('.card-news-image img');
+            
+            // Улучшение качества изображений
+            let imgSrc = imgElem.src;
+            if (config.highQualityImages) {
+                if (imgElem.dataset.src) {
+                    imgSrc = imgElem.dataset.src;
+                } else if (imgSrc.includes('-425x226.')) {
+                    imgSrc = imgSrc.replace('-425x226.', '-1200x675.');
+                } else if (imgSrc.includes('-300x200.')) {
+                    imgSrc = imgSrc.replace('-300x200.', '-1200x800.');
+                } else if (imgSrc.includes('-768x512.')) {
+                    imgSrc = imgSrc.replace('-768x512.', '-1200x800.');
+                }
+            }
+            
+            const exists = allArticles.some(a => a.link === link);
+            
+            if (!exists) {
+                const articleId = 'article-' + Math.random().toString(36).substr(2, 9);
+                
+                // Переводим заголовок и текст
+                const [translatedTitle, translatedExcerpt] = await Promise.all([
+                    translateText(title),
+                    translateText(excerpt)
+                ]);
+                
+                newArticles.push({
+                    id: articleId,
+                    link,
+                    title: translatedTitle,
+                    date,
+                    excerpt: translatedExcerpt,
+                    imgSrc,
+                    isNew: true,
+                    timestamp: new Date().toISOString(),
+                    originalTitle: title, // Сохраняем оригинал на случай необходимости
+                    originalExcerpt: excerpt
+                });
+            }
+        }
+        
+        // Остальной код функции остается без изменений
+        if (newArticles.length > 0) {
+            allArticles = [...newArticles, ...allArticles];
+            
+            if (allArticles.length > config.maxArticles) {
+                allArticles = allArticles.slice(0, config.maxArticles);
+            }
+            
+            if (displayedArticles === 0) {
+                displayedArticles = Math.min(config.articlesPerPage, allArticles.length);
+                renderArticles(allArticles.slice(0, displayedArticles));
+            } else {
+                renderArticles(allArticles.slice(0, displayedArticles));
+            }
+            
+            updatePopularNewsList();
+            
+            if (newArticles.length > 0) {
+                showNewArticlesNotification(newArticles.length);
+            }
+        }
+    }
     </script>
 </body>
 </html>

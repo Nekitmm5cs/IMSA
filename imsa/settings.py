@@ -47,8 +47,6 @@ INSTALLED_APPS = [
     'imsa_schedule',
     'imsa_world',
     'imsa_player',
-
-
     'imsa_news',
     'imsa_users',
 ]
