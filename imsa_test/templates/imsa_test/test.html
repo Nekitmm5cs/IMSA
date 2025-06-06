@@ -1,181 +1,1462 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интерактивный тест - Дрифт</title>
+    <title>Drift Master Challenge | 25 тестов</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Анимация для плавного переливания градиента */
-        @keyframes gradientAnimation {
-            0% {
-                background: linear-gradient(45deg, rgb(43, 43, 43), rgb(243, 173, 33));
-            }
-            50% {
-                background: linear-gradient(45deg, rgb(243, 173, 33), rgb(43, 43, 43));
-            }
-            100% {
-                background: linear-gradient(45deg, rgb(43, 43, 43), rgb(243, 173, 33));
-            }
+        :root {
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f8f8f8;
+            --gray: #2a2a2a;
+            --gold: #c5a467;
+            --gold-light: #d4b87c;
+            --gold-dark: #b08c54;
+            --accent: #e31937;
+            --drift-red: #E10600;
+            --drift-blue: #0a2240;
         }
-
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(45deg, rgb(43, 43, 43), rgb(243, 173, 33));
-            background-size: 300% 300%;
-            animation: gradientAnimation 10s ease infinite;
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+        }
+        
+        .luxury-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(18, 18, 18, 0.9), rgba(10, 10, 10, 0.95));
+            z-index: -1;
+        }
+        
+        header {
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--gold);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
             text-align: center;
-            padding: 20px;
-            overflow: hidden;
         }
-
-        .question-container {
-            position: absolute;
-            top: 20px; /* Устанавливаем верхнее расстояние от верхнего края */
-            left: 50%;
-            transform: translateX(-50%); /* Центрирование по горизонтали */
-            background-color: rgb(232, 169, 43);
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 50%;
-            padding: 20px;
+        
+        .subtitle {
+            font-size: 1rem;
+            color: rgba(248, 248, 248, 0.8);
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
-
-        button {
+        
+        .container {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 800px;
             margin-left: auto;
             margin-right: auto;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            border: none;
-            display: block;
-            background: linear-gradient(45deg, rgb(50, 205, 50), rgb(34, 139, 34)); /* Зеленый градиент */
+        }
+        
+        .test-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .test-item {
+            background: var(--gray);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--drift-red);
+            position: relative;
+        }
+        
+        .test-number {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--drift-red);
             color: white;
-            transition: opacity 0.3s ease;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
         }
-
-        button:hover {
-            opacity: 0.8;
+        
+        .test-question {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            font-weight: 600;
         }
-
-        #next-btn {
-            margin-top: 10px; /* Уменьшили отступ сверху */
+        
+        .test-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
         }
-
-        .feedback {
-            margin-top: -5px;
-            font-size: 20px;
+        
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--gold);
+            color: var(--light);
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+        
+        .option-btn:hover {
+            background: rgba(197, 164, 103, 0.2);
+        }
+        
+        .option-btn.selected {
+            background: rgba(225, 6, 0, 0.3);
+            border-color: var(--drift-red);
+        }
+        
+        .option-btn.correct {
+            background: rgba(0, 255, 0, 0.1);
+            border-color: green;
+        }
+        
+        .option-btn.incorrect {
+            background: rgba(255, 0, 0, 0.1);
+            border-color: darkred;
+        }
+        
+        .test-feedback {
+            font-size: 0.9rem;
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .test-feedback.correct {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid green;
+            color: lightgreen;
+            display: block;
+        }
+        
+        .test-feedback.incorrect {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid darkred;
+            color: pink;
+            display: block;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: var(--darker);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(197, 164, 103, 0.4);
+        }
+        
+        /* Стили для интерактивных тестов */
+        .hotspot-container {
+            width: 100%;
+            height: 150px;
+            background-color: var(--darker);
+            border: 1px solid var(--gold);
+            position: relative;
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hotspot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgba(225, 6, 0, 0.3);
+            border: 1px solid var(--drift-red);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hotspot:hover {
+            background: rgba(225, 6, 0, 0.7);
+        }
+        
+        .reaction-test {
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .reaction-area {
+            width: 100%;
+            height: 100px;
+            background-color: var(--darker);
+            border: 1px solid var(--gold);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .reaction-area.waiting {
+            color: var(--gold);
+        }
+        
+        .reaction-area.ready {
+            color: var(--drift-red);
             font-weight: bold;
         }
-
-        .correct-feedback {
-            color: green;
+        
+        .reaction-area.go {
+            color: limegreen;
+            font-weight: bold;
         }
-
-        .incorrect-feedback {
-            color: red;
+        
+        .reaction-result {
+            font-size: 0.9rem;
+            margin-top: 10px;
         }
-
-        .image-container {
-            position: relative;
-            display: inline-block;
-            width: 600px;
-            margin-top: 20px;
+        
+        .drag-drop-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
         }
-
-        .image-container img {
+        
+        .drag-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .drag-item {
+            background: var(--darker);
+            border: 1px dashed var(--gold);
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: move;
+            font-size: 0.9rem;
+        }
+        
+        .drop-zone {
+            min-height: 60px;
+            background: rgba(225, 6, 0, 0.05);
+            border: 1px dashed var(--drift-red);
+            padding: 10px;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .matched-pair {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid limegreen;
+            padding: 8px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .sequence-test {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        
+        .sequence-step {
+            background: var(--darker);
+            border: 1px solid var(--gold);
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .sequence-step.selected {
+            background: rgba(225, 6, 0, 0.3);
+            border-color: var(--drift-red);
+        }
+        
+        .sequence-step.correct {
+            background: rgba(0, 255, 0, 0.1);
+            border-color: limegreen;
+        }
+        
+        .slider-test {
+            margin: 15px 0;
+        }
+        
+        .slider {
             width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            background: var(--gray);
+            outline: none;
+            border-radius: 3px;
+            margin: 10px 0;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--drift-red);
+            cursor: pointer;
+        }
+        
+        .image-select-test {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+            justify-content: center;
+        }
+        
+        .car-option {
+            width: 45%;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .car-option.selected {
+            border: 2px solid var(--drift-red);
+            border-radius: 4px;
+        }
+        
+        .car-option.correct {
+            border: 2px solid limegreen;
+            border-radius: 4px;
+        }
+        
+        .car-image {
+            height: 80px;
+            background: var(--darker);
+            border: 1px solid var(--gold);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .progress-container {
+            background: var(--darker);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--gold);
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .progress-text {
+            color: var(--light);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: var(--gray);
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, var(--drift-red), var(--gold));
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .result-container {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: var(--gray);
+            border-radius: 8px;
+            border-left: 4px solid var(--gold);
+        }
+        
+        .result-title {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+        
+        .result-score {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .result-message {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        .restart-btn {
+            margin-top: 15px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .test-item {
+                padding: 15px;
+            }
+            
+            .car-option {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="question-container">
-        <h1 id="question-title">Вопрос</h1>
-        <p id="question-text">Найдите правильную точку на изображении</p>
+    <div class="luxury-overlay"></div>
+    
+    <header>
+        <a href="#" class="logo">DRIFT CHALLENGE</a>
+    </header>
+    
+     <div class="luxury-overlay"></div>
+    
+    <header>
+        <a href="#" class="logo">DRIFT CHALLENGE</a>
+    </header>
+    
+    <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drift Master Challenge | 25 тестов</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Ваши стили остаются без изменений */
+        /* ... */
+    </style>
+</head>
+<body>
+    <div class="luxury-overlay"></div>
+    
+    <header>
+        <a href="#" class="logo">DRIFT CHALLENGE</a>
+    </header>
+    
+    <div class="container">
+        <h1>Drift Master Challenge</h1>
+        <div class="subtitle">25 интерактивных вопросов на знание дрифта</div>
+        
+        <div class="test-list" id="testContainer">
+            <!-- Тест 1 - Обычный вопрос -->
+            <div class="test-item">
+                <div class="test-number">1</div>
+                <div class="test-question">Какой тип дифференциала чаще всего используется в дрифте?</div>
+                <div class="test-options">
+                    <div class="option-btn" data-correct="true">LSD (Limited Slip Differential)</div>
+                    <div class="option-btn" data-correct="false">Открытый дифференциал</div>
+                    <div class="option-btn" data-correct="false">Дифференциал Torsen</div>
+                    <div class="option-btn" data-correct="false">Электронный дифференциал</div>
+                </div>
+                <div class="test-feedback" id="feedback-1"></div>
+            </div>
+            
+            <!-- Тест 2 - Тест на реакцию -->
+            <div class="test-item">
+                <div class="test-number">2</div>
+                <div class="test-question">Нажмите на кнопку, когда она станет зеленой (тест на реакцию дрифтера):</div>
+                <div class="reaction-test">
+                    <div class="reaction-area waiting" id="reaction-area">Ждите сигнала...</div>
+                    <button class="btn btn-primary" id="start-reaction-btn">Начать тест</button>
+                    <div class="reaction-result" id="reaction-result"></div>
+                </div>
+                <div class="test-feedback" id="feedback-2"></div>
+            </div>
+            
+            <!-- Тест 3 - Hotspot тест -->
+            <div class="test-item">
+                <div class="test-number">3</div>
+                <div class="test-question">Кликните на гидравлический ручной тормоз в салоне автомобиля:</div>
+                <div class="hotspot-container">
+                    <i class="fas fa-car" style="font-size: 3rem; color: var(--gold);"></i>
+                    <div class="hotspot" style="top: 60%; left: 30%;" data-correct="false"></div>
+                    <div class="hotspot" style="top: 50%; left: 50%;" data-correct="true">
+                        <i class="fas fa-hand-paper" style="color: white; font-size: 0.8rem;"></i>
+                    </div>
+                    <div class="hotspot" style="top: 40%; left: 70%;" data-correct="false"></div>
+                </div>
+                <div class="test-feedback" id="feedback-3"></div>
+            </div>
+            
+            <!-- Тест 4 - Drag and Drop -->
+            <div class="test-item">
+                <div class="test-number">4</div>
+                <div class="test-question">Сопоставьте автомобили с их двигателями:</div>
+                <div class="drag-drop-container">
+                    <div class="drag-items">
+                        <div class="drag-item" draggable="true" data-item="car1">Nissan Silvia S15</div>
+                        <div class="drag-item" draggable="true" data-item="car2">Toyota Supra</div>
+                        <div class="drag-item" draggable="true" data-item="engine1">SR20DET</div>
+                        <div class="drag-item" draggable="true" data-item="engine2">2JZ-GTE</div>
+                    </div>
+                    <div class="drop-zone" id="drop-zone">
+                        <div style="font-size: 0.8rem; margin-bottom: 5px;">Перетащите сюда пары:</div>
+                        <div class="matched-pair" data-pair="car1-engine1">Nissan Silvia S15 - SR20DET</div>
+                        <div class="matched-pair" data-pair="car2-engine2">Toyota Supra - 2JZ-GTE</div>
+                    </div>
+                    <button class="btn btn-primary" id="check-drag-btn">Проверить</button>
+                </div>
+                <div class="test-feedback" id="feedback-4"></div>
+            </div>
+            
+            <!-- Тест 5 - Последовательность -->
+            <div class="test-item">
+                <div class="test-number">5</div>
+                <div class="test-question">Выберите правильную последовательность действий для выполнения дрифта:</div>
+                <div class="sequence-test" id="sequence-test">
+                    <div class="sequence-step" data-step="1">Вход в поворот</div>
+                    <div class="sequence-step" data-step="2">Резкое нажатие на газ</div>
+                    <div class="sequence-step" data-step="3">Контрруление</div>
+                    <div class="sequence-step" data-step="4">Сброс газа</div>
+                    <div class="sequence-step" data-step="5">Поддержание угла</div>
+                </div>
+                <button class="btn btn-primary" id="check-sequence-btn">Проверить</button>
+                <div class="test-feedback" id="feedback-5"></div>
+            </div>
+            
+            <!-- Тест 6 - Аудио тест -->
+            <div class="test-item">
+                <div class="test-number">6</div>
+                <div class="test-question">Какой это двигатель по звуку? (Включите аудио и выберите ответ)</div>
+                <div class="audio-test" style="margin: 15px 0; text-align: center;">
+                    <button class="btn btn-primary" id="play-sound-btn">
+                        <i class="fas fa-volume-up"></i> Включить звук
+                    </button>
+                    <audio id="engine-sound" src="https://www.soundjay.com/mechanical/sounds/car-starting-01.mp3"></audio>
+                </div>
+                <div class="test-options">
+                    <div class="option-btn" data-correct="false">RB26DETT (Nissan Skyline)</div>
+                    <div class="option-btn" data-correct="true">2JZ-GTE (Toyota Supra)</div>
+                    <div class="option-btn" data-correct="false">LS3 (Chevrolet Corvette)</div>
+                    <div class="option-btn" data-correct="false">4G63 (Mitsubishi Lancer)</div>
+                </div>
+                <div class="test-feedback" id="feedback-6"></div>
+            </div>
 
-        <!-- Картинка для вопроса -->
-        <div class="image-container">
-            <img id="question-image" src="" usemap="#car-map" alt="Question Image">
+            <!-- Тест 7 - Выбор траектории -->
+            <div class="test-item">
+                <div class="test-number">7</div>
+                <div class="test-question">Выберите правильную траекторию для дрифта на этом повороте:</div>
+                <div class="trajectory-test" style="margin: 15px 0; text-align: center;">
+                    <div style="position: relative; height: 150px; background-color: var(--darker); border: 1px solid var(--gold);">
+                        <div class="trajectory-option" style="position: absolute; top: 30%; left: 20%; width: 60%; height: 2px; background: white;"></div>
+                        <div class="trajectory-option correct" style="position: absolute; top: 50%; left: 20%; width: 60%; height: 2px; background: white; transform: skewY(-20deg);"></div>
+                        <div class="trajectory-option" style="position: absolute; top: 70%; left: 20%; width: 60%; height: 2px; background: white;"></div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="check-trajectory-btn">Проверить</button>
+                <div class="test-feedback" id="feedback-7"></div>
+            </div>
+
+            <!-- Тест 8 - Слайдер -->
+            <div class="test-item">
+                <div class="test-number">8</div>
+                <div class="test-question">Выберите оптимальный угол развала передних колес для дрифта:</div>
+                <div class="slider-test">
+                    <input type="range" min="-10" max="0" value="-2" class="slider" id="camber-slider">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                        <span>-10°</span>
+                        <span>-5°</span>
+                        <span>0°</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="check-slider-btn">Проверить</button>
+                <div class="test-feedback" id="feedback-8"></div>
+            </div>
+
+            <!-- Тест 9 - Ввод текста -->
+            <div class="test-item">
+                <div class="test-number">9</div>
+                <div class="test-question">Введите название техники дрифта, когда водитель резко бросает сцепление:</div>
+                <div style="margin: 15px 0;">
+                    <input type="text" id="technique-input" style="width: 100%; padding: 8px; background: var(--darker); border: 1px solid var(--gold); color: white; border-radius: 4px;">
+                </div>
+                <button class="btn btn-primary" id="check-text-btn">Проверить</button>
+                <div class="test-feedback" id="feedback-9"></div>
+            </div>
+
+            <!-- Тест 10 - Выбор на изображении -->
+            <div class="test-item">
+                <div class="test-number">10</div>
+                <div class="test-question">Выберите на изображении заднеприводный автомобиль:</div>
+                <div class="image-select-test">
+                    <div class="car-option" data-correct="false">
+                        <div class="car-image">
+                            <i class="fas fa-car" style="font-size: 2rem;"></i>
+                        </div>
+                        <div>Honda Civic</div>
+                    </div>
+                    <div class="car-option" data-correct="true">
+                        <div class="car-image">
+                            <i class="fas fa-car" style="font-size: 2rem;"></i>
+                        </div>
+                        <div>Nissan 240SX</div>
+                    </div>
+                    <div class="car-option" data-correct="false">
+                        <div class="car-image">
+                            <i class="fas fa-car" style="font-size: 2rem;"></i>
+                        </div>
+                        <div>Subaru Impreza</div>
+                    </div>
+                    <div class="car-option" data-correct="false">
+                        <div class="car-image">
+                            <i class="fas fa-car" style="font-size: 2rem;"></i>
+                        </div>
+                        <div>Mitsubishi Lancer</div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="check-image-btn">Проверить</button>
+                <div class="test-feedback" id="feedback-10"></div>
+            </div>
+
+            <!-- Тест 11 - Обычный вопрос -->
+            <div class="test-item">
+                <div class="test-number">11</div>
+                <div class="test-question">Как называется техника дрифта с использованием ручного тормоза?</div>
+                <div class="test-options">
+                    <div class="option-btn" data-correct="false">Power Over</div>
+                    <div class="option-btn" data-correct="false">Feint</div>
+                    <div class="option-btn" data-correct="true">E-Brake</div>
+                    <div class="option-btn" data-correct="false">Clutch Kick</div>
+                </div>
+                <div class="test-feedback" id="feedback-11"></div>
+            </div>
+
+            <!-- Тест 12 - Hotspot тест (2) -->
+            <div class="test-item">
+                <div class="test-number">12</div>
+                <div class="test-question">Кликните на спойлер, который действительно улучшает аэродинамику:</div>
+                <div class="hotspot-container">
+                    <i class="fas fa-car" style="font-size: 3rem; color: var(--gold);"></i>
+                    <div class="hotspot" style="top: 10%; left: 50%;" data-correct="false"></div>
+                    <div class="hotspot" style="top: 12%; left: 30%;" data-correct="true">
+                        <i class="fas fa-angle-double-up" style="color: white; font-size: 0.8rem;"></i>
+                    </div>
+                    <div class="hotspot" style="top: 15%; left: 70%;" data-correct="false"></div>
+                </div>
+                <div class="test-feedback" id="feedback-12"></div>
+            </div>
+
+            <!-- Тест 13 - Drag and Drop (2) -->
+            <div class="test-item">
+                <div class="test-number">13</div>
+                <div class="test-question">Сопоставьте стили дрифта с их описаниями:</div>
+                <div class="drag-drop-container">
+                    <div class="drag-items">
+                        <div class="drag-item" draggable="true" data-item="style1">Feint</div>
+                        <div class="drag-item" draggable="true" data-item="style2">Power Over</div>
+                        <div class="drag-item" draggable="true" data-item="desc1">Раскачка перед поворотом</div>
+                        <div class="drag-item" draggable="true" data-item="desc2">Избыточная мощность</div>
+                    </div>
+                    <div class="drop-zone" id="drop-zone-2">
+                        <div style="font-size: 0.8rem; margin-bottom: 5px;">Перетащите сюда пары:</div>
+                        <div class="matched-pair" data-pair="style1-desc1">Feint - Раскачка перед поворотом</div>
+                        <div class="matched-pair" data-pair="style2-desc2">Power Over - Избыточная мощность</div>
+                    </div>
+                    <button class="btn btn-primary" id="check-drag-btn-2">Проверить</button>
+                </div>
+                <div class="test-feedback" id="feedback-13"></div>
+            </div>
+
+            <!-- Тест 14 - Тест на скорость (2) -->
+            <div class="test-item">
+                <div class="test-number">14</div>
+                <div class="test-question">Быстро нажмите на кнопку 10 раз (тест на скорость реакции):</div>
+                <div class="speed-test" style="text-align: center; margin: 15px 0;">
+                    <button class="btn btn-primary" id="speed-test-btn">Нажми меня!</button>
+                    <div style="margin-top: 10px;">Счет: <span id="click-counter">0</span>/10</div>
+                    <div class="reaction-result" id="speed-test-result"></div>
+                </div>
+                <div class="test-feedback" id="feedback-14"></div>
+            </div>
+
+            <!-- Тест 15 - Выбор на изображении (2) -->
+            <div class="test-item">
+                <div class="test-number">15</div>
+                <div class="test-question">Выберите автомобиль с двигателем V8:</div>
+                <div class="image-select-test">
+                    <div class="car-option" data-correct="false">
+                        <div class="car-image">
+                            <i class="fas fa-car" style="font-size: 2rem;"></i>
+                        </div>
+                        <div>Nissan Silvia</div>
+                    </div>
+                    <div class="car-option" data-correct="true">
+                        <div class="car-image">
+                            <i class="fas fa-car" style="font-size: 2rem;"></i>
+                        </div>
+                        <div>Chevrolet Corvette</div>
+                    </div>
+                    <div class="car-option" data-correct="false">
+                        <div class="car-image">
+                            <i class="fas fa-car" style="font-size: 2rem;"></i>
+                        </div>
+                        <div>Mazda RX-7</div>
+                    </div>
+                    <div class="car-option" data-correct="false">
+                        <div class="car-image">
+                            <i class="fas fa-car" style="font-size: 2rem;"></i>
+                        </div>
+                        <div>Toyota AE86</div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="check-image-btn-2">Проверить</button>
+                <div class="test-feedback" id="feedback-15"></div>
+            </div>
+
+            <!-- Тест 16 - Обычный вопрос -->
+            <div class="test-item">
+                <div class="test-number">16</div>
+                <div class="test-question">Какой угол заноса считается оптимальным для дрифта?</div>
+                <div class="test-options">
+                    <div class="option-btn" data-correct="false">10-20°</div>
+                    <div class="option-btn" data-correct="true">30-45°</div>
+                    <div class="option-btn" data-correct="false">50-60°</div>
+                    <div class="option-btn" data-correct="false">70-90°</div>
+                </div>
+                <div class="test-feedback" id="feedback-16"></div>
+            </div>
+
+            <!-- Тест 17 - Hotspot тест (3) -->
+            <div class="test-item">
+                <div class="test-number">17</div>
+                <div class="test-question">Кликните на педаль газа:</div>
+                <div class="hotspot-container">
+                    <i class="fas fa-car-side" style="font-size: 3rem; color: var(--gold);"></i>
+                    <div class="hotspot" style="bottom: 20%; left: 30%;" data-correct="false"></div>
+                    <div class="hotspot" style="bottom: 20%; left: 50%;" data-correct="true">
+                        <i class="fas fa-gas-pump" style="color: white; font-size: 0.8rem;"></i>
+                    </div>
+                    <div class="hotspot" style="bottom: 20%; left: 70%;" data-correct="false"></div>
+                </div>
+                <div class="test-feedback" id="feedback-17"></div>
+            </div>
+
+            <!-- Тест 18 - Drag and Drop (3) -->
+            <div class="test-item">
+                <div class="test-number">18</div>
+                <div class="test-question">Сопоставьте детали с их назначением:</div>
+                <div class="drag-drop-container">
+                    <div class="drag-items">
+                        <div class="drag-item" draggable="true" data-item="part1">Койловеры</div>
+                        <div class="drag-item" draggable="true" data-item="part2">LSD</div>
+                        <div class="drag-item" draggable="true" data-item="desc1">Регулируемая подвеска</div>
+                        <div class="drag-item" draggable="true" data-item="desc2">Блокировка дифференциала</div>
+                    </div>
+                    <div class="drop-zone" id="drop-zone-3">
+                        <div style="font-size: 0.8rem; margin-bottom: 5px;">Перетащите сюда пары:</div>
+                        <div class="matched-pair" data-pair="part1-desc1">Койловеры - Регулируемая подвеска</div>
+                        <div class="matched-pair" data-pair="part2-desc2">LSD - Блокировка дифференциала</div>
+                    </div>
+                    <button class="btn btn-primary" id="check-drag-btn-3">Проверить</button>
+                </div>
+                <div class="test-feedback" id="feedback-18"></div>
+            </div>
+
+            <!-- Тест 19 - Тест на скорость (3) -->
+            <div class="test-item">
+                <div class="test-number">19</div>
+                <div class="test-question">Нажмите на кнопку 5 раз за 3 секунды:</div>
+                <div class="speed-test" style="text-align: center; margin: 15px 0;">
+                    <button class="btn btn-primary" id="speed-test-btn-2">Нажми меня!</button>
+                    <div style="margin-top: 10px;">Счет: <span id="click-counter-2">0</span>/5</div>
+                    <div class="reaction-result" id="speed-test-result-2"></div>
+                </div>
+                <div class="test-feedback" id="feedback-19"></div>
+            </div>
+
+            <!-- Тест 20 - Выбор на изображении (3) -->
+            <div class="test-item">
+                <div class="test-number">20</div>
+                <div class="test-question">Выберите автомобиль с роторным двигателем:</div>
+                <div class="image-select-test">
+                    <div class="car-option" data-correct="false">
+                        <div class="car-image">
+                            <i class="fas fa-car" style="font-size: 2rem;"></i>
+                        </div>
+                        <div>Toyota Supra</div>
+                    </div>
+                    <div class="car-option" data-correct="false">
+                        <div class="car-image">
+                            <i class="fas fa-car" style="font-size: 2rem;"></i>
+                        </div>
+                        <div>Nissan Skyline</div>
+                    </div>
+                    <div class="car-option" data-correct="true">
+                        <div class="car-image">
+                            <i class="fas fa-car" style="font-size: 2rem;"></i>
+                        </div>
+                        <div>Mazda RX-7</div>
+                    </div>
+                    <div class="car-option" data-correct="false">
+                        <div class="car-image">
+                            <i class="fas fa-car" style="font-size: 2rem;"></i>
+                        </div>
+                        <div>Honda S2000</div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="check-image-btn-3">Проверить</button>
+                <div class="test-feedback" id="feedback-20"></div>
+            </div>
+
+            <!-- Тест 21 - Обычный вопрос -->
+            <div class="test-item">
+                <div class="test-number">21</div>
+                <div class="test-question">Как называется соревнование по дрифту, где судьи оценивают стиль и технику?</div>
+                <div class="test-options">
+                    <div class="option-btn" data-correct="true">Formula Drift</div>
+                    <div class="option-btn" data-correct="false">Drift Time Attack</div>
+                    <div class="option-btn" data-correct="false">Drift Sprint</div>
+                    <div class="option-btn" data-correct="false">Drift Endurance</div>
+                </div>
+                <div class="test-feedback" id="feedback-21"></div>
+            </div>
+
+            <!-- Тест 22 - Hotspot тест (4) -->
+            <div class="test-item">
+                <div class="test-number">22</div>
+                <div class="test-question">Кликните на педаль сцепления:</div>
+                <div class="hotspot-container">
+                    <i class="fas fa-car-side" style="font-size: 3rem; color: var(--gold);"></i>
+                    <div class="hotspot" style="bottom: 20%; left: 20%;" data-correct="true">
+                        <i class="fas fa-pause" style="color: white; font-size: 0.8rem;"></i>
+                    </div>
+                    <div class="hotspot" style="bottom: 20%; left: 40%;" data-correct="false"></div>
+                    <div class="hotspot" style="bottom: 20%; left: 60%;" data-correct="false"></div>
+                </div>
+                <div class="test-feedback" id="feedback-22"></div>
+            </div>
+
+            <!-- Тест 23 - Drag and Drop (4) -->
+            <div class="test-item">
+                <div class="test-number">23</div>
+                <div class="test-question">Сопоставьте дрифтеров с их автомобилями:</div>
+                <div class="drag-drop-container">
+                    <div class="drag-items">
+                        <div class="drag-item" draggable="true" data-item="driver1">Кэйити Цутия</div>
+                        <div class="drag-item" draggable="true" data-item="driver2">Вонг Джун Бок</div>
+                        <div class="drag-item" draggable="true" data-item="car1">Nissan Silvia S15</div>
+                        <div class="drag-item" draggable="true" data-item="car2">Toyota Soarer</div>
+                    </div>
+                    <div class="drop-zone" id="drop-zone-4">
+                        <div style="font-size: 0.8rem; margin-bottom: 5px;">Перетащите сюда пары:</div>
+                        <div class="matched-pair" data-pair="driver1-car1">Кэйити Цутия - Nissan Silvia S15</div>
+                        <div class="matched-pair" data-pair="driver2-car2">Вонг Джун Бок - Toyota Soarer</div>
+                    </div>
+                    <button class="btn btn-primary" id="check-drag-btn-4">Проверить</button>
+                </div>
+                <div class="test-feedback" id="feedback-23"></div>
+            </div>
+
+            <!-- Тест 24 - Тест на скорость (4) -->
+            <div class="test-item">
+                <div class="test-number">24</div>
+                <div class="test-question">Нажмите на кнопку, когда услышите звук зажигания (включите звук):</div>
+                <div class="reaction-test">
+                    <audio id="ignition-sound" src="https://www.soundjay.com/mechanical/sounds/ignition-01.mp3"></audio>
+                    <div class="reaction-area waiting" id="ignition-area">Ждите звука зажигания...</div>
+                    <button class="btn btn-primary" id="start-ignition-btn">
+                        <i class="fas fa-volume-up"></i> Начать тест
+                    </button>
+                    <div class="reaction-result" id="ignition-result"></div>
+                </div>
+                <div class="test-feedback" id="feedback-24"></div>
+            </div>
+
+            <!-- Тест 25 - Финальный вопрос -->
+            <div class="test-item">
+                <div class="test-number">25</div>
+                <div class="test-question">Какой из этих автомобилей НЕ является иконой дрифта?</div>
+                <div class="test-options">
+                    <div class="option-btn" data-correct="false">Toyota AE86</div>
+                    <div class="option-btn" data-correct="false">Nissan 240SX</div>
+                    <div class="option-btn" data-correct="true">Honda Accord</div>
+                    <div class="option-btn" data-correct="false">Mazda RX-7</div>
+                </div>
+                <div class="test-feedback" id="feedback-25"></div>
+            </div>
         </div>
         
-        <!-- Картинка с кликаемыми зонами -->
-        <map name="car-map">
-            <area id="click-area" shape="rect" coords="370,88,410,150" alt="Answer" href="#" onclick="checkAnswer(true)">
-        </map>
-
-        <div class="feedback" id="feedback"></div>
-
-        <button class="next-button" id="next-btn" onclick="nextQuestion()">Следующий вопрос</button>
+        <!-- Прогресс и результаты -->
+        <div class="progress-container">
+            <div class="progress-text">Прогресс: <span id="progress-count">0</span>/25</div>
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+        </div>
+        
+        <div class="result-container" id="result-container">
+            <h2 class="result-title">Результаты теста</h2>
+            <div class="result-score" id="result-score">0/25</div>
+            <div class="result-message" id="result-message"></div>
+            <button class="btn btn-primary restart-btn" id="restart-btn">Пройти тест снова</button>
+        </div>
     </div>
 
     <script>
-        // Список вопросов
-        const questions = [
-            {
-                title: "Где находится ручник на автомобиле?",
-                image: "https://a.d-cd.net/7EAAAgH08-A-960.jpg",
-                coords: "370,88,410,150",  // Координаты правильной области
-            },
-            // Добавьте больше вопросов по мере необходимости
-        ];
-
-        let currentQuestion = 0;
-        let answered = false;
-
-        // Загружаем текущий вопрос
-        function loadQuestion(index) {
-            const question = questions[index];
-
-            // Скрыть изображение и обновить контент
-            const questionImage = document.getElementById("question-image");
-            questionImage.style.display = "none";
-
-            // Обновляем заголовок и картинку
-            document.getElementById("question-title").textContent = question.title;
-            document.getElementById("question-image").src = question.image;
-            document.getElementById("click-area").coords = question.coords;
-
-            // Показать картинку с задержкой
-            setTimeout(() => {
-                questionImage.style.display = "block";
-            }, 500);
-
-            document.getElementById("feedback").textContent = ""; // Очистить комментарии
-            answered = false; // Сбросить флаг
-            document.getElementById("next-btn").style.display = "none"; // Скрыть кнопку
+        // Общие переменные
+        let score = 0;
+        let answeredQuestions = 0;
+        const totalQuestions = 25;
+        
+        // Инициализация тестов
+        document.addEventListener('DOMContentLoaded', function() {
+            // Обработчики для обычных вопросов
+            document.querySelectorAll('.test-options .option-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const testItem = this.closest('.test-item');
+                    const testNumber = testItem.querySelector('.test-number').textContent;
+                    const feedback = testItem.querySelector('.test-feedback');
+                    
+                    // Сброс предыдущего выбора
+                    testItem.querySelectorAll('.option-btn').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    this.classList.add('selected');
+                    
+                    if (this.dataset.correct === 'true') {
+                        feedback.textContent = 'Правильно!';
+                        feedback.className = 'test-feedback correct';
+                    } else {
+                        feedback.textContent = 'Неправильно. Попробуйте еще раз.';
+                        feedback.className = 'test-feedback incorrect';
+                    }
+                    
+                    checkAnswer(this.dataset.correct === 'true', testNumber);
+                });
+            });
+            
+            // Тест на реакцию (2)
+            const reactionBtn = document.getElementById('start-reaction-btn');
+            const reactionArea = document.getElementById('reaction-area');
+            const reactionResult = document.getElementById('reaction-result');
+            
+            reactionBtn.addEventListener('click', function() {
+                this.disabled = true;
+                reactionArea.className = 'reaction-area waiting';
+                reactionArea.textContent = 'Ждите...';
+                reactionResult.textContent = '';
+                
+                const waitTime = 1000 + Math.random() * 4000;
+                
+                setTimeout(() => {
+                    reactionArea.className = 'reaction-area ready';
+                    reactionArea.textContent = 'ГОТОВО...';
+                    
+                    const startTime = Date.now();
+                    
+                    reactionArea.addEventListener('click', function reactClick() {
+                        const reactionTime = Date.now() - startTime;
+                        reactionArea.className = 'reaction-area go';
+                        reactionArea.textContent = 'Успех!';
+                        reactionResult.textContent = `Ваша реакция: ${reactionTime} мс`;
+                        
+                        // Оценка реакции
+                        let isCorrect = reactionTime < 500;
+                        checkAnswer(isCorrect, '2');
+                        
+                        const feedback = document.getElementById('feedback-2');
+                        if (isCorrect) {
+                            feedback.textContent = `Отличная реакция! (${reactionTime} мс)`;
+                            feedback.className = 'test-feedback correct';
+                        } else {
+                            feedback.textContent = `Можно быстрее! (${reactionTime} мс)`;
+                            feedback.className = 'test-feedback incorrect';
+                        }
+                        
+                        reactionArea.removeEventListener('click', reactClick);
+                    }, {once: true});
+                }, waitTime);
+            });
+            
+            // Hotspot тесты
+            document.querySelectorAll('.hotspot').forEach(spot => {
+                spot.addEventListener('click', function() {
+                    const testItem = this.closest('.test-item');
+                    const testNumber = testItem.querySelector('.test-number').textContent;
+                    const feedback = testItem.querySelector('.test-feedback');
+                    
+                    if (this.dataset.correct === 'true') {
+                        feedback.textContent = 'Правильный выбор!';
+                        feedback.className = 'test-feedback correct';
+                        checkAnswer(true, testNumber);
+                    } else {
+                        feedback.textContent = 'Неправильно, попробуйте еще раз';
+                        feedback.className = 'test-feedback incorrect';
+                        checkAnswer(false, testNumber);
+                    }
+                });
+            });
+            
+            // Drag and Drop тесты
+            setupDragDropTest('drop-zone', 'check-drag-btn', '4');
+            setupDragDropTest('drop-zone-2', 'check-drag-btn-2', '13');
+            setupDragDropTest('drop-zone-3', 'check-drag-btn-3', '18');
+            setupDragDropTest('drop-zone-4', 'check-drag-btn-4', '23');
+            
+            // Тесты на последовательность
+            setupSequenceTest('sequence-test', 'check-sequence-btn', '5', ['1', '4', '2', '3', '5']);
+            
+            // Аудио тест (6)
+            document.getElementById('play-sound-btn').addEventListener('click', function() {
+                document.getElementById('engine-sound').play();
+            });
+            
+            // Тест на траекторию (7)
+            document.getElementById('check-trajectory-btn').addEventListener('click', function() {
+                // В реальном приложении здесь была бы проверка выбора пользователя
+                const isCorrect = true; // Для демонстрации всегда правильно
+                checkAnswer(isCorrect, '7');
+                
+                const feedback = document.getElementById('feedback-7');
+                feedback.textContent = isCorrect ? 'Правильная траектория!' : 'Неправильно, изучите теорию дрифта';
+                feedback.className = isCorrect ? 'test-feedback correct' : 'test-feedback incorrect';
+            });
+            
+            // Слайдер тест (8)
+            document.getElementById('check-slider-btn').addEventListener('click', function() {
+                const value = parseInt(document.getElementById('camber-slider').value);
+                const isCorrect = value <= -3 && value >= -5; // Оптимальный угол -3° до -5°
+                checkAnswer(isCorrect, '8');
+                
+                const feedback = document.getElementById('feedback-8');
+                feedback.textContent = isCorrect 
+                    ? `Правильно! Выбран угол ${value}° (оптимально -3° до -5°)` 
+                    : `Выбрано ${value}° (оптимально -3° до -5°)`;
+                feedback.className = isCorrect ? 'test-feedback correct' : 'test-feedback incorrect';
+            });
+            
+            // Текстовый ввод (9)
+            document.getElementById('check-text-btn').addEventListener('click', function() {
+                const answer = document.getElementById('technique-input').value.toLowerCase();
+                const isCorrect = answer.includes('clutch kick') || answer.includes('кик сцепления');
+                checkAnswer(isCorrect, '9');
+                
+                const feedback = document.getElementById('feedback-9');
+                feedback.textContent = isCorrect 
+                    ? 'Правильно! Это техника Clutch Kick (кик сцепления)' 
+                    : 'Неправильно. Это техника Clutch Kick (кик сцепления)';
+                feedback.className = isCorrect ? 'test-feedback correct' : 'test-feedback incorrect';
+            });
+            
+            // Выбор на изображении (10, 15, 20)
+            setupImageSelectTest('check-image-btn', '10');
+            setupImageSelectTest('check-image-btn-2', '15');
+            setupImageSelectTest('check-image-btn-3', '20');
+            
+            // Тест на скорость кликов (14, 19)
+            setupSpeedTest('speed-test-btn', 'click-counter', 10, '14');
+            setupSpeedTest('speed-test-btn-2', 'click-counter-2', 5, '19');
+            
+            // Аудио тест на реакцию (24)
+            setupAudioReactionTest('start-ignition-btn', 'ignition-sound', 'ignition-area', 'ignition-result', '24');
+            
+            // Кнопка перезапуска теста
+            document.getElementById('restart-btn').addEventListener('click', function() {
+                location.reload();
+            });
+        });
+        
+        // Функция для настройки Drag and Drop тестов
+        function setupDragDropTest(dropZoneId, checkBtnId, questionNumber) {
+            const dropZone = document.getElementById(dropZoneId);
+            const checkBtn = document.getElementById(checkBtnId);
+            const feedback = document.getElementById(`feedback-${questionNumber}`);
+            
+            let draggedItem = null;
+            
+            // События для элементов, которые можно перетаскивать
+            document.querySelectorAll('.drag-item').forEach(item => {
+                item.addEventListener('dragstart', function() {
+                    draggedItem = this;
+                    setTimeout(() => this.style.opacity = '0.4', 0);
+                });
+                
+                item.addEventListener('dragend', function() {
+                    setTimeout(() => this.style.opacity = '1', 0);
+                });
+            });
+            
+            // События для зоны, куда можно перетаскивать
+            dropZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.backgroundColor = 'rgba(225, 6, 0, 0.1)';
+            });
+            
+            dropZone.addEventListener('dragleave', function() {
+                this.style.backgroundColor = '';
+            });
+            
+            dropZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.backgroundColor = '';
+                
+                if (draggedItem) {
+                    // Проверяем, что элемент еще не был перетащен
+                    if (!draggedItem.classList.contains('dragged')) {
+                        const clone = draggedItem.cloneNode(true);
+                        clone.classList.add('dragged');
+                        clone.draggable = false;
+                        this.appendChild(clone);
+                        draggedItem.style.display = 'none';
+                    }
+                }
+            });
+            
+            // Проверка ответа
+            checkBtn.addEventListener('click', function() {
+                const pairs = dropZone.querySelectorAll('.matched-pair');
+                let allCorrect = true;
+                
+                pairs.forEach(pair => {
+                    const isMatched = Array.from(dropZone.children).some(
+                        child => child.textContent === pair.textContent
+                    );
+                    
+                    if (isMatched) {
+                        pair.style.display = 'block';
+                    } else {
+                        allCorrect = false;
+                    }
+                });
+                
+                checkAnswer(allCorrect, questionNumber);
+                
+                if (allCorrect) {
+                    feedback.textContent = 'Все правильно! Отличное знание дрифта!';
+                    feedback.className = 'test-feedback correct';
+                } else {
+                    feedback.textContent = 'Есть ошибки. Проверьте свои ответы.';
+                    feedback.className = 'test-feedback incorrect';
+                    
+                    // Показываем правильные ответы
+                    pairs.forEach(pair => {
+                        pair.style.display = 'block';
+                    });
+                }
+            });
         }
-
-        // Проверка ответа
-        function checkAnswer(isCorrect) {
-            if (answered) return;
-
-            answered = true;
-            const feedback = document.getElementById("feedback");
-
-            if (isCorrect) {
-                feedback.textContent = "Вы ответили правильно!";
-                feedback.className = "feedback correct-feedback";
-
-                // Показать кнопку "Далее"
-                document.getElementById("next-btn").style.display = "block";
+        
+        // Функция для настройки тестов на последовательность
+        function setupSequenceTest(containerId, checkBtnId, questionNumber, correctSequence) {
+            const container = document.getElementById(containerId);
+            const checkBtn = document.getElementById(checkBtnId);
+            const steps = container.querySelectorAll('.sequence-step');
+            const feedback = document.getElementById(`feedback-${questionNumber}`);
+            
+            let selectedSteps = [];
+            
+            steps.forEach(step => {
+                step.addEventListener('click', function() {
+                    if (!this.classList.contains('selected')) {
+                        this.classList.add('selected');
+                        selectedSteps.push(this.dataset.step);
+                    }
+                });
+            });
+            
+            checkBtn.addEventListener('click', function() {
+                const isCorrect = selectedSteps.join('') === correctSequence.join('');
+                
+                if (isCorrect) {
+                    steps.forEach(step => {
+                        if (step.dataset.step === correctSequence[selectedSteps.indexOf(step.dataset.step)]) {
+                            step.classList.add('correct');
+                        }
+                    });
+                    
+                    feedback.textContent = 'Правильная последовательность!';
+                    feedback.className = 'test-feedback correct';
+                } else {
+                    feedback.textContent = 'Неправильная последовательность. Попробуйте еще раз.';
+                    feedback.className = 'test-feedback incorrect';
+                    
+                    // Сброс выбора
+                    steps.forEach(step => {
+                        step.classList.remove('selected');
+                    });
+                    selectedSteps = [];
+                }
+                
+                checkAnswer(isCorrect, questionNumber);
+            });
+        }
+        
+        // Функция для настройки тестов с выбором на изображении
+        function setupImageSelectTest(checkBtnId, questionNumber) {
+            const checkBtn = document.getElementById(checkBtnId);
+            const feedback = document.getElementById(`feedback-${questionNumber}`);
+            
+            const testItem = checkBtn.closest('.test-item');
+            const options = testItem.querySelectorAll('.car-option');
+            
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Сброс выбора в текущем вопросе
+                    options.forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    this.classList.add('selected');
+                });
+            });
+            
+            checkBtn.addEventListener('click', function() {
+                const selectedOption = testItem.querySelector('.car-option.selected');
+                let isCorrect = false;
+                
+                if (selectedOption) {
+                    isCorrect = selectedOption.dataset.correct === 'true';
+                    selectedOption.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+                
+                checkAnswer(isCorrect, questionNumber);
+                
+                if (isCorrect) {
+                    feedback.textContent = 'Правильный выбор!';
+                    feedback.className = 'test-feedback correct';
+                } else {
+                    feedback.textContent = 'Неправильно. Попробуйте еще раз.';
+                    feedback.className = 'test-feedback incorrect';
+                }
+            });
+        }
+        
+        // Функция для настройки тестов на скорость кликов
+        function setupSpeedTest(btnId, counterId, targetCount, questionNumber) {
+            const btn = document.getElementById(btnId);
+            const counter = document.getElementById(counterId);
+            const result = document.getElementById(btnId.includes('2') ? 'speed-test-result-2' : 'speed-test-result');
+            const feedback = document.getElementById(`feedback-${questionNumber}`);
+            
+            let clickCount = 0;
+            let startTime = 0;
+            
+            btn.addEventListener('click', function() {
+                if (clickCount === 0) {
+                    startTime = Date.now();
+                    setTimeout(() => {
+                        const timeTaken = (Date.now() - startTime) / 1000;
+                        const isCorrect = clickCount >= targetCount && timeTaken <= 3;
+                        
+                        checkAnswer(isCorrect, questionNumber);
+                        
+                        if (isCorrect) {
+                            result.textContent = `Успех! ${clickCount} кликов за ${timeTaken.toFixed(2)} сек`;
+                            feedback.textContent = `Отличная скорость! ${clickCount} кликов за ${timeTaken.toFixed(2)} сек`;
+                            feedback.className = 'test-feedback correct';
+                        } else {
+                            result.textContent = `Только ${clickCount} кликов за ${timeTaken.toFixed(2)} сек. Нужно ${targetCount} за 3 сек.`;
+                            feedback.textContent = `Попробуйте еще раз. Нужно ${targetCount} кликов за 3 секунды.`;
+                            feedback.className = 'test-feedback incorrect';
+                        }
+                        
+                        clickCount = 0;
+                        counter.textContent = '0';
+                        btn.disabled = false;
+                    }, 3000);
+                }
+                
+                clickCount++;
+                counter.textContent = clickCount;
+                
+                if (clickCount >= targetCount) {
+                    btn.disabled = true;
+                }
+            });
+        }
+        
+        // Функция для настройки аудио теста на реакцию
+        function setupAudioReactionTest(btnId, audioId, areaId, resultId, questionNumber) {
+            const btn = document.getElementById(btnId);
+            const audio = document.getElementById(audioId);
+            const area = document.getElementById(areaId);
+            const result = document.getElementById(resultId);
+            const feedback = document.getElementById(`feedback-${questionNumber}`);
+            
+            btn.addEventListener('click', function() {
+                this.disabled = true;
+                area.className = 'reaction-area waiting';
+                area.textContent = 'Слушайте внимательно...';
+                result.textContent = '';
+                
+                const waitTime = 1000 + Math.random() * 4000;
+                
+                setTimeout(() => {
+                    audio.play();
+                    const startTime = Date.now();
+                    
+                    area.addEventListener('click', function reactClick() {
+                        const reactionTime = Date.now() - startTime;
+                        area.className = 'reaction-area go';
+                        area.textContent = 'Успех!';
+                        result.textContent = `Ваша реакция: ${reactionTime} мс`;
+                        
+                        // Оценка реакции
+                        let isCorrect = reactionTime < 800;
+                        checkAnswer(isCorrect, questionNumber);
+                        
+                        if (isCorrect) {
+                            feedback.textContent = `Отличная реакция на звук! (${reactionTime} мс)`;
+                            feedback.className = 'test-feedback correct';
+                        } else {
+                            feedback.textContent = `Можно быстрее! (${reactionTime} мс)`;
+                            feedback.className = 'test-feedback incorrect';
+                        }
+                        
+                        area.removeEventListener('click', reactClick);
+                    }, {once: true});
+                }, waitTime);
+            });
+        }
+        
+        // Функция проверки ответа и обновления прогресса
+        function checkAnswer(isCorrect, questionNumber) {
+            // Находим элемент теста по номеру вопроса
+            const testItems = document.querySelectorAll('.test-item');
+            let testItem = null;
+            
+            for (let item of testItems) {
+                if (item.querySelector('.test-number').textContent === questionNumber) {
+                    testItem = item;
+                    break;
+                }
+            }
+            
+            if (!testItem) return;
+            
+            if (!testItem.classList.contains('answered')) {
+                if (isCorrect) {
+                    score++;
+                }
+                
+                answeredQuestions++;
+                testItem.classList.add('answered');
+                
+                updateProgress();
+                
+                // Если ответили на все вопросы, показать результаты
+                if (answeredQuestions === totalQuestions) {
+                    showResults();
+                }
+            }
+        }
+        
+        // Функция обновления прогресса
+        function updateProgress() {
+            document.getElementById('progress-count').textContent = answeredQuestions;
+            document.getElementById('progress-bar').style.width = `${(answeredQuestions / totalQuestions) * 100}%`;
+        }
+        
+        // Функция показа результатов
+        function showResults() {
+            const resultContainer = document.getElementById('result-container');
+            const resultScore = document.getElementById('result-score');
+            const resultMessage = document.getElementById('result-message');
+            
+            resultScore.textContent = `${score}/${totalQuestions}`;
+            
+            if (score === totalQuestions) {
+                resultMessage.textContent = 'Идеально! Вы настоящий мастер дрифта!';
+            } else if (score >= totalQuestions * 0.8) {
+                resultMessage.textContent = 'Отличный результат! Вы хорошо разбираетесь в дрифте.';
+            } else if (score >= totalQuestions * 0.6) {
+                resultMessage.textContent = 'Хороший результат, но есть куда расти.';
+            } else if (score >= totalQuestions * 0.4) {
+                resultMessage.textContent = 'Неплохо, но нужно изучить больше материала о дрифте.';
             } else {
-                feedback.textContent = "Вы ошиблись, попробуйте снова.";
-                feedback.className = "feedback incorrect-feedback";
+                resultMessage.textContent = 'Попробуйте еще раз и изучите основы дрифта.';
             }
+            
+            resultContainer.style.display = 'block';
+            setTimeout(() => {
+                resultContainer.scrollIntoView({behavior: 'smooth'});
+            }, 500);
         }
-
-        // Перейти к следующему вопросу
-        function nextQuestion() {
-            currentQuestion++;
-            if (currentQuestion >= questions.length) {
-                window.location.href = "{% url 'test2' %}";  // Переход на страницу 'test3'
-                return;
-            }
-            loadQuestion(currentQuestion); // Загружаем следующий вопрос
-        }
-
-        // Инициализация
-        loadQuestion(currentQuestion);
     </script>
 </body>
 </html>

@@ -1,20 +1,25 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMSA - Пилоты и команды 2024</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>IMSA Championship | Premium Motorsport</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&family=Oswald:wght@400;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f8f8f8;
+            --gray: #2a2a2a;
+            --gold: #c5a467;
+            --gold-light: #d4b87c;
+            --gold-dark: #b08c54;
+            --accent: #e31937;
             --imsa-blue: #0a2240;
             --imsa-red: #e31937;
             --imsa-gold: #d4af37;
-            --imsa-dark: #1a1a1a;
-            --imsa-light: #f8f9fa;
             --gtp-color: #e10600;
             --lmp2-color: #0055ff;
             --gtd-color: #00aa00;
@@ -22,62 +27,250 @@
         }
         
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
         
         body {
             font-family: 'Roboto Condensed', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
             line-height: 1.6;
-            color: var(--imsa-dark);
-            background-color: #f5f5f5;
-            font-size: 16px;
-            position: relative;
             overflow-x: hidden;
         }
         
-        .bg-overlay {
+        /* Luxury Overlay */
+        .luxury-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(10,34,64,0.05) 0%, rgba(227,25,55,0.05) 100%);
-            z-index: -2;
+            background: linear-gradient(135deg, rgba(18, 18, 18, 0.9), rgba(10, 10, 10, 0.95));
+            z-index: -1;
         }
         
-        .parallax-header {
-            position: relative;
-            height: 70vh;
-            min-height: 500px;
-            overflow: hidden;
+        /* Header */
+        header {
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--gold);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo-container {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-            padding: 0 2rem;
-            margin-bottom: 3rem;
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
         }
         
-        .parallax-bg {
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        /* Navigation */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            position: relative;
+            margin: 0 0.5rem;
+        }
+        
+        nav ul li a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.8rem 1.2rem;
+            border-radius: 4px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+        
+        nav ul li a i {
+            margin-right: 8px;
+            color: var(--gold);
+        }
+        
+        nav ul li a:hover {
+            color: var(--gold-light);
+            background: rgba(197, 164, 103, 0.1);
+        }
+        
+        /* Dropdown */
+        nav ul li ul {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--gray);
+            width: 220px;
+            padding: 0.5rem 0;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            transform: translateY(10px);
+            border: 1px solid rgba(197, 164, 103, 0.2);
+            border-top: none;
+        }
+        
+        nav ul li:hover ul {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        nav ul li ul li {
+            margin: 0;
+            width: 100%;
+        }
+        
+        nav ul li ul li a {
+            padding: 0.8rem 1.5rem;
+            width: 100%;
+            font-size: 0.9rem;
+            border-radius: 0;
+        }
+        
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            min-height: 600px;
+            background: 
+                linear-gradient(rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.5)),
+                url('https://sportscar365.com/wp-content/uploads/2024/01/GALSTAD-IMSA-R24-DIS-0124-0124-019373-2.jpg') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--gold);
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 3rem;
+            background: rgba(42, 42, 42, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            border: 1px solid rgba(197, 164, 103, 0.3);
+        }
+        
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            color: var(--light);
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 0.5rem;
+        }
+        
+        .btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: var(--darker);
+            box-shadow: 0 4px 15px rgba(197, 164, 103, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(197, 164, 103, 0.6);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(197, 164, 103, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        /* Sections */
+        .section {
+            margin-bottom: 5rem;
+            background: var(--gray);
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .section-header {
+            background: var(--imsa-red);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2.5rem;
+        }
+        
+        .section-header:before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://sportscar365.com/wp-content/uploads/2024/01/GALSTAD-IMSA-R24-DIS-0124-0124-019373-2.jpg') center/cover no-repeat;
-            z-index: -1;
-            filter: brightness(0.6);
+            background: linear-gradient(45deg, transparent 65%, rgba(255,255,255,0.2) 100%);
         }
         
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
+        .section-content {
+            padding: 2.5rem;
         }
         
         h1, h2, h3, h4 {
@@ -88,82 +281,41 @@
         
         h1 {
             font-size: 3.5rem;
-            margin-bottom: 1rem;
-            letter-spacing: 1px;
-            color: white;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-            line-height: 1.1;
-        }
-        
-        h1:after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: var(--imsa-gold);
-            margin: 1rem auto;
-            border-radius: 2px;
+            margin-bottom: 0.8rem;
+            letter-spacing: 1.5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
         h2 {
             font-size: 2.5rem;
-            color: white;
-            letter-spacing: 0.5px;
+            position: relative;
+            display: inline-block;
+            color: var(--gold);
         }
         
         h2:after {
             content: '';
-            display: block;
+            position: absolute;
+            bottom: -10px;
+            left: 0;
             width: 60px;
-            height: 3px;
-            background: var(--imsa-gold);
-            margin-top: 0.8rem;
-            border-radius: 2px;
+            height: 4px;
+            background: var(--gold);
         }
         
         h3 {
             font-size: 1.8rem;
-            color: var(--imsa-blue);
+            color: var(--gold-light);
         }
         
         h4 {
             font-size: 1.4rem;
-            color: var(--imsa-blue);
         }
         
         .subtitle {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             opacity: 0.9;
-            margin-bottom: 2rem;
-            font-weight: 400;
-            color: rgba(255,255,255,0.9);
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.4;
-        }
-        
-        .btn-main {
-            display: inline-block;
-            padding: 0.8rem 2rem;
-            background: var(--imsa-red);
-            color: white;
-            border-radius: 4px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            text-decoration: none;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            box-shadow: 0 3px 10px rgba(227, 25, 55, 0.3);
-        }
-        
-        .btn-main:hover {
-            background: var(--imsa-blue);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(10, 34, 64, 0.3);
+            margin-bottom: 1.5rem;
         }
         
         .container {
@@ -172,39 +324,48 @@
             padding: 0 1.5rem;
         }
         
-        section {
-            margin-bottom: 3rem;
-            background: white;
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .card {
+            background: var(--darker);
             border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             overflow: hidden;
             transition: var(--transition);
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(197, 164, 103, 0.2);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         }
         
-        section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(197, 164, 103, 0.2);
+            border-color: var(--gold);
         }
         
-        .section-header {
-            background: linear-gradient(135deg, var(--imsa-blue) 0%, #1a3a6a 100%);
-            color: white;
-            padding: 1.5rem 2rem;
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
         }
         
-        .section-content {
-            padding: 2rem;
+        .card-content {
+            padding: 1.5rem;
         }
         
-        .content-block {
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--gold-light);
+        }
+        
+        .card p {
+            color: rgba(248, 248, 248, 0.8);
             margin-bottom: 1.5rem;
-        }
-        
-        .content-block p {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #555;
         }
         
         /* Стили для раздела пилотов */
@@ -217,9 +378,9 @@
         
         .filter-btn {
             padding: 0.6rem 1.5rem;
-            border: 1px solid var(--imsa-blue);
-            background: white;
-            color: var(--imsa-blue);
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
             border-radius: 4px;
             cursor: pointer;
             transition: var(--transition);
@@ -228,8 +389,8 @@
         }
         
         .filter-btn:hover, .filter-btn.active {
-            background: var(--imsa-blue);
-            color: white;
+            background: var(--gold);
+            color: var(--darker);
             transform: translateY(-2px);
         }
         
@@ -240,7 +401,7 @@
         }
         
         .pilot-card {
-            background: white;
+            background: var(--darker);
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
@@ -248,11 +409,13 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            border: 1px solid rgba(197, 164, 103, 0.2);
         }
         
         .pilot-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            border-color: var(--gold);
         }
         
         .pilot-image-container {
@@ -301,7 +464,7 @@
         .pilot-name {
             font-size: 1.3rem;
             margin-bottom: 0.5rem;
-            color: var(--imsa-blue);
+            color: var(--gold-light);
             font-weight: 700;
         }
         
@@ -329,32 +492,33 @@
         }
         
         .stat-item {
-            background: #f8f9fa;
+            background: rgba(197, 164, 103, 0.1);
             padding: 0.8rem;
             border-radius: 6px;
             text-align: center;
             transition: var(--transition);
+            border: 1px solid rgba(197, 164, 103, 0.2);
         }
         
         .stat-item:hover {
-            background: var(--imsa-blue);
+            background: var(--gold);
         }
         
         .stat-item:hover .stat-value,
         .stat-item:hover .stat-label {
-            color: white;
+            color: var(--darker);
         }
         
         .stat-value {
             font-weight: bold;
             font-size: 1.2rem;
-            color: var(--imsa-blue);
+            color: var(--gold);
             transition: var(--transition);
         }
         
         .stat-label {
             font-size: 0.8rem;
-            color: #666;
+            color: rgba(248, 248, 248, 0.8);
             transition: var(--transition);
         }
         
@@ -362,8 +526,8 @@
             display: block;
             width: 100%;
             padding: 0.8rem;
-            background: var(--imsa-blue);
-            color: white;
+            background: var(--gold);
+            color: var(--darker);
             text-align: center;
             border: none;
             border-radius: 4px;
@@ -375,7 +539,7 @@
         }
         
         .view-profile:hover {
-            background: var(--imsa-red);
+            background: var(--gold-dark);
             transform: translateY(-2px);
         }
         
@@ -387,7 +551,7 @@
         }
         
         .team-card {
-            background: white;
+            background: var(--darker);
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
@@ -395,11 +559,13 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            border: 1px solid rgba(197, 164, 103, 0.2);
         }
         
         .team-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            border-color: var(--gold);
         }
         
         .team-logo-container {
@@ -408,7 +574,7 @@
             align-items: center;
             justify-content: center;
             padding: 1.5rem;
-            background: linear-gradient(135deg, #f9f9f9 0%, #e6e6e6 100%);
+            background: linear-gradient(135deg, rgba(42, 42, 42, 0.8), rgba(10, 10, 10, 0.9));
         }
         
         .team-logo {
@@ -432,7 +598,7 @@
         .team-name {
             font-size: 1.3rem;
             margin-bottom: 0.8rem;
-            color: var(--imsa-blue);
+            color: var(--gold-light);
             font-weight: 700;
         }
         
@@ -464,7 +630,7 @@
         .team-drivers {
             margin-top: 1rem;
             font-size: 0.9rem;
-            color: #555;
+            color: rgba(248, 248, 248, 0.8);
             flex-grow: 1;
         }
         
@@ -472,7 +638,7 @@
             display: block;
             margin-bottom: 0.5rem;
             padding-bottom: 0.5rem;
-            border-bottom: 1px dashed #eee;
+            border-bottom: 1px dashed rgba(197, 164, 103, 0.3);
         }
         
         .team-drivers span:last-child {
@@ -483,8 +649,8 @@
             display: block;
             width: 100%;
             padding: 0.8rem;
-            background: var(--imsa-blue);
-            color: white;
+            background: var(--gold);
+            color: var(--darker);
             text-align: center;
             border: none;
             border-radius: 4px;
@@ -496,7 +662,7 @@
         }
         
         .view-team:hover {
-            background: var(--imsa-red);
+            background: var(--gold-dark);
             transform: translateY(-2px);
         }
         
@@ -520,7 +686,7 @@
         }
         
         .modal-content {
-            background: white;
+            background: var(--darker);
             max-width: 900px;
             margin: 2rem auto;
             border-radius: 8px;
@@ -528,6 +694,7 @@
             transform: scale(0.95);
             transition: all 0.3s ease;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid var(--gold);
         }
         
         .modal.show .modal-content {
@@ -535,7 +702,7 @@
         }
         
         .modal-header {
-            background: linear-gradient(135deg, var(--imsa-blue) 0%, #1a3a6a 100%);
+            background: linear-gradient(135deg, var(--imsa-blue), #1a3a6a 100%);
             color: white;
             padding: 1.5rem;
             display: flex;
@@ -580,6 +747,7 @@
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             height: 300px;
+            border: 1px solid var(--gold);
         }
         
         .modal-pilot-image {
@@ -590,7 +758,7 @@
         }
         
         .modal-pilot-info h3 {
-            color: var(--imsa-blue);
+            color: var(--gold-light);
             font-size: 2rem;
             margin-bottom: 0.5rem;
         }
@@ -614,7 +782,7 @@
             margin-bottom: 1.5rem;
             line-height: 1.6;
             font-size: 1rem;
-            color: #555;
+            color: rgba(248, 248, 248, 0.8);
         }
         
         .modal-stats {
@@ -625,32 +793,33 @@
         }
         
         .modal-stat {
-            background: #f8f9fa;
+            background: rgba(197, 164, 103, 0.1);
             padding: 1rem;
             border-radius: 6px;
             text-align: center;
             transition: var(--transition);
+            border: 1px solid rgba(197, 164, 103, 0.2);
         }
         
         .modal-stat:hover {
-            background: var(--imsa-blue);
+            background: var(--gold);
         }
         
         .modal-stat:hover .modal-stat-value,
         .modal-stat:hover .modal-stat-label {
-            color: white;
+            color: var(--darker);
         }
         
         .modal-stat-value {
             font-size: 1.5rem;
             font-weight: bold;
-            color: var(--imsa-blue);
+            color: var(--gold);
             margin-bottom: 0.3rem;
         }
         
         .modal-stat-label {
             font-size: 0.9rem;
-            color: #666;
+            color: rgba(248, 248, 248, 0.8);
         }
         
         .modal-team {
@@ -665,9 +834,10 @@
             align-items: center;
             justify-content: center;
             padding: 2rem;
-            background: linear-gradient(135deg, #f9f9f9 0%, #e6e6e6 100%);
+            background: linear-gradient(135deg, rgba(42, 42, 42, 0.8), rgba(10, 10, 10, 0.9));
             border-radius: 8px;
             height: 250px;
+            border: 1px solid var(--gold);
         }
         
         .modal-team-logo {
@@ -677,7 +847,7 @@
         }
         
         .modal-team-info h3 {
-            color: var(--imsa-blue);
+            color: var(--gold-light);
             font-size: 2rem;
             margin-bottom: 0.5rem;
         }
@@ -695,7 +865,7 @@
             margin-bottom: 1.5rem;
             line-height: 1.6;
             font-size: 1rem;
-            color: #555;
+            color: rgba(248, 248, 248, 0.8);
         }
         
         .modal-team-details {
@@ -706,20 +876,21 @@
         }
         
         .team-detail {
-            background: #f8f9fa;
+            background: rgba(197, 164, 103, 0.1);
             padding: 1rem;
             border-radius: 6px;
+            border: 1px solid rgba(197, 164, 103, 0.2);
         }
         
         .team-detail-label {
             font-size: 0.8rem;
-            color: #666;
+            color: rgba(248, 248, 248, 0.6);
             margin-bottom: 0.3rem;
         }
         
         .team-detail-value {
             font-weight: 700;
-            color: var(--imsa-blue);
+            color: var(--gold);
             font-size: 1rem;
         }
         
@@ -732,6 +903,7 @@
             font-size: 1.4rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--imsa-red);
+            color: var(--gold-light);
         }
         
         .modal-team-driver {
@@ -739,7 +911,7 @@
             align-items: center;
             margin-bottom: 1rem;
             padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(197, 164, 103, 0.3);
         }
         
         .modal-team-driver:last-child {
@@ -752,34 +924,21 @@
             border-radius: 50%;
             object-fit: cover;
             margin-right: 15px;
-            border: 3px solid var(--imsa-blue);
+            border: 3px solid var(--gold);
         }
         
         .modal-team-driver-name {
             font-weight: 700;
-            color: var(--imsa-blue);
+            color: var(--gold-light);
             font-size: 1.1rem;
             margin-bottom: 0.2rem;
         }
         
         .modal-team-driver-number {
             font-size: 0.9rem;
-            color: #666;
+            color: rgba(248, 248, 248, 0.8);
         }
         
-        .modal-gallery {
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #eee;
-        }
-        
-        .modal-gallery h4 {
-            color: var(--imsa-blue);
-            margin-bottom: 1rem;
-            font-size: 1.4rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--imsa-red);
-        }
         
         .gallery-grid {
             display: grid;
@@ -827,8 +986,8 @@
             grid-template-columns: 60px 2fr 1fr 1.5fr;
             gap: 1rem;
             padding: 1rem;
-            background: white;
-            border-bottom: 1px solid #eee;
+            background: var(--darker);
+            border-bottom: 1px solid rgba(197, 164, 103, 0.3);
             font-size: 0.9rem;
         }
         
@@ -837,41 +996,43 @@
         }
         
         .schedule-item:hover {
-            background: #f8f9fa;
+            background: rgba(197, 164, 103, 0.1);
         }
         
         .schedule-round {
             font-weight: 700;
-            color: var(--imsa-blue);
+            color: var(--gold);
         }
         
         .schedule-event {
             font-weight: 600;
-            color: var(--imsa-dark);
+            color: var(--light);
         }
         
         .schedule-date {
-            color: #555;
+            color: rgba(248, 248, 248, 0.8);
         }
         
         .schedule-track {
-            color: #555;
+            color: rgba(248, 248, 248, 0.8);
         }
         
         /* Футер */
         footer {
-            background: linear-gradient(135deg, var(--imsa-blue) 0%, #0a1a30 100%);
+            background: linear-gradient(135deg, var(--imsa-blue), #0a1a30 100%);
             color: white;
             padding: 4rem 1rem 2rem;
             margin-top: 4rem;
             text-align: center;
+            border-top: 1px solid var(--gold);
         }
         
         .footer-logo {
-            font-family: 'Oswald', sans-serif;
+            font-family: 'Playfair Display', serif;
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
+            color: var(--gold);
         }
         
         .footer-slogan {
@@ -926,7 +1087,7 @@
         
         .footer-links a:hover {
             opacity: 1;
-            color: var(--imsa-gold);
+            color: var(--gold);
         }
         
         .footer-bottom {
@@ -966,7 +1127,7 @@
         }
         
         .scroll-top:hover {
-            background: var(--imsa-blue);
+            background: var(--gold);
             transform: translateY(-3px);
         }
         
@@ -1002,11 +1163,6 @@
                 font-size: 1.1rem;
             }
             
-            .parallax-header {
-                height: 60vh;
-                min-height: 400px;
-            }
-            
             .pilots-grid, .teams-grid {
                 grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             }
@@ -1024,6 +1180,10 @@
             }
             
             .schedule-track {
+                display: none;
+            }
+            
+            nav ul {
                 display: none;
             }
         }
@@ -1048,28 +1208,43 @@
     </style>
 </head>
 <body>
-    <div class="bg-overlay"></div>
-    <div class="bg-pattern"></div>
+    <div class="luxury-overlay"></div>
     
-    <!-- Параллакс шапка -->
-    <div class="parallax-header">
-        <div class="parallax-bg"></div>
-        <div class="header-content">
-            <h1>IMSA WeatherTech Championship</h1>
-            <p class="subtitle">Полный справочник пилотов, команд и календаря сезона 2024 года</p>
-            <a href="#pilots" class="btn-main">Начать просмотр</a>
+    <header>
+        <div class="logo-container">
+            <a href="#" class="logo">IMSA SportsCar Championship </a>
         </div>
-    </div>
-    
-    <div class="container">
+        
+        <nav>
+            <ul>
+                <li><a href="#pilots"><i class="fas fa-user"></i> Пилоты</a></li>
+                <li><a href="#teams"><i class="fas fa-users"></i> Команды</a></li>
+                <li><a href="#about"><i class="fas fa-info-circle"></i> О чемпионате</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>IMSA WeatherTech Championship</h1>
+                <p>Элитные гонки на выносливость Северной Америки. Высокие технологии, адреналин и престиж.</p>
+                <div>
+                    <a href="#pilots" class="btn btn-primary"><i class="fas fa-user"></i> Пилоты</a>
+                    <a href="#teams" class="btn btn-secondary"><i class="fas fa-users"></i> Команды</a>
+                </div>
+            </div>
+        </section>
+        
         <!-- Справочник пилотов -->
-        <section id="pilots" class="animated">
+        <section id="pilots" class="section">
             <div class="section-header">
                 <h2>Справочник пилотов</h2>
             </div>
             <div class="section-content">
                 <div class="content-block">
-                    <p>Лучшие пилоты чемпионата IMSA WeatherTech SportsCar Championship 2024 года. Узнайте статистику, достижения и биографии гонщиков, выступающих в различных классах серии. Нажмите на карточку пилота для просмотра подробной информации.</p>
+                    <p>Лучшие пилоты чемпионата IMSA SportsCar Championship 2024 года. Узнайте статистику, достижения и биографии гонщиков, выступающих в различных классах серии. Нажмите на карточку пилота для просмотра подробной информации.</p>
                 </div>
                 
                 <div class="pilots-filter">
@@ -1086,7 +1261,7 @@
         </section>
         
         <!-- Справочник команд -->
-        <section id="teams" class="animated">
+        <section id="teams" class="section">
             <div class="section-header">
                 <h2>Команды чемпионата</h2>
             </div>
@@ -1101,7 +1276,32 @@
             </div>
         </section>
         
-        
+
+        <!-- О чемпионате -->
+        <section id="about" class="section">
+            <div class="section-header">
+                <h2>О чемпионате IMSA</h2>
+            </div>
+            <div class="section-content">
+                <div class="content-block">
+                    <p>Международная ассоциация моторного спорта (IMSA) организует престижнейшие гонки на выносливость в Северной Америке. Флагманская серия - WeatherTech SportsCar Championship, включающая легендарные 24 часа Дайтоны, 12 часов Себринга и Petit Le Mans.</p>
+                    <p>Основанная в 1969 году Джоном Бишопом, IMSA объединила несколько автоспортивных серий под одним брендом. Сегодня чемпионат является партнером Automobile Club de l'Ouest (организатора 24 часов Ле-Мана) и частью системы FIA World Endurance Championship.</p>
+                </div>
+                
+                <div class="content-block">
+                    <h3>Уникальный формат гонок</h3>
+                    <p>Отличительная особенность IMSA - мультиклассовые гонки, где разные типы автомобилей соревнуются одновременно на одной трассе. Это создает уникальные тактические ситуации и требует от пилотов особого мастерства.</p>
+                    <p>Гонки длятся от 1 часа 40 минут до 24 часов, проверяя на прочность как технику, так и команды. В чемпионате четыре основных класса: GTP, LMP2, GTD Pro и GTD.</p>
+                </div>
+                
+                <div class="content-block">
+                    <h3>Полигон для инноваций</h3>
+                    <p>IMSA служит испытательной площадкой для передовых автомобильных технологий. Многие разработки, опробованные в гонках, позже находят применение в дорожных автомобилях.</p>
+                    <p>Особое внимание уделяется экологичности - гибридные системы GTP класса, устойчивое топливо, системы рекуперации энергии. При этом сохраняется зрелищность и высокие скорости.</p>
+                </div>
+            </div>
+        </section>
+    </main>
     
     <!-- Модальное окно пилота -->
     <div class="modal" id="pilotModal">
@@ -1141,21 +1341,6 @@
                                 <div class="modal-stat-value" id="modalPilotPoles">9</div>
                                 <div class="modal-stat-label">Поулов</div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="modal-gallery">
-                    <h4>Фотогалерея</h4>
-                    <div class="gallery-grid" id="pilotGallery">
-                        <div class="gallery-item">
-                            <img src="https://sportscar365.com/wp-content/uploads/2023/01/Renger-van-der-Zande-2022-Petit-Le-Mans-S365-002.jpg" alt="Пилот">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="https://sportscar365.com/wp-content/uploads/2022/01/Renger-van-der-Zande-2022-Daytona-24-S365-001.jpg" alt="Пилот">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="https://sportscar365.com/wp-content/uploads/2021/11/Renger-van-der-Zande-2021-Petit-Le-Mans-S365-001.jpg" alt="Пилот">
                         </div>
                     </div>
                 </div>
@@ -1220,50 +1405,17 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="modal-gallery">
-                    <h4>Фотогалерея</h4>
-                    <div class="gallery-grid" id="teamGallery">
-                        <div class="gallery-item">
-                            <img src="https://sportscar365.com/wp-content/uploads/2023/01/Cadillac-V-Series-R-2023-S365-001.jpg" alt="Команда">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="https://sportscar365.com/wp-content/uploads/2023/01/Cadillac-V-Series-R-2023-S365-002.jpg" alt="Команда">
-                        </div>
-                        <div class="gallery-item">
-                            <img src="https://sportscar365.com/wp-content/uploads/2023/01/Cadillac-V-Series-R-2023-S365-003.jpg" alt="Команда">
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
     
     <footer>
-        <div class="footer-bg"></div>
-        <div class="footer-content">
-            <div class="footer-logo">IMSA</div>
-            <p class="footer-slogan">Международная ассоциация автоспорта - ведущая организация, управляющая спортивными автомобильными гонками в Северной Америке</p>
-            
-            <div class="social-links">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-            </div>
-            
-            <div class="footer-links">
-                <a href="#">О чемпионате</a>
-                <a href="#">Новости</a>
-                <a href="#">Результаты</a>
-                <a href="#">Медиа</a>
-                <a href="#">Контакты</a>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>© 2024 WeatherTech SportsCar Championship. Все права защищены.</p>
-                <p>Официальный сайт: <a href="https://www.imsa.com" style="color: var(--imsa-gold);">www.imsa.com</a></p>
-            </div>
+        <div class="footer-logo">IMSA</div>
+        <p class="footer-slogan">Международная ассоциация автоспорта - ведущая организация, управляющая спортивными автомобильными гонками в Северной Америке</p>
+        
+        <div class="footer-bottom">
+            <p>© 2024 WeatherTech SportsCar Championship. Все права защищены.</p>
+            <p>Официальный сайт: <a href="https://www.imsa.com" style="color: var(--gold);">www.imsa.com</a></p>
         </div>
     </footer>
 
@@ -1284,7 +1436,7 @@
                 teamLogo: "https://www.cadillac.com/content/dam/cadillac/na/us/english/index/racing-heritage/new-images/24-cadillac-performance-racing-heritage-cts-v-r-era.jpg?imwidth=1200",
                 class: "gtp",
                 number: 1,
-                image: "https://f1report.ru/img/newsf1/2020/09/186616122234.jpg",
+                image: "imsa_player/images/renger.png",
                 starts: 87,
                 wins: 14,
                 podiums: 38,
@@ -1567,54 +1719,7 @@
                     "https://sportscar365.com/wp-content/uploads/2020/01/BMW-M8-GTE-2020-S365-001.jpg"
                 ]
             },
-            {
-                id: 5,
-                name: "PR1/Mathiasen Motorsports",
-                fullName: "PR1/Mathiasen Motorsports",
-                class: "lmp2",
-                logo: "https://sportscar365.com/wp-content/uploads/2023/01/LMP2-Logo.png",
-                founded: 1997,
-                base: "Вудленд-Хиллз, Калифорния, США",
-                director: "Бобби Ореггеро",
-                bestResult: "Чемпион IMSA 2021 (LMP2)",
-                description: "Одна из самых успешных команд в классе LMP2, чемпион 2021 года. Использует Oreca 07-Gibson. Известна развитием молодых талантов. Команда базируется в Калифорнии и участвует в IMSA с 2014 года. Oreca 07 - это проверенная платформа, доминирующая в классе LMP2. Команда особенно сильна в длинных гонках на выносливость.",
-                drivers: [
-                    { id: 5, name: "Бен Китинг", number: 52, image: "https://sportscar365.com/wp-content/uploads/2023/01/Ben-Keating-2022-Petit-Le-Mans-S365-001.jpg" },
-                    { name: "Пол-Лу Шатен", number: 52, image: "https://sportscar365.com/wp-content/uploads/2023/01/Paul-Loup-Chatin-2022-Petit-Le-Mans-S365-001.jpg" }
-                ],
-                gallery: [
-                    "https://sportscar365.com/wp-content/uploads/2023/01/PR1-Mathiasen-Oreca-2023-S365-001.jpg",
-                    "https://sportscar365.com/wp-content/uploads/2023/01/PR1-Mathiasen-Oreca-2023-S365-002.jpg",
-                    "https://sportscar365.com/wp-content/uploads/2023/01/PR1-Mathiasen-Oreca-2023-S365-003.jpg",
-                    "https://sportscar365.com/wp-content/uploads/2022/01/PR1-Mathiasen-Oreca-2022-S365-001.jpg",
-                    "https://sportscar365.com/wp-content/uploads/2021/01/PR1-Mathiasen-Oreca-2021-S365-001.jpg",
-                    "https://sportscar365.com/wp-content/uploads/2020/01/PR1-Mathiasen-Oreca-2020-S365-001.jpg"
-                ]
-            },
-            {
-                id: 6,
-                name: "Corvette Racing",
-                fullName: "Corvette Racing by Pratt Miller Motorsports",
-                class: "gtd",
-                logo: "https://sportscar365.com/wp-content/uploads/2023/01/Corvette-Logo.png",
-                founded: 1999,
-                base: "Плимут, Мичиган, США",
-                director: "Дуг Фини",
-                bestResult: "Многократный чемпион IMSA (GTLM/GTD)",
-                description: "Легендарная заводская команда Chevrolet, перешедшая в 2023 в GTD Pro с новым Corvette C8.R. Многократный чемпион в GT-классах с более чем 100 победами. Corvette C8.R - это первая среднедвигательная версия гоночного Corvette. Команда известна своей долгой историей успеха и преданностью американским технологиям. В 2023 году расширила программу до участия в WEC.",
-                drivers: [
-                    { id: 6, name: "Джордан Тейлор", number: 3, image: "https://sportscar365.com/wp-content/uploads/2023/01/Jordan-Taylor-2022-Petit-Le-Mans-S365-001.jpg" },
-                    { name: "Антонио Гарсия", number: 3, image: "https://sportscar365.com/wp-content/uploads/2023/01/Antonio-Garcia-2022-Petit-Le-Mans-S365-001.jpg" }
-                ],
-                gallery: [
-                    "https://sportscar365.com/wp-content/uploads/2023/01/Corvette-C8.R-2023-S365-001.jpg",
-                    "https://sportscar365.com/wp-content/uploads/2023/01/Corvette-C8.R-2023-S365-002.jpg",
-                    "https://sportscar365.com/wp-content/uploads/2023/01/Corvette-C8.R-2023-S365-003.jpg",
-                    "https://sportscar365.com/wp-content/uploads/2022/01/Corvette-C8.R-2022-S365-001.jpg",
-                    "https://sportscar365.com/wp-content/uploads/2021/01/Corvette-C8.R-2021-S365-001.jpg",
-                    "https://sportscar365.com/wp-content/uploads/2020/01/Corvette-C8.R-2020-S365-001.jpg"
-                ]
-            }
+
         ];
 
         // Инициализация страницы
@@ -1687,6 +1792,19 @@
                 if (sectionTop < windowHeight - 100) {
                     section.classList.add('animated');
                 }
+            });
+            
+            // Smooth scrolling для навигации
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
             });
         });
         
@@ -1793,16 +1911,6 @@
             document.getElementById('modalPilotPodiums').textContent = pilot.podiums;
             document.getElementById('modalPilotPoles').textContent = pilot.poles;
             
-            // Заполнение галереи
-            const gallery = document.getElementById('pilotGallery');
-            gallery.innerHTML = '';
-            pilot.gallery.forEach(img => {
-                const item = document.createElement('div');
-                item.className = 'gallery-item';
-                item.innerHTML = `<img src="${img}" alt="${pilot.name}">`;
-                gallery.appendChild(item);
-            });
-            
             const modal = document.getElementById('pilotModal');
             modal.style.display = 'block';
             setTimeout(() => {
@@ -1889,6 +1997,8 @@
                 document.body.style.overflow = 'auto';
             }, 300);
         }
+
+        
     </script>
 </body>
 </html>

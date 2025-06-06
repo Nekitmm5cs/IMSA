@@ -4,462 +4,756 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Турнирная таблица гонок</title>
+    <title>IMSA Championship | Турнирная таблица</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&family=Oswald:wght@400;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #121212;
-            color: #fff;
+        :root {
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f8f8f8;
+            --gray: #2a2a2a;
+            --gold: #c5a467;
+            --gold-light: #d4b87c;
+            --gold-dark: #b08c54;
+            --accent: #e31937;
+            --imsa-blue: #0a2240;
+            --imsa-red: #e31937;
+            --imsa-gold: #d4af37;
+            --gtp-color: #e10600;
+            --lmp2-color: #0055ff;
+            --gtd-color: #00aa00;
+            --gtd-pro: #aa00aa;
+        }
+        
+        * {
             margin: 0;
-            padding: 20px;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), 
-                              url('https://images.unsplash.com/photo-1543351611-58f69d7c1781?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-attachment: fixed;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        h2 {
+        
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Luxury Overlay */
+        .luxury-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(18, 18, 18, 0.9), rgba(10, 10, 10, 0.95));
+            z-index: -1;
+        }
+        
+        /* Header */
+        header {
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--gold);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        /* Главное меню */
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-toggle:hover {
+            background: rgba(197, 164, 103, 0.1);
+        }
+        
+        .menu-toggle i {
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-toggle.active i {
+            transform: rotate(180deg);
+        }
+        
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 50vh;
+            min-height: 400px;
+            background: 
+                linear-gradient(rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.5)),
+                url('https://sportscar365.com/wp-content/uploads/2024/01/GALSTAD-IMSA-R24-DIS-0124-0124-019373-2.jpg') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            color: #e10600;
-            font-size: 2rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(225, 6, 0, 0.5);
+            border-radius: 8px;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--gold);
         }
-
-        h3 {
-            color: #e10600;
-            text-align: center;
-            margin-top: 30px;
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 3rem;
+            background: rgba(42, 42, 42, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            border: 1px solid rgba(197, 164, 103, 0.3);
         }
-
-        .table-container {
-            width: 90%;
-            margin: 0 auto;
-            overflow-x: auto;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            color: var(--light);
+        }
+        
+        /* Sections */
+        .section {
+            margin-bottom: 5rem;
+            background: var(--gray);
             border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
         }
-
-        table {
+        
+        .section-header {
+            background: var(--imsa-red);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2.5rem;
+        }
+        
+        .section-header:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 65%, rgba(255,255,255,0.2) 100%);
+        }
+        
+        .section-content {
+            padding: 2.5rem;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.8rem;
+            letter-spacing: 1.5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            color: var(--gold);
+        }
+        
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--gold);
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            color: var(--gold-light);
+        }
+        
+        h4 {
+            font-size: 1.4rem;
+        }
+        
+        /* Таблица результатов */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .results-table {
             width: 100%;
             border-collapse: collapse;
-            font-family: 'Arial', sans-serif;
-            margin: 0 auto;
-            text-align: center;
-            background-color: rgba(30, 30, 30, 0.9);
-            border-radius: 10px;
-            overflow: hidden;
+            background: var(--darker);
+            font-size: 0.9rem;
         }
-
-        th {
-            background-color: #e10600;
+        
+        .results-table th {
+            background: linear-gradient(to right, var(--imsa-blue), var(--imsa-red));
             color: white;
+            padding: 1.2rem 0.8rem;
             text-align: center;
-            padding: 12px 8px;
-            font-weight: bold;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 14px;
+            letter-spacing: 0.5px;
             position: sticky;
             top: 0;
-            cursor: pointer;
-            transition: all 0.3s;
+            z-index: 10;
         }
-
-        th:hover {
-            background-color: #ff1a1a;
-        }
-
-        th.sorted-asc::after {
+        
+        .results-table th.sorted-asc::after {
             content: " ↑";
             font-size: 12px;
         }
-
-        th.sorted-desc::after {
+        
+        .results-table th.sorted-desc::after {
             content: " ↓";
             font-size: 12px;
         }
-
-        td {
-            padding: 10px 8px;
-            border-bottom: 1px solid #444;
-            font-size: 13px;
-            white-space: nowrap;
-            height: 20px;
+        
+        .results-table td {
+            padding: 1rem 0.8rem;
+            border-bottom: 1px solid rgba(197, 164, 103, 0.1);
+            text-align: center;
             color: #ddd;
         }
-
-        tr:hover {
+        
+        .results-table tr:nth-child(even) {
+            background-color: rgba(50, 50, 50, 0.3);
+        }
+        
+        .results-table tr:hover {
             background-color: rgba(225, 6, 0, 0.1);
         }
-
-        tr:nth-child(even) {
-            background-color: rgba(50, 50, 50, 0.5);
-        }
-
-        tr:nth-child(even):hover {
-            background-color: rgba(225, 6, 0, 0.1);
-        }
-
-        .action-links a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 5px;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        .action-links a:first-child {
-            color: #4CAF50;
-        }
-
-        .action-links a:last-child {
-            color: #f44336;
-        }
-
-        .action-links a:hover {
-            transform: scale(1.2);
-        }
-
-        /* Стиль для автомобиля */
-        .car-info {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .car-icon {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
-        }
-
-        /* Форма добавления участника */
-        .add-form {
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 20px;
-            background-color: rgba(30, 30, 30, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            border: 1px solid #444;
-        }
-
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-            justify-content: center;
-        }
-
-        .form-row input, .form-row select {
-            padding: 10px;
-            border: 1px solid #444;
-            border-radius: 5px;
-            background-color: #333;
-            color: #fff;
-            flex: 1;
-            min-width: 120px;
-        }
-
-        .form-row input:focus, .form-row select:focus {
-            outline: none;
-            border-color: #e10600;
-        }
-
-        .form-row button {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #e10600 0%, #a10500 100%);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        
+        /* Стили для классов автомобилей */
+        .class-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            flex: 1;
-            max-width: 200px;
+            color: white;
         }
-
-        .form-row button:hover {
-            background: linear-gradient(135deg, #ff1a1a 0%, #c51010 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(225, 6, 0, 0.3);
+        
+        .gtp-badge {
+            background-color: var(--gtp-color);
         }
-
-        /* Сортировка и фильтрация */
+        
+        .lmp2-badge {
+            background-color: var(--lmp2-color);
+        }
+        
+        .gtd-badge {
+            background-color: var(--gtd-color);
+        }
+        
+        .gtd-pro-badge {
+            background-color: var(--gtd-pro);
+        }
+        
+        /* Фильтры и сортировка */
         .filter-sort-container {
             display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            justify-content: center;
         }
-
+        
         .filter-group {
-            position: relative;
             min-width: 200px;
+            flex: 1;
         }
-
+        
         .filter-group label {
             display: block;
-            margin-bottom: 5px;
-            color: #e10600;
-            font-size: 14px;
+            margin-bottom: 0.5rem;
+            color: var(--gold);
+            font-size: 0.9rem;
         }
-
+        
         .filter-select {
             width: 100%;
-            padding: 8px 15px;
-            background-color: #333;
+            padding: 0.8rem 1rem;
+            background-color: var(--darker);
             color: white;
-            border: 1px solid #444;
-            border-radius: 5px;
-            cursor: pointer;
+            border: 1px solid rgba(197, 164, 103, 0.3);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
             appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
             background-repeat: no-repeat;
             background-position: right 10px center;
             background-size: 12px;
         }
-
+        
         .filter-select:focus {
             outline: none;
-            border-color: #e10600;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(197, 164, 103, 0.2);
         }
-
+        
+        /* Кнопки */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.9rem;
+            gap: 6px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: var(--darker);
+            box-shadow: 0 3px 8px rgba(197, 164, 103, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(197, 164, 103, 0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(197, 164, 103, 0.1);
+        }
+        
+        /* Форма добавления участника */
+        .add-form {
+            background: var(--darker);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            border: 1px solid rgba(197, 164, 103, 0.2);
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--gold);
+            font-size: 0.9rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background-color: var(--gray);
+            border: 1px solid rgba(197, 164, 103, 0.2);
+            border-radius: 6px;
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(197, 164, 103, 0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--gold);
+            position: relative;
+        }
+        
+        footer:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://sportscar365.com/wp-content/uploads/2024/01/GALSTAD-IMSA-R24-DIS-0124-0124-019373-2.jpg') center/cover no-repeat;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+        
+        .copyright {
+            color: rgba(248, 248, 248, 0.7);
+            font-size: 0.9rem;
+        }
+        
         /* Адаптивность */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .filter-group {
+                min-width: 150px;
+            }
+        }
+        
         @media (max-width: 768px) {
-            .table-container {
-                width: 95%;
+            .hero {
+                height: 40vh;
+                min-height: 350px;
             }
             
-            th, td {
-                padding: 8px 5px;
-                font-size: 12px;
+            .hero h1 {
+                font-size: 2.2rem;
             }
             
-            .form-row input, .form-row select {
-                min-width: 100px;
-                padding: 8px;
+            .section-content {
+                padding: 1.5rem;
+            }
+            
+            .results-table th, 
+            .results-table td {
+                padding: 0.8rem 0.5rem;
+                font-size: 0.85rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
             }
             
             .filter-sort-container {
                 flex-direction: column;
-                align-items: center;
+                gap: 1rem;
             }
             
             .filter-group {
-                width: 90%;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .table-container {
                 width: 100%;
             }
             
-            th {
-                font-size: 11px;
-                padding: 6px 3px;
+            .results-table th, 
+            .results-table td {
+                padding: 0.6rem 0.3rem;
+                font-size: 0.8rem;
             }
-            
-            td {
-                font-size: 11px;
-                padding: 6px 3px;
-            }
-            
-            .form-row {
-                flex-direction: column;
-            }
-            
-            .form-row input, 
-            .form-row select,
-            .form-row button {
-                width: 100%;
-                max-width: 100%;
-            }
-        }
-
-        /* Стили для заголовков колонок с трассами */
-        .track-header {
-            position: relative;
-        }
-
-        .track-header:hover::after {
-            content: attr(data-track);
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #333;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            white-space: nowrap;
-            z-index: 100;
-            border: 1px solid #e10600;
         }
     </style>
 </head>
 <body>
-    <h2>Турнирная таблица чемпионата</h2>
-
-    <!-- Фильтрация и сортировка -->
-    <div class="filter-sort-container">
-        <div class="filter-group">
-            <label for="sort-select">Сортировка:</label>
-            <select id="sort-select" class="filter-select">
-                <option value="total-desc">По общим очкам (по убыванию)</option>
-                <option value="total-asc">По общим очкам (по возрастанию)</option>
-                <option value="name-asc">По имени гонщика (А-Я)</option>
-                <option value="name-desc">По имени гонщика (Я-А)</option>
-                <option value="best-race-desc">По лучшему результату</option>
-                <option value="consistency-asc">По стабильности результатов</option>
-                <option value="car-asc">По автомобилю (А-Я)</option>
-            </select>
+    <div class="luxury-overlay"></div>
+    
+    <header>
+        <div class="logo-container">
+            <a href="#" class="logo">IMSA SportsCar Championship</a>
         </div>
         
-        <div class="filter-group">
-            <label for="filter-track">Фильтр по трассе:</label>
-            <select id="filter-track" class="filter-select">
-                <option value="all">Все трассы</option>
-                <option value="daytona">Daytona</option>
-                <option value="sebring">Sebring</option>
-                <option value="weathertech">WeatherTech</option>
-                <option value="virginia">Virginia</option>
-                <option value="atlanta">Atlanta</option>
-            </select>
-        </div>
+        <button class="menu-toggle", a href="{% url 'main' %}">
+            Главное меню </i>
+        </button>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Турнирная таблица IMSA 2024</h1>
+                <p>Актуальные результаты WeatherTech SportsCar Championship</p>
+            </div>
+        </section>
         
-        <div class="filter-group">
-            <label for="filter-points">Фильтр по очкам:</label>
-            <select id="filter-points" class="filter-select">
-                <option value="all">Все результаты</option>
-                <option value="top10">Топ 10</option>
-                <option value="top5">Топ 5</option>
-                <option value="above-avg">Выше среднего</option>
-            </select>
-        </div>
+        <!-- Турнирная таблица -->
+        <section class="section">
+            <div class="section-header">
+                <h2>Результаты чемпионата</h2>
+            </div>
+            <div class="section-content">
+                <!-- Фильтрация и сортировка -->
+                <div class="filter-sort-container">
+                    <div class="filter-group">
+                        <label for="sort-select">Сортировка:</label>
+                        <select id="sort-select" class="filter-select">
+                            <option value="total-desc">По общим очкам (по убыванию)</option>
+                            <option value="total-asc">По общим очкам (по возрастанию)</option>
+                            <option value="name-asc">По имени гонщика (А-Я)</option>
+                            <option value="name-desc">По имени гонщика (Я-А)</option>
+                            <option value="best-race-desc">По лучшему результату</option>
+                            <option value="consistency-asc">По стабильности результатов</option>
+                            <option value="car-asc">По автомобилю (А-Я)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filter-track">Фильтр по трассе:</label>
+                        <select id="filter-track" class="filter-select">
+                            <option value="all">Все трассы</option>
+                            <option value="daytona">Daytona</option>
+                            <option value="sebring">Sebring</option>
+                            <option value="weathertech">WeatherTech</option>
+                            <option value="virginia">Virginia</option>
+                            <option value="atlanta">Atlanta</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filter-points">Фильтр по очкам:</label>
+                        <select id="filter-points" class="filter-select">
+                            <option value="all">Все результаты</option>
+                            <option value="top10">Топ 10</option>
+                            <option value="top5">Топ 5</option>
+                            <option value="above-avg">Выше среднего</option>
+                        </select>
+                    </div>
 
-        <div class="filter-group">
-            <label for="filter-car">Фильтр по авто:</label>
-            <select id="filter-car" class="filter-select">
-                <option value="all">Все автомобили</option>
-                <option value="porsche">Porsche</option>
-                <option value="ferrari">Ferrari</option>
-                <option value="bmw">BMW</option>
-                <option value="audi">Audi</option>
-                <option value="mercedes">Mercedes</option>
-                <option value="corvette">Corvette</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="table-container">
-        <table id="race-table">
-            <thead>
-                <tr>
-                    <th data-sort="position">Поз</th>
-                    <th data-sort="name">Гонщик</th>
-                    <th data-sort="car">Автомобиль</th>
-                    <th class="track-header" data-track="Daytona International Speedway" data-sort="daytona">DAY</th>
-                    <th class="track-header" data-track="Sebring International Raceway" data-sort="sebring">SEB</th>
-                    <th class="track-header" data-track="WeatherTech Raceway Laguna Seca" data-sort="weathertech">WTR</th>
-                    <th class="track-header" data-track="Virginia International Raceway" data-sort="virginia">VIR</th>
-                    <th class="track-header" data-track="Michelin Raceway Road Atlanta" data-sort="atlanta">ATL</th>
-                    <th data-sort="total">Всего</th>
-                    {% if user.is_authenticated and user.username == "root" %}
-                    <th>Действия</th>
-                    {% endif %}
-                </tr>
-            </thead>
-            <tbody>
-                {% if participants %}
-                    {% for participant in participants %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ participant.name }}</td>
-                        <td>
-                            <div class="car-info">
-                                {% if participant.car == "Porsche" %}
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Porsche_logo.png/640px-Porsche_logo.png" alt="Porsche" class="car-icon">
-                                {% elif participant.car == "Ferrari" %}
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Ferrari_Logo.svg/1200px-Ferrari_Logo.svg.png" alt="Ferrari" class="car-icon">
-                                {% elif participant.car == "BMW" %}
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/1200px-BMW.svg.png" alt="BMW" class="car-icon">
-                                {% elif participant.car == "Audi" %}
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Audi-Logo_2016.svg/1200px-Audi-Logo_2016.svg.png" alt="Audi" class="car-icon">
-                                {% elif participant.car == "Mercedes" %}
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Mercedes-Logo.svg/1200px-Mercedes-Logo.svg.png" alt="Mercedes" class="car-icon">
-                                {% elif participant.car == "Corvette" %}
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Chevrolet_Corvette_logo.svg/1200px-Chevrolet_Corvette_logo.svg.png" alt="Corvette" class="car-icon">
+                    <div class="filter-group">
+                        <label for="filter-car">Фильтр по авто:</label>
+                        <select id="filter-car" class="filter-select">
+                            <option value="all">Все автомобили</option>
+                            <option value="porsche">Porsche</option>
+                            <option value="ferrari">Ferrari</option>
+                            <option value="bmw">BMW</option>
+                            <option value="audi">Audi</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="corvette">Corvette</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Таблица результатов -->
+                <div class="table-container">
+                    <table class="results-table" id="race-table">
+                        <thead>
+                            <tr>
+                                <th data-sort="position">Поз</th>
+                                <th data-sort="name">Гонщик</th>
+                                <th data-sort="car">Автомобиль</th>
+                                <th data-sort="class">Класс</th>
+                                <th data-sort="daytona">DAY</th>
+                                <th data-sort="sebring">SEB</th>
+                                <th data-sort="weathertech">WTR</th>
+                                <th data-sort="virginia">VIR</th>
+                                <th data-sort="atlanta">ATL</th>
+                                <th data-sort="total">Всего</th>
+                                {% if user.is_authenticated and user.username == "root" %}
+                                <th>Действия</th>
                                 {% endif %}
-                                {{ participant.car }}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if participants %}
+                                {% for participant in participants %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ participant.name }}</td>
+                                    <td>{{ participant.car }}</td>
+                                    <td>
+                                        {% if participant.class == "GTP" %}
+                                        <span class="class-badge gtp-badge">GTP</span>
+                                        {% elif participant.class == "LMP2" %}
+                                        <span class="class-badge lmp2-badge">LMP2</span>
+                                        {% elif participant.class == "GTD" %}
+                                        <span class="class-badge gtd-badge">GTD</span>
+                                        {% else %}
+                                        <span class="class-badge gtd-pro-badge">GTD Pro</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ participant.daytona }}</td>
+                                    <td>{{ participant.sebring }}</td>
+                                    <td>{{ participant.weathertech }}</td>
+                                    <td>{{ participant.virginia }}</td>
+                                    <td>{{ participant.atlanta }}</td>
+                                    <td><strong>{{ participant.total }}</strong></td>
+                                    {% if user.is_authenticated and user.username == "root" %}
+                                    <td>
+                                        <button class="btn btn-outline" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-outline" style="padding: 0.3rem 0.6rem; font-size: 0.8rem; margin-left: 0.5rem;">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="11" style="text-align: center; padding: 2rem;">Нет данных для отображения</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Форма для добавления нового участника (только для root) -->
+                {% if user.is_authenticated and user.username == "root" %}
+                <div class="add-form">
+                    <h3 style="color: var(--gold); margin-bottom: 1.5rem;">Добавить нового участника</h3>
+                    <form method="post" action="{% url 'table' %}">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Имя гонщика</label>
+                                <input type="text" id="name" name="name" class="form-control" placeholder="Имя гонщика" required>
                             </div>
-                        </td>
-                        <td>{{ participant.daytona }}</td>
-                        <td>{{ participant.sebring }}</td>
-                        <td>{{ participant.weathertech }}</td>
-                        <td>{{ participant.virginia }}</td>
-                        <td>{{ participant.atlanta }}</td>
-                        <td><strong>{{ participant.total }}</strong></td>
-                        {% if user.is_authenticated and user.username == "root" %}
-                        <td class="action-links">
-                            <a href="{% url 'edit_participant' participant.id %}" title="Редактировать">✏️</a>
-                            <a href="{% url 'delete_participant' participant.id %}" title="Удалить">❌</a>
-                        </td>
-                        {% endif %}
-                    </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="10">Нет данных</td>
-                    </tr>
+                            <div class="form-group">
+                                <label for="car">Автомобиль</label>
+                                <select id="car" name="car" class="form-control" required>
+                                    <option value="" disabled selected>Выберите автомобиль</option>
+                                    <option value="Porsche 963">Porsche 963</option>
+                                    <option value="Cadillac V-Series.R">Cadillac V-Series.R</option>
+                                    <option value="BMW M Hybrid V8">BMW M Hybrid V8</option>
+                                    <option value="Acura ARX-06">Acura ARX-06</option>
+                                    <option value="Ferrari 296 GT3">Ferrari 296 GT3</option>
+                                    <option value="Corvette Z06 GT3.R">Corvette Z06 GT3.R</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="class">Класс</label>
+                                <select id="class" name="class" class="form-control" required>
+                                    <option value="" disabled selected>Выберите класс</option>
+                                    <option value="GTP">GTP</option>
+                                    <option value="LMP2">LMP2</option>
+                                    <option value="GTD">GTD</option>
+                                    <option value="GTD Pro">GTD Pro</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="daytona">Очки Daytona</label>
+                                <input type="number" id="daytona" name="daytona" class="form-control" placeholder="0" step="0.1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="sebring">Очки Sebring</label>
+                                <input type="number" id="sebring" name="sebring" class="form-control" placeholder="0" step="0.1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="weathertech">Очки WeatherTech</label>
+                                <input type="number" id="weathertech" name="weathertech" class="form-control" placeholder="0" step="0.1" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="virginia">Очки Virginia</label>
+                                <input type="number" id="virginia" name="virginia" class="form-control" placeholder="0" step="0.1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="atlanta">Очки Atlanta</label>
+                                <input type="number" id="atlanta" name="atlanta" class="form-control" placeholder="0" step="0.1" required>
+                            </div>
+                            <div class="form-group" style="align-self: flex-end;">
+                                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                    <i class="fas fa-plus"></i> Добавить
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 {% endif %}
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Форма для добавления нового участника (только для root) -->
-    {% if user.is_authenticated and user.username == "root" %}
-    <div class="add-form">
-        <h3>Добавить нового участника</h3>
-        <form method="post" action="{% url 'table' %}">
-            {% csrf_token %}
-            <div class="form-row">
-                <input type="text" name="name" placeholder="Имя гонщика" required>
-                <select name="car" required>
-                    <option value="" disabled selected>Выберите автомобиль</option>
-                    <option value="Porsche">Porsche</option>
-                    <option value="Ferrari">Ferrari</option>
-                    <option value="BMW">BMW</option>
-                    <option value="Audi">Audi</option>
-                    <option value="Mercedes">Mercedes</option>
-                    <option value="Corvette">Corvette</option>
-                </select>
             </div>
-            <div class="form-row">
-                <input type="number" name="daytona" placeholder="Очки Daytona" step="0.1" required>
-                <input type="number" name="sebring" placeholder="Очки Sebring" step="0.1" required>
-                <input type="number" name="weathertech" placeholder="Очки WeatherTech" step="0.1" required>
-            </div>
-            <div class="form-row">
-                <input type="number" name="virginia" placeholder="Очки Virginia" step="0.1" required>
-                <input type="number" name="atlanta" placeholder="Очки Atlanta" step="0.1" required>
-                <button type="submit">Добавить участника</button>
-            </div>
-        </form>
-    </div>
-    {% endif %}
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">IMSA WeatherTech Championship</div>
+            <p class="copyright">© 2024 International Motor Sports Association. Все права защищены.</p>
+        </div>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -471,20 +765,22 @@
             const filterTrack = document.getElementById('filter-track');
             const filterPoints = document.getElementById('filter-points');
             const filterCar = document.getElementById('filter-car');
+            const menuToggle = document.querySelector('.menu-toggle');
             
             // Сохраняем исходные данные для фильтрации
             const originalData = rows.map(row => {
                 const cells = row.querySelectorAll('td');
                 return {
                     element: row,
-                    name: cells[1].textContent,
+                    name: cells[1].textContent.trim(),
                     car: cells[2].textContent.trim(),
-                    daytona: parseFloat(cells[3].textContent) || 0,
-                    sebring: parseFloat(cells[4].textContent) || 0,
-                    weathertech: parseFloat(cells[5].textContent) || 0,
-                    virginia: parseFloat(cells[6].textContent) || 0,
-                    atlanta: parseFloat(cells[7].textContent) || 0,
-                    total: parseFloat(cells[8].textContent) || 0
+                    class: cells[3].textContent.trim(),
+                    daytona: parseFloat(cells[4].textContent) || 0,
+                    sebring: parseFloat(cells[5].textContent) || 0,
+                    weathertech: parseFloat(cells[6].textContent) || 0,
+                    virginia: parseFloat(cells[7].textContent) || 0,
+                    atlanta: parseFloat(cells[8].textContent) || 0,
+                    total: parseFloat(cells[9].textContent) || 0
                 };
             });
             
@@ -521,6 +817,10 @@
                         case 'car':
                             aValue = aData.car.toLowerCase();
                             bValue = bData.car.toLowerCase();
+                            break;
+                        case 'class':
+                            aValue = aData.class.toLowerCase();
+                            bValue = bData.class.toLowerCase();
                             break;
                         case 'total':
                         default:
@@ -629,7 +929,18 @@
                     // Обновляем выпадающий список сортировки
                     sortSelect.value = `${sortBy}-${order}`;
                     sortTable(sortBy, order);
+                    
+                    // Обновляем классы для визуального отображения сортировки
+                    ths.forEach(t => t.classList.remove('sorted-asc', 'sorted-desc'));
+                    th.classList.add(order === 'asc' ? 'sorted-asc' : 'sorted-desc');
                 });
+            });
+            
+            // Обработчик для кнопки меню
+            menuToggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                // Здесь можно добавить логику для отображения/скрытия меню
+                alert('Меню будет реализовано в следующих версиях');
             });
             
             // Инициализация таблицы

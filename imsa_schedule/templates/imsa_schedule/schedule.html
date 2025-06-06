@@ -6,15 +6,21 @@
     <title>IMSA - Календарь соревнований 2025</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Playfair+Display:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f8f8f8;
+            --gray: #2a2a2a;
+            --gold: #c5a467;
+            --gold-light: #d4b87c;
+            --gold-dark: #b08c54;
+            --accent: #e31937;
             --imsa-blue: #0a2240;
-            --imsa-red: #e10600;
+            --imsa-red: #e31937;
             --imsa-gold: #d4af37;
-            --imsa-dark: #1a1a1a;
-            --imsa-light: #f8f9fa;
         }
         
         * {
@@ -26,10 +32,10 @@
         body {
             font-family: 'Roboto Condensed', sans-serif;
             line-height: 1.7;
-            color: var(--imsa-dark);
-            background-color: #111;
+            color: var(--light);
+            background-color: var(--dark);
             font-size: 18px;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), 
+            background-image: linear-gradient(rgba(18, 18, 18, 0.9), rgba(10, 10, 10, 0.95)), 
                               url('https://images.unsplash.com/photo-1543351611-58f69d7c1781?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-attachment: fixed;
@@ -46,16 +52,16 @@
             margin-bottom: 0.8rem;
             letter-spacing: 1.5px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            color: var(--imsa-red);
+            color: var(--gold);
             text-align: center;
-            text-shadow: 0 0 10px rgba(225, 6, 0, 0.5);
+            font-weight: 700;
         }
         
         h2 {
             font-size: 2.5rem;
             position: relative;
             display: inline-block;
-            color: white;
+            color: var(--gold-light);
         }
         
         h2:after {
@@ -65,12 +71,12 @@
             left: 0;
             width: 60px;
             height: 4px;
-            background: var(--imsa-gold);
+            background: var(--imsa-red);
         }
         
         h3 {
             font-size: 1.8rem;
-            color: white;
+            color: var(--gold-light);
         }
         
         h4 {
@@ -79,17 +85,91 @@
         }
         
         .subtitle {
+            font-family: 'Playfair Display', serif;
             font-size: 1.6rem;
             opacity: 0.9;
             margin-bottom: 1.5rem;
-            color: #bbb;
+            color: var(--gold-light);
             text-align: center;
+            font-style: italic;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 1.5rem;
+        }
+        
+        /* Header */
+        header {
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--gold);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin: 0 0.5rem;
+        }
+        
+        nav ul li a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.8rem 1.2rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: var(--gold-light);
+            background: rgba(197, 164, 103, 0.1);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 60vh;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            margin-top: 80px;
+            padding: 2rem;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 3rem;
+            background: rgba(42, 42, 42, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            border: 1px solid rgba(197, 164, 103, 0.3);
         }
         
         /* Стили для календаря */
@@ -106,45 +186,62 @@
             display: flex;
             align-items: center;
             margin-bottom: 25px;
-            padding: 20px;
-            border: 1px solid #333;
+            padding: 25px;
+            border: 1px solid rgba(197, 164, 103, 0.3);
             border-radius: 10px;
             background-color: rgba(30, 30, 30, 0.8);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             width: 95%;
             transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .schedule-item:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(225, 25, 55, 0.1), transparent);
+            z-index: -1;
         }
 
         .schedule-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(225, 6, 0, 0.3);
+            box-shadow: 0 15px 40px rgba(225, 25, 55, 0.3);
             border-color: var(--imsa-red);
         }
 
         .schedule-image img {
-            width: 140px;
+            width: 160px;
             height: auto;
             border-radius: 8px;
             margin-right: 25px;
-            border: 2px solid #444;
-            transition: border-color 0.3s;
+            border: 2px solid rgba(197, 164, 103, 0.5);
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .schedule-item:hover .schedule-image img {
             border-color: var(--imsa-red);
+            transform: scale(1.05);
         }
 
         .schedule-trackdetails img {
-            width: 130px;
+            width: 150px;
             height: auto;
             border-radius: 8px;
             margin-right: 20px;
-            border: 2px solid #444;
-            transition: border-color 0.3s;
+            border: 2px solid rgba(197, 164, 103, 0.5);
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .schedule-item:hover .schedule-trackdetails img {
             border-color: var(--imsa-red);
+            transform: scale(1.05);
         }
 
         .schedule-details {
@@ -160,24 +257,39 @@
         }
 
         .schedule-title {
-            font-size: 1.6rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
             margin: 0;
-            color: #fff;
+            color: var(--gold);
             font-weight: bold;
             letter-spacing: 0.5px;
         }
 
         .schedule-date {
-            font-size: 1rem;
-            color: #bbb;
+            font-size: 1.1rem;
+            color: var(--gold-light);
             margin-top: 15px;
             font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .schedule-date i {
+            margin-right: 8px;
+            color: var(--imsa-red);
         }
 
         .duration, .track-stats {
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: #ccc;
             margin-top: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .duration i, .track-stats i {
+            margin-right: 8px;
+            color: var(--imsa-red);
         }
 
         .track-stats {
@@ -187,25 +299,32 @@
 
         .schedule-button {
             background: linear-gradient(135deg, var(--imsa-red) 0%, #a10500 100%);
-            width: 130px;
-            padding: 12px;
+            width: 150px;
+            padding: 14px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: white;
             flex-shrink: 0;
             margin-left: auto;
             font-weight: bold;
             letter-spacing: 0.5px;
             transition: all 0.3s;
-            box-shadow: 0 4px 8px rgba(225, 6, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(225, 25, 55, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .schedule-button i {
+            margin-left: 8px;
         }
 
         .schedule-button:hover {
             background: linear-gradient(135deg, #ff1a1a 0%, #c51010 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(225, 6, 0, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(225, 25, 55, 0.6);
         }
 
         /* Стили для модального окна */
@@ -225,15 +344,16 @@
         .modal-content {
             background: linear-gradient(to bottom, #1a1a1a, #2a2a2a);
             margin: 5% auto;
-            padding: 25px;
-            border: 1px solid #444;
+            padding: 30px;
+            border: 1px solid var(--gold);
             border-radius: 12px;
             width: 80%;
             max-width: 900px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
             animation: modalFadeIn 0.4s;
             max-height: 90vh;
             overflow-y: auto;
+            position: relative;
         }
 
         @keyframes modalFadeIn {
@@ -242,12 +362,15 @@
         }
 
         .close {
-            color: #aaa;
+            color: var(--gold-light);
             float: right;
             font-size: 32px;
             font-weight: bold;
             cursor: pointer;
             transition: color 0.2s;
+            position: absolute;
+            top: 20px;
+            right: 25px;
         }
 
         .close:hover {
@@ -256,16 +379,17 @@
 
         .modal-header {
             padding: 15px 0;
-            border-bottom: 1px solid #444;
+            border-bottom: 1px solid var(--gold);
             margin-bottom: 25px;
         }
 
         .modal-header h2 {
             color: var(--imsa-red);
-            font-size: 1.8rem;
+            font-size: 2rem;
             margin: 0;
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-family: 'Playfair Display', serif;
         }
 
         .modal-body {
@@ -281,31 +405,32 @@
             background-color: #333;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            border: 1px solid #555;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--gold);
         }
 
         .event-info {
             flex: 1;
             min-width: 220px;
             background-color: rgba(40, 40, 40, 0.7);
-            padding: 20px;
+            padding: 25px;
             border-radius: 8px;
-            border: 1px solid #444;
+            border: 1px solid var(--gold);
         }
 
         .info-section {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         .info-section h3 {
-            color: #fff;
-            font-size: 1.4rem;
+            color: var(--gold-light);
+            font-size: 1.5rem;
             margin-top: 0;
             border-bottom: 2px solid var(--imsa-red);
             padding-bottom: 10px;
             display: inline-block;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
         }
 
         .ticket-types {
@@ -320,19 +445,19 @@
             min-width: 120px;
             background: rgba(50, 50, 50, 0.7);
             border-radius: 8px;
-            padding: 15px;
-            border: 1px solid #444;
+            padding: 20px;
+            border: 1px solid var(--gold);
             transition: all 0.3s;
         }
 
         .ticket-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(225, 6, 0, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(225, 25, 55, 0.3);
             border-color: var(--imsa-red);
         }
 
         .ticket-card.vip {
-            background: linear-gradient(135deg, rgba(225, 6, 0, 0.2), rgba(161, 5, 0, 0.2));
+            background: linear-gradient(135deg, rgba(225, 25, 55, 0.2), rgba(161, 5, 0, 0.2));
             border: 1px solid var(--imsa-red);
         }
 
@@ -345,30 +470,32 @@
         }
 
         .ticket-name {
-            font-size: 1.1rem;
-            color: #fff;
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: var(--gold-light);
+            margin-bottom: 15px;
             font-weight: bold;
+            font-family: 'Playfair Display', serif;
         }
 
         .ticket-price {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             color: var(--imsa-red);
-            margin: 10px 0;
+            margin: 15px 0;
             font-weight: bold;
         }
 
         .ticket-features {
             list-style-type: none;
             padding-left: 0;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #ccc;
         }
 
         .ticket-features li {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             position: relative;
-            padding-left: 20px;
+            padding-left: 25px;
+            line-height: 1.5;
         }
 
         .ticket-features li:before {
@@ -376,6 +503,7 @@
             color: var(--imsa-red);
             position: absolute;
             left: 0;
+            font-weight: bold;
         }
 
         .drivers-list, .rules-list {
@@ -384,9 +512,9 @@
         }
 
         .drivers-list li, .rules-list li {
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             position: relative;
-            padding-left: 25px;
+            padding-left: 30px;
             color: #ddd;
             line-height: 1.5;
         }
@@ -400,24 +528,25 @@
         .rules-list li:before {
             content: "•";
             color: var(--imsa-red);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             position: absolute;
             left: 0;
             top: -5px;
         }
 
         .driver-team {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #aaa;
             display: block;
-            margin-top: 3px;
+            margin-top: 5px;
+            font-style: italic;
         }
 
         .buy-button {
             background: linear-gradient(135deg, var(--imsa-red) 0%, #a10500 100%);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 14px 25px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 1.1rem;
@@ -427,36 +556,112 @@
             letter-spacing: 0.5px;
             transition: all 0.3s;
             text-transform: uppercase;
-            box-shadow: 0 4px 8px rgba(225, 6, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(225, 25, 55, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .buy-button i {
+            margin-left: 10px;
         }
 
         .buy-button:hover {
             background: linear-gradient(135deg, #ff1a1a 0%, #c51010 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(225, 6, 0, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(225, 25, 55, 0.6);
         }
 
         /* Секция с картой всех трасс */
         .tracks-map {
-            margin-top: 4rem;
+            margin: 4rem auto;
             background: rgba(30, 30, 30, 0.8);
             padding: 2rem;
             border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid var(--gold);
+            width: 85%;
+            max-width: 1200px;
+        }
+        
+        .tracks-map h2 {
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
         
         .map-container {
             height: 500px;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             position: relative;
+            border: 1px solid var(--gold);
         }
         
         .map-container iframe {
             width: 100%;
             height: 100%;
             border: none;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--gold);
+            position: relative;
+            margin-top: 4rem;
+        }
+        
+        footer:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://sportscar365.com/wp-content/uploads/2024/01/GALSTAD-IMSA-R24-DIS-0124-0124-019373-2.jpg') center/cover no-repeat;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .social-links a {
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--gold);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            color: rgba(248, 248, 248, 0.7);
+            font-size: 0.9rem;
         }
 
         /* Адаптивность */
@@ -473,7 +678,7 @@
         @media (max-width: 992px) {
             .schedule-item {
                 flex-wrap: wrap;
-                padding: 15px;
+                padding: 20px;
             }
             
             .schedule-details {
@@ -516,7 +721,7 @@
             }
             
             .schedule-title {
-                font-size: 1.4rem;
+                font-size: 1.6rem;
             }
             
             .ticket-types {
@@ -524,7 +729,7 @@
             }
             
             h1 {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
             }
             
             h2 {
@@ -533,6 +738,11 @@
             
             .map-container {
                 height: 350px;
+            }
+
+            .schedule-image img, 
+            .schedule-trackdetails img {
+                width: 120px;
             }
         }
 
@@ -552,20 +762,36 @@
             }
             
             .modal-header h2 {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
             }
             
             .info-section h3 {
+                font-size: 1.3rem;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .subtitle {
                 font-size: 1.2rem;
             }
         }
     </style>
 </head>
 <body>
-    <h1>IMSA WeatherTech Championship</h1>
-    <p class="subtitle">Календарь соревнований 2025 года</p>
+    <header>
+        <a href="#" class="logo">MSA SportsCar Championship</a>
+    </header>
 
-    <div class="schedule-container">
+    <section class="hero">
+        <div class="hero-content">
+            <h1>IMSA WeatherTech Championship</h1>
+            <p class="subtitle">Эксклюзивный календарь соревнований 2025 года</p>
+        </div>
+    </section>
+
+    <div id="schedule" class="schedule-container">
         <!-- Событие 1 -->
         <div class="schedule-item">
             <div class="schedule-image">
@@ -573,14 +799,14 @@
             </div>
             <div class="schedule-details">
                 <h2 class="schedule-title">Daytona International Speedway</h2>
-                <div class="schedule-date">Jan 17 - Jan 19, 2025</div>
-                <div class="duration">DURATION: 6 Hours</div>
+                <div class="schedule-date"><i class="fas fa-calendar-alt"></i> Jan 17 - Jan 19, 2025</div>
+                <div class="duration"><i class="fas fa-stopwatch"></i> DURATION: 6 Hours</div>
             </div>
             <div class="schedule-trackdetails">
                 <img src="https://www.imsa.com/wp-content/uploads/sites/32/2019/09/DIS_1346x916-1-350x238.png" alt="Daytona International Speedway">
-                <h2 class="track-stats">LENGTH: 3.56 miles</h2>
+                <div class="track-stats"><i class="fas fa-road"></i> LENGTH: 3.56 miles</div>
             </div>
-            <button class="schedule-button" onclick="openModal('modal1')">Подробнее ></button>
+            <button class="schedule-button" onclick="openModal('modal1')">Подробнее <i class="fas fa-chevron-right"></i></button>
         </div>
 
         <!-- Событие 2 -->
@@ -590,14 +816,14 @@
             </div>
             <div class="schedule-details">
                 <h2 class="schedule-title">Sebring International Raceway</h2>
-                <div class="schedule-date">Mar 12 - Mar 15, 2025</div>
-                <div class="duration">DURATION: 12 Hours</div>
+                <div class="schedule-date"><i class="fas fa-calendar-alt"></i> Mar 12 - Mar 15, 2025</div>
+                <div class="duration"><i class="fas fa-stopwatch"></i> DURATION: 12 Hours</div>
             </div>
             <div class="schedule-trackdetails">
                 <img src="https://www.imsa.com/wp-content/uploads/sites/32/2019/09/SEBRING_1346x916-350x238.png" alt="Sebring International Raceway">
-                <h2 class="track-stats">LENGTH: 3.74 miles</h2>
+                <div class="track-stats"><i class="fas fa-road"></i> LENGTH: 3.74 miles</div>
             </div>
-            <button class="schedule-button" onclick="openModal('modal2')">Подробнее ></button>
+            <button class="schedule-button" onclick="openModal('modal2')">Подробнее <i class="fas fa-chevron-right"></i></button>
         </div>
 
         <!-- Событие 3 -->
@@ -607,14 +833,14 @@
             </div>
             <div class="schedule-details">
                 <h2 class="schedule-title">WeatherTech Raceway Laguna Seca</h2>
-                <div class="schedule-date">May 9 - May 11, 2025</div>
-                <div class="duration">DURATION: 2 Hours 40 Minutes</div>
+                <div class="schedule-date"><i class="fas fa-calendar-alt"></i> May 9 - May 11, 2025</div>
+                <div class="duration"><i class="fas fa-stopwatch"></i> DURATION: 2 Hours 40 Minutes</div>
             </div>
             <div class="schedule-trackdetails">
                 <img src="https://www.imsa.com/wp-content/uploads/sites/32/2019/09/MRLS_1346x916-350x238.png">
-                <h2 class="track-stats">LENGTH: 2.238 miles</h2>
+                <div class="track-stats"><i class="fas fa-road"></i> LENGTH: 2.238 miles</div>
             </div>
-            <button class="schedule-button" onclick="openModal('modal3')">Подробнее ></button>
+            <button class="schedule-button" onclick="openModal('modal3')">Подробнее <i class="fas fa-chevron-right"></i></button>
         </div>
 
         <!-- Событие 4 -->
@@ -624,14 +850,14 @@
             </div>
             <div class="schedule-details">
                 <h2 class="schedule-title">VIRginia International Raceway</h2>
-                <div class="schedule-date">Aug 22 - Aug 24, 2025</div>
-                <div class="duration">DURATION: 2 Hours 40 Minutes</div>
+                <div class="schedule-date"><i class="fas fa-calendar-alt"></i> Aug 22 - Aug 24, 2025</div>
+                <div class="duration"><i class="fas fa-stopwatch"></i> DURATION: 2 Hours 40 Minutes</div>
             </div>
             <div class="schedule-trackdetails">
                 <img src="https://www.imsa.com/wp-content/uploads/sites/32/2019/09/VIR_1346x916-350x238.png">
-                <h2 class="track-stats">LENGTH: 3.27 miles</h2>
+                <div class="track-stats"><i class="fas fa-road"></i> LENGTH: 3.27 miles</div>
             </div>
-            <button class="schedule-button" onclick="openModal('modal4')">Подробнее ></button>
+            <button class="schedule-button" onclick="openModal('modal4')">Подробнее <i class="fas fa-chevron-right"></i></button>
         </div>
 
         <!-- Событие 5 -->
@@ -641,16 +867,17 @@
             </div>
             <div class="schedule-details">
                 <h2 class="schedule-title">Michelin Raceway Road Atlanta</h2>
-                <div class="schedule-date">Oct 8 - Oct 11, 2025</div>
-                <div class="duration">DURATION: 10 Hours</div>
+                <div class="schedule-date"><i class="fas fa-calendar-alt"></i> Oct 8 - Oct 11, 2025</div>
+                <div class="duration"><i class="fas fa-stopwatch"></i> DURATION: 10 Hours</div>
             </div>
             <div class="schedule-trackdetails">
                 <img src="https://www.imsa.com/wp-content/uploads/sites/32/2019/09/RoadAtlanta_1346x916-350x238.png">
-                <h2 class="track-stats">LENGTH: 2.54 miles</h2>
+                <div class="track-stats"><i class="fas fa-road"></i> LENGTH: 2.54 miles</div>
             </div>
-            <button class="schedule-button" onclick="openModal('modal5')">Подробнее ></button>
+            <button class="schedule-button" onclick="openModal('modal5')">Подробнее <i class="fas fa-chevron-right"></i></button>
         </div>
     </div>
+
 
     <!-- Модальные окна для каждого события -->
     <!-- Daytona International Speedway -->
@@ -805,7 +1032,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <button class="buy-button" onclick="window.open('https://www.sebringraceway.com/Events/2025/IMSA/12-Hours-of-Sebring.aspx', '_blank')">Купить билет</button>
+                        <button class="buy-button" onclick="window.open('https://www.sebringraceway.com/Events/2025/IMSA/12-Hours-of-Sebring.aspx', '_blank')">Купить билет <i class="fas fa-ticket-alt"></i></button>
                     </div>
                 </div>
             </div>
@@ -883,13 +1110,10 @@
                                     <li>Парковка у входа</li>
                                 </ul>
                             </div>
-                        </div>
-                        <button class="buy-button" onclick="window.open('https://www.weathertechraceway.com/tickets', '_blank')">Купить билет</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- VIRginia International Raceway -->
     <div id="modal4" class="modal">
@@ -965,7 +1189,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <button class="buy-button" onclick="window.open('https://virnow.com/events/', '_blank')">Купить билет</button>
+                        <button class="buy-button" onclick="window.open('https://virnow.com/events/', '_blank')">Купить билет <i class="fas fa-ticket-alt"></i></button>
                     </div>
                 </div>
             </div>
@@ -1048,11 +1272,28 @@
                                 </ul>
                             </div>
                         </div>
+                        <button class="buy-button" onclick="window.open('https://www.roadatlanta.com/events/petit-le-mans', '_blank')">Купить билет <i class="fas fa-ticket-alt"></i></button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">IMSA</div>
+            <p>International Motor Sports Association</p>
+            
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <p class="copyright">© 2025 WeatherTech SportsCar Championship. Все права защищены.</p>
+        </div>
+    </footer>
 
     <script>
         // Функции для открытия и закрытия модальных окон
@@ -1073,6 +1314,19 @@
                 document.body.style.overflow = 'auto';
             }
         }
+
+        // Плавная прокрутка для якорных ссылок
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>

@@ -30,7 +30,6 @@
             background-color: var(--dark-gray);
             color: var(--text-light);
             overflow-x: hidden;
-            background-image: url('{% static "imsa_main/images/marble-texture.jpg" %}');
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
@@ -93,7 +92,7 @@
         .pic {
             height: 40px;
             margin-left: 15px;
-            filter: brightness(0) saturate(100%) invert(77%) sepia(31%) saturate(376%) hue-rotate(6deg) brightness(92%) contrast(85%);
+            filter: brightness(0) invert(1); /* Просто белая иконка */
             transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
         }
         
@@ -200,9 +199,6 @@
         /* Герой-секция с эффектом параллакса */
         .hero {
             height: 90vh;
-            background: 
-                linear-gradient(rgba(26, 26, 26, 0.7), rgba(26, 26, 26, 0.3)),
-                url('{% static "imsa_main/images/luxury-race.jpg" %}') center/cover no-repeat fixed;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -223,7 +219,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('{% static "imsa_main/images/gold-pattern.png" %}') center/cover;
             opacity: 0.05;
             pointer-events: none;
         }
@@ -385,7 +380,6 @@
         
         .race-track {
             height: 100%;
-            background: url('{% static "imsa_main/images/luxury-track.jpg" %}') repeat-x;
             background-size: cover;
             animation: trackMove 20s linear infinite;
         }
@@ -402,7 +396,6 @@
             bottom: 50px;
             left: 50%;
             transform: translateX(-50%);
-            background: url('{% static "imsa_main/images/luxury-car.png" %}') no-repeat;
             background-size: contain;
             filter: drop-shadow(0 0 10px rgba(197, 164, 103, 0.7));
             animation: carBounce 2s ease-in-out infinite;
@@ -564,7 +557,6 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            background: url('{% static "imsa_main/images/gold-pattern.png" %}') center/cover;
             opacity: 0.05;
         }
         
@@ -722,6 +714,7 @@
     <div class="luxury-overlay"></div>
     
     <!-- В разделе навигации header -->
+<!-- В разделе навигации header -->
 <header>
     <div class="logo-container">
         <a href="#" class="logo1">IMSA Championship</a>
@@ -731,22 +724,19 @@
     <nav>
         <ul>
             <li><a href="{% url 'world' %}"><i class="fas fa-scroll"></i> Регламент</a></li>
-            <li><a href="#"><i class="fas fa-trophy"></i> События ▾</a>
+            <li>
+                <a href="#"><i class="fas fa-trophy"></i> События <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: 0.8em;"></i></a>
                 <ul>
                     <li><a href="{% url 'table' %}"><i class="fas fa-medal"></i> Таблица</a></li>
                     <li><a href="{% url 'schedule' %}"><i class="far fa-calendar-alt"></i> Расписание</a></li>
                     <li><a href="{% url 'gallery' %}"><i class="far fa-images"></i> Галерея</a></li>
                 </ul>
             </li>
-            <li><a href="#"><i class="fas fa-newspaper"></i> Пресса ▾</a>
-                <ul>
-                    <li><a href="{% url 'news:news_list' %}"><i class="fas fa-rss"></i> Новости</a></li>
-                    <li><a href="#"><i class="fas fa-video"></i> Видео</a></li>
-                </ul>
-            </li>
+            <li><a href="{% url 'news:news_list' %}"><i class="fas fa-newspaper"></i> Пресса</a></li>
             <li><a href="{% url 'player' %}"><i class="fas fa-users"></i> Участники</a></li>
-            <li><a href="{% url 'test' %}"><i class="fas fa-question"></i> Тест</a></li>  <!-- Добавленная вкладка -->
-            <li><a href="#"><i class="fas fa-cog"></i> Настройки ▾</a>
+            <li><a href="{% url 'test' %}"><i class="fas fa-question"></i> Тест</a></li>
+            <li>
+                <a href="#"><i class="fas fa-cog"></i> Настройки <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: 0.8em;"></i></a>
                 <ul>
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'profile' %}"><i class="fas fa-user-tie"></i> Профиль</a></li>

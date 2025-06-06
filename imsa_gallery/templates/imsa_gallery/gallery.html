@@ -4,18 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Медиагалерея</title>
+    <title>Премиум Медиагалерея</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #e63946;
-            --secondary-color: #1d3557;
-            --background-dark: #0d1b2a;
-            --background-light: #f8f9fa;
-            --text-light: #f1faee;
-            --text-dark: #212529;
-            --card-bg: #ffffff;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f8f8f8;
+            --gold: #c5a467;
+            --gold-light: #d4b87c;
+            --gold-dark: #b08c54;
+            --accent: #e31937;
+            --imsa-blue: #0a2240;
+            --imsa-red: #e31937;
+            --imsa-gold: #d4af37;
+            --card-bg: rgba(30, 30, 30, 0.8);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             --transition: all 0.3s ease;
         }
 
@@ -26,21 +31,25 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--background-dark), var(--secondary-color));
-            color: var(--text-dark);
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
             min-height: 100vh;
             padding-bottom: 50px;
+            background-image: linear-gradient(rgba(18, 18, 18, 0.9), rgba(10, 10, 10, 0.95)), 
+                              url('https://images.unsplash.com/photo-1543351611-58f69d7c1781?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-attachment: fixed;
         }
 
         h1 {
+            font-family: 'Playfair Display', serif;
             text-align: center;
-            color: var(--text-light);
-            padding: 30px 0;
-            font-size: 2.5rem;
-            text-transform: uppercase;
+            color: var(--gold);
+            padding: 40px 0 20px;
+            font-size: 2.8rem;
             letter-spacing: 2px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             position: relative;
             margin-bottom: 40px;
         }
@@ -48,38 +57,52 @@
         h1::after {
             content: '';
             position: absolute;
-            bottom: 20px;
+            bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
             width: 100px;
             height: 3px;
-            background: var(--primary-color);
+            background: var(--imsa-red);
             border-radius: 3px;
         }
 
         .filters {
-            margin: 20px auto;
+            margin: 30px auto;
             text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
         .filter-btn {
-            padding: 8px 16px;
-            margin: 0 5px;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 4px;
+            padding: 10px 25px;
+            background: transparent;
+            color: var(--gold-light);
+            border: 1px solid var(--gold);
+            border-radius: 50px;
             cursor: pointer;
             transition: var(--transition);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover {
+            background: rgba(197, 164, 103, 0.2);
         }
 
         .filter-btn.active {
-            background: var(--secondary-color);
+            background: linear-gradient(135deg, var(--imsa-red) 0%, #a10500 100%);
+            color: white;
+            border-color: var(--imsa-red);
+            box-shadow: 0 4px 15px rgba(225, 25, 55, 0.4);
         }
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 30px;
             padding: 0 5%;
             max-width: 1600px;
@@ -93,16 +116,18 @@
             box-shadow: var(--shadow);
             transition: var(--transition);
             position: relative;
+            border: 1px solid rgba(197, 164, 103, 0.3);
         }
 
         .gallery-item:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 40px rgba(225, 25, 55, 0.3);
+            border-color: var(--imsa-red);
         }
 
         .media-container {
             width: 100%;
-            height: 220px;
+            height: 250px;
             position: relative;
             overflow: hidden;
         }
@@ -113,18 +138,26 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover .media-container img,
+        .gallery-item:hover .media-container video {
+            transform: scale(1.05);
         }
 
         .media-badge {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
+            top: 15px;
+            right: 15px;
+            background: rgba(10, 10, 10, 0.8);
+            color: var(--gold);
+            padding: 5px 12px;
+            border-radius: 20px;
             font-size: 0.8rem;
             z-index: 2;
+            border: 1px solid var(--gold);
+            font-weight: 500;
         }
 
         .gallery-content {
@@ -132,52 +165,72 @@
         }
 
         .gallery-item h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: var(--secondary-color);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: var(--gold-light);
         }
 
         .gallery-item p {
-            font-size: 0.9rem;
-            color: #666;
-            line-height: 1.5;
-            margin-bottom: 5px;
+            font-size: 0.95rem;
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .gallery-item small {
+            font-size: 0.8rem;
+            color: #999;
+            display: block;
+            margin-top: 15px;
         }
 
         .upload-link {
             display: block;
             text-align: center;
-            margin: 40px auto;
+            margin: 60px auto;
             max-width: 300px;
         }
 
         .upload-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: var(--primary-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 35px;
+            background: linear-gradient(135deg, var(--imsa-red) 0%, #a10500 100%);
             color: white;
             border-radius: 50px;
-            font-weight: bold;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+            box-shadow: 0 4px 15px rgba(225, 25, 55, 0.4);
             border: none;
             cursor: pointer;
             text-decoration: none;
             font-size: 0.9rem;
         }
 
+        .upload-btn i {
+            margin-right: 10px;
+        }
+
         .upload-btn:hover {
-            background: #c1121f;
+            background: linear-gradient(135deg, #ff1a1a 0%, #c51010 100%);
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(230, 57, 70, 0.4);
+            box-shadow: 0 8px 20px rgba(225, 25, 55, 0.6);
         }
 
         /* Стили для модального окна */
         .fancybox__container {
-            max-width: 90%;
-            max-height: 90%;
+            --fancybox-bg: rgba(10, 10, 10, 0.95);
+            --fancybox-accent-color: var(--imsa-red);
+        }
+
+        .fancybox__content {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--gold);
         }
 
         .fancybox__content video {
@@ -185,13 +238,33 @@
             max-height: 80vh;
         }
 
+        .fancybox__toolbar {
+            background: rgba(10, 10, 10, 0.8);
+        }
+
+        .fancybox__button {
+            color: var(--gold);
+        }
+
+        .fancybox__button:hover {
+            color: var(--imsa-red);
+        }
+
+        .fancybox__caption {
+            background: linear-gradient(to top, rgba(10, 10, 10, 0.9), transparent);
+            color: var(--gold-light);
+            font-family: 'Montserrat', sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .gallery-item {
-            animation: fadeIn 0.5s ease forwards;
+            animation: fadeIn 0.6s ease forwards;
             opacity: 0;
         }
 
@@ -204,6 +277,17 @@
         .gallery-item:nth-child(7) { animation-delay: 0.7s; }
         .gallery-item:nth-child(8) { animation-delay: 0.8s; }
 
+        @media (max-width: 992px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                padding: 0 30px;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .gallery {
                 grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -212,24 +296,33 @@
             
             h1 {
                 font-size: 2rem;
-                padding: 20px 0;
+                padding: 30px 0 15px;
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 576px) {
             .gallery {
                 grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-btn {
+                width: 200px;
             }
         }
     </style>
 </head>
 <body>
-    <h1>Медиагалерея</h1>
+    <h1>Премиум Медиагалерея</h1>
 
     <div class="filters">
-        <button class="filter-btn active" data-filter="all">Все</button>
-        <button class="filter-btn" data-filter="image">Фото</button>
-        <button class="filter-btn" data-filter="video">Видео</button>
+        <button class="filter-btn active" data-filter="all">Все материалы</button>
+        <button class="filter-btn" data-filter="image">Фотографии</button>
+        <button class="filter-btn" data-filter="video">Видеозаписи</button>
     </div>
 
     <div class="gallery">
@@ -237,22 +330,23 @@
         <div class="gallery-item" data-type="{% if item.is_image %}image{% else %}video{% endif %}">
             <div class="media-container">
                 {% if item.is_image %}
-                    <img src="{{ item.file.url }}" alt="{{ item.title }}">
-                    <span class="media-badge">Изображение</span>
+                    <a href="{{ item.file.url }}" data-fancybox="gallery" data-caption="{{ item.title }}">
+                        <img src="{{ item.file.url }}" alt="{{ item.title }}">
+                    </a>
+                    <span class="media-badge"><i class="fas fa-camera"></i> Фото</span>
                 {% elif item.is_video %}
                     <a href="{{ item.file.url }}" data-fancybox="video-gallery" data-caption="{{ item.title }}">
-                        <video controls>
+                        <video>
                             <source src="{{ item.file.url }}" type="video/mp4">
-                            Ваш браузер не поддерживает видео.
                         </video>
                     </a>
-                    <span class="media-badge">Видео</span>
+                    <span class="media-badge"><i class="fas fa-video"></i> Видео</span>
                 {% endif %}
             </div>
             <div class="gallery-content">
                 <h3>{{ item.title }}</h3>
                 <p>{{ item.description }}</p>
-                <p><small>Загружено: {{ item.uploaded_at|date:"d.m.Y H:i" }}</small></p>
+                <small><i class="far fa-clock"></i> {{ item.uploaded_at|date:"d.m.Y H:i" }}</small>
             </div>
         </div>
         {% endfor %}
@@ -260,20 +354,30 @@
 
     {% if user.is_authenticated and user.username == "root" %}
     <div class="upload-link">
-        <a href="{% url 'upload_media' %}" class="upload-btn">Загрузить медиа</a>
+        <a href="{% url 'upload_media' %}" class="upload-btn">
+            <i class="fas fa-cloud-upload-alt"></i> Загрузить медиа
+        </a>
     </div>
     {% endif %}
 
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script>
-        // Инициализация Fancybox для видео
+        // Инициализация Fancybox
         Fancybox.bind("[data-fancybox]", {
-            // Настройки модального окна
             Thumbs: false,
-            Toolbar: true,
-            closeButton: true,
+            Toolbar: {
+                display: {
+                    left: [],
+                    middle: [],
+                    right: ["close"],
+                },
+            },
             Video: {
                 autoStart: false,
+            },
+            Images: {
+                zoom: false,
             },
         });
 
@@ -297,6 +401,20 @@
                     }
                 });
             });
+        });
+
+        // Плавное появление элементов при скролле
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.gallery-item').forEach(el => {
+            observer.observe(el);
         });
     </script>
 </body>

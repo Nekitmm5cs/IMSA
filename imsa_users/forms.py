@@ -37,8 +37,16 @@ class TeamApplicationForm(forms.ModelForm):
 class TournamentRegistrationForm(forms.ModelForm):
     class Meta:
         model = TournamentRegistration
-        fields = ['tournament_name', 'car_model', 'car_number', 'license_info', 'notes']
+        fields = ['tournament', 'car_model', 'car_number', 'license_info', 'notes']
         widgets = {
+            'tournament': forms.Select(attrs={'class': 'form-control'}),
             'license_info': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
             'notes': forms.Textarea(attrs={'rows': 2, 'class': 'form-control'}),
+        }
+        labels = {
+            'tournament': 'Турнир',
+            'car_model': 'Модель автомобиля',
+            'car_number': 'Номер автомобиля',
+            'license_info': 'Информация о лицензии',
+            'notes': 'Примечания',
         }
