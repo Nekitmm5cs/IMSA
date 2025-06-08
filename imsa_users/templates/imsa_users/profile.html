@@ -985,65 +985,82 @@
         });
     
         // Редактирование навыков
-        const editSkillsBtn = document.querySelector('.skills-card .btn-edit');
-        const saveSkillsBtn = document.getElementById('saveSkillsBtn');
-        const cancelSkillsBtn = document.getElementById('cancelSkillsBtn');
-        
-        editSkillsBtn.addEventListener('click', () => {
-            document.querySelectorAll('.skill-edit').forEach(edit => {
-                edit.style.display = 'flex';
-            });
-            document.getElementById('skill-actions').style.display = 'flex';
-        });
-        
-        cancelSkillsBtn.addEventListener('click', () => {
-            document.querySelectorAll('.skill-edit').forEach(edit => {
-                edit.style.display = 'none';
-            });
-            document.getElementById('skill-actions').style.display = 'none';
-        });
-        
-        saveSkillsBtn.addEventListener('click', () => {
-            document.querySelectorAll('.skill-edit').forEach(edit => {
-                edit.style.display = 'none';
-            });
-            document.getElementById('skill-actions').style.display = 'none';
-            
-            // Обновляем прогресс-бары
-            document.getElementById('speed-level').style.width = document.getElementById('speed-input').value + '%';
-            document.getElementById('endurance-level').style.width = document.getElementById('endurance-input').value + '%';
-            document.getElementById('technique-level').style.width = document.getElementById('technique-input').value + '%';
-            document.getElementById('strategy-level').style.width = document.getElementById('strategy-input').value + '%';
-            
-            // Здесь можно добавить AJAX-запрос для сохранения на сервере
-            console.log('Навыки сохранены:', {
-                speed: document.getElementById('speed-input').value,
-                endurance: document.getElementById('endurance-input').value,
-                technique: document.getElementById('technique-input').value,
-                strategy: document.getElementById('strategy-input').value
-            });
-        });
+       // Редактирование навыков
+const editSkillsBtn = document.getElementById('editSkillsBtn');
+const saveSkillsBtn = document.getElementById('saveSkillsBtn');
+const cancelSkillsBtn = document.getElementById('cancelSkillsBtn');
+
+editSkillsBtn.addEventListener('click', () => {
+    document.querySelectorAll('.skill-edit').forEach(edit => {
+        edit.style.display = 'flex';
+    });
+    document.getElementById('skill-actions').style.display = 'flex';
+});
+
+cancelSkillsBtn.addEventListener('click', () => {
+    document.querySelectorAll('.skill-edit').forEach(edit => {
+        edit.style.display = 'none';
+    });
+    document.getElementById('skill-actions').style.display = 'none';
     
-        // Обработчики для ползунков навыков
-        document.getElementById('speed-input').addEventListener('input', function() {
-            document.getElementById('speed-level').style.width = this.value + '%';
-            document.getElementById('speed-value').textContent = this.value;
-        });
-        
-        document.getElementById('endurance-input').addEventListener('input', function() {
-            document.getElementById('endurance-level').style.width = this.value + '%';
-            document.getElementById('endurance-value').textContent = this.value;
-        });
-        
-        document.getElementById('technique-input').addEventListener('input', function() {
-            document.getElementById('technique-level').style.width = this.value + '%';
-            document.getElementById('technique-value').textContent = this.value;
-        });
-        
-        document.getElementById('strategy-input').addEventListener('input', function() {
-            document.getElementById('strategy-level').style.width = this.value + '%';
-            document.getElementById('strategy-value').textContent = this.value;
-        });
+    // Возвращаем исходные значения
+    document.getElementById('speed-input').value = 85;
+    document.getElementById('endurance-input').value = 78;
+    document.getElementById('technique-input').value = 82;
+    document.getElementById('strategy-input').value = 75;
+    
+    document.getElementById('speed-level').style.width = '85%';
+    document.getElementById('endurance-level').style.width = '78%';
+    document.getElementById('technique-level').style.width = '82%';
+    document.getElementById('strategy-level').style.width = '75%';
+    
+    document.getElementById('speed-value').textContent = '85';
+    document.getElementById('endurance-value').textContent = '78';
+    document.getElementById('technique-value').textContent = '82';
+    document.getElementById('strategy-value').textContent = '75';
+});
+
+saveSkillsBtn.addEventListener('click', () => {
+    document.querySelectorAll('.skill-edit').forEach(edit => {
+        edit.style.display = 'none';
+    });
+    document.getElementById('skill-actions').style.display = 'none';
+    
+    // Обновляем прогресс-бары
+    document.getElementById('speed-level').style.width = document.getElementById('speed-input').value + '%';
+    document.getElementById('endurance-level').style.width = document.getElementById('endurance-input').value + '%';
+    document.getElementById('technique-level').style.width = document.getElementById('technique-input').value + '%';
+    document.getElementById('strategy-level').style.width = document.getElementById('strategy-input').value + '%';
+    
+    // Здесь можно добавить AJAX-запрос для сохранения на сервере
+    console.log('Навыки сохранены:', {
+        speed: document.getElementById('speed-input').value,
+        endurance: document.getElementById('endurance-input').value,
+        technique: document.getElementById('technique-input').value,
+        strategy: document.getElementById('strategy-input').value
+    });
+});
+
+// Обработчики для ползунков навыков
+document.getElementById('speed-input').addEventListener('input', function() {
+    document.getElementById('speed-level').style.width = this.value + '%';
+    document.getElementById('speed-value').textContent = this.value;
+});
+
+document.getElementById('endurance-input').addEventListener('input', function() {
+    document.getElementById('endurance-level').style.width = this.value + '%';
+    document.getElementById('endurance-value').textContent = this.value;
+});
+
+document.getElementById('technique-input').addEventListener('input', function() {
+    document.getElementById('technique-level').style.width = this.value + '%';
+    document.getElementById('technique-value').textContent = this.value;
+});
+
+document.getElementById('strategy-input').addEventListener('input', function() {
+    document.getElementById('strategy-level').style.width = this.value + '%';
+    document.getElementById('strategy-value').textContent = this.value;
+});
     
         // Редактирование автомобилей
         const editCarsBtn = document.getElementById('editCarsBtn');

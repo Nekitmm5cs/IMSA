@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -955,15 +956,55 @@
             .stats, .stats-grid {
                 grid-template-columns: 1fr;
             }
+
+            /* Стили для иконки выхода */
+        .exit-icon {
+            color: var(--imsa-red);
+            font-size: 1.2rem;
+            padding: 0.8rem;
+            margin-left: 0.5rem;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .exit-icon:hover {
+            background: rgba(227, 25, 55, 0.2);
+            transform: rotate(-90deg);
+            color: #ff2d4d;
+        }
+
+        /* Подсказка при наведении */
+        .exit-icon::after {
+            content: "Главное меню";
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--darker);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            border: 1px solid var(--gold);
+        }
+
+        .exit-icon:hover::after {
+            opacity: 1;
+        }
         }
     </style>
 </head>
 <body>
     <div class="luxury-overlay"></div>
-    
     <header>
         <div class="logo-container">
-            <a href="#" class="logo">IMSA</a>
+            <a href="#" class="logo">IMSA SportsCar Championship</a>
         </div>
         
         <nav>
@@ -974,10 +1015,10 @@
                 <li><a href="#technology"><i class="fas fa-cogs"></i> Технологии</a></li>
                 <li><a href="#legends"><i class="fas fa-trophy"></i> Легенды</a></li>
                 <li><a href="#rules"><i class="fas fa-book"></i> Правила</a></li>
+                <li><a href="/" class="exit-icon" title="Главное меню"><i class="fas fa-sign-out-alt"></i></a></li>
             </ul>
         </nav>
     </header>
-
     <main>
         <!-- Hero Section -->
         <section class="hero">
@@ -986,7 +1027,6 @@
                 <p>Элитные гонки на выносливость Северной Америки. Высокие технологии, адреналин и престиж.</p>
                 <div>
                     <a href="#about-imsa" class="btn btn-primary"><i class="fas fa-play"></i> Узнать больше</a>
-                    <a href="#iconic-races" class="btn btn-secondary"><i class="fas fa-calendar-alt"></i> Календарь</a>
                 </div>
             </div>
         </section>
@@ -1021,7 +1061,7 @@
                         <p>Гонки длятся от 1 часа 40 минут до 24 часов, проверяя на прочность как технику, так и команды. В чемпионате четыре основных класса: GTP, LMP2, GTD Pro и GTD.</p>
                     </div>
                     <div class="media-image">
-                        <img src="https://images.techinsider.ru/upload/img_cache/cf8/cf811327942d66eb767d9f415c5a1f0b_ce_2400x1597x0x1.jpg" alt="Мультиклассовая гонка" class="uniform-photo">
+                        <img src="{% static 'imsa_world/images/1.jpg' %}" alt="Мультиклассовая гонка" class="uniform-photo">
                         <div class="photo-caption">Разные классы автомобилей на трассе одновременно</div>
                     </div>
                 </div>
@@ -1033,7 +1073,7 @@
                         <p>Особое внимание уделяется экологичности - гибридные системы GTP класса, устойчивое топливо, системы рекуперации энергии. При этом сохраняется зрелищность и высокие скорости.</p>
                     </div>
                     <div class="media-image">
-                        <img src="https://queen-of-motorsport.com/wp-content/uploads/2024/07/indycar-hibryd-engine4.jpg" alt="Технологии IMSA" class="uniform-photo">
+                        <img src="{% static 'imsa_world/images/2.jpg' %}" alt="Технологии IMSA" class="uniform-photo">
                         <div class="photo-caption">Гибридная силовая установка</div>
                     </div>
                 </div>
@@ -1063,7 +1103,7 @@
                         </div>
                     </div>
                     <div class="media-image">
-                        <img src="https://sportscar365.com/wp-content/uploads/2024/11/Badraoui-DaytonaTest-IMSA-11-15-24-02332.jpg" alt="GTP автомобиль" class="uniform-photo">
+                        <img src="{% static 'imsa_world/images/3.jpg' %}" alt="GTP автомобиль" class="uniform-photo">
                         <div class="photo-caption">Cadillac V-Series.R - флагман GTP класса</div>
                     </div>
                 </div>
@@ -1082,79 +1122,10 @@
                         </div>
                     </div>
                     <div class="media-image">
-                        <img src="https://res.cloudinary.com/dmwcbhehi/image/upload/c_thumb,w_3840,g_auto/f_auto/q_auto/v1/911_GT3_R_Scrollsection_03-power_np0xc1?_a=BAVAZGDX0" alt="GTD автомобиль" class="uniform-photo">
+                        <img src="{% static 'imsa_world/images/4.jpg' %}" alt="GTD автомобиль" class="uniform-photo">
                         <div class="photo-caption">Porsche 911 GT3 R в классе GTD</div>
                     </div>
                 </div>
-                
-                <!-- Таблица текущих результатов -->
-                <div class="content-block">
-                    <h3>Текущие результаты сезона (GTP класс)</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Поз.</th>
-                                    <th>Команда</th>
-                                    <th>Пилоты</th>
-                                    <th>Шины</th>
-                                    <th>Круги</th>
-                                    <th>Время</th>
-                                    <th>Отрыв</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Cadillac Racing</td>
-                                    <td>Bourdais / van der Zande</td>
-                                    <td>M</td>
-                                    <td>245</td>
-                                    <td>1:34.456</td>
-                                    <td>-</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Porsche Penske Motorsport</td>
-                                    <td>Tandy / Jaminet</td>
-                                    <td>S</td>
-                                    <td>245</td>
-                                    <td>1:34.678</td>
-                                    <td>+2.222</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>BMW M Team RLL</td>
-                                    <td>Eng / Farfus</td>
-                                    <td>H</td>
-                                    <td>244</td>
-                                    <td>1:35.123</td>
-                                    <td>+1 круг</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Acura ARX-06</td>
-                                    <td>Taylor / Albuquerque</td>
-                                    <td>M</td>
-                                    <td>244</td>
-                                    <td>1:34.789</td>
-                                    <td>+1 круг</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Whelen Engineering Racing</td>
-                                    <td>Derani / Sims</td>
-                                    <td>S</td>
-                                    <td>243</td>
-                                    <td>1:34.901</td>
-                                    <td>+2 круга</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
         
         <!-- Техники вождения -->
         <section id="driving-techniques" class="section">
@@ -1177,7 +1148,7 @@
                         </ul>
                         
                         <div class="media-image" style="margin-top: 1.5rem;">
-                            <img src="https://www.motortrend.com/uploads/sites/5/2020/01/Cadillac-DPi-18.jpg" alt="Высокоскоростное прохождение поворота" class="uniform-photo">
+                            <img src="{% static 'imsa_world/images/5.jpg' %}" alt="Высокоскоростное прохождение поворота" class="uniform-photo">
                             <div class="photo-caption">Оптимальная траектория в высокоскоростном повороте</div>
                         </div>
                     </div>
@@ -1194,6 +1165,7 @@
                         <div class="speed-meter" style="margin: 1.5rem 0;">
                             <div class="speed-fill" style="width: 65%; background: linear-gradient(90deg, var(--imsa-blue), var(--imsa-gold));"></div>
                         </div>
+                        <img src="{% static 'imsa_world/images/6.jpg' %}" alt="Высокоскоростное прохождение поворота" class="uniform-photo">
                         <p style="text-align: center;">Оптимальный уровень агрессивности вождения для экономии ресурсов</p>
                     </div>
                 </div>
@@ -1209,7 +1181,7 @@
                         </ul>
                         
                         <div class="media-image" style="margin-top: 1.5rem;">
-                            <img src="https://www.michelinmotorsport.com/wp-content/uploads/2021/03/2021_IMSA_SeaLV_0370.jpg" alt="Управление шинами" class="uniform-photo">
+                            <img src="{% static 'imsa_world/images/7.jpg' %}" alt="Управление шинами" class="uniform-photo">
                             <div class="photo-caption">Анализ состояния шин во время пит-стопа</div>
                         </div>
                     </div>
@@ -1245,7 +1217,7 @@
                             </ul>
                         </div>
                         <div class="media-image">
-                            <img src="https://sportscar365.com/wp-content/uploads/2023/01/LAT-20230128-108478-1-e1675018056876.jpg" alt="Ночное вождение" class="uniform-photo">
+                            <img src="{% static 'imsa_world/images/8.jpg' %}" alt="Ночное вождение" class="uniform-photo">
                             <div class="photo-caption">Ночной отрезок 24 часов Дайтоны</div>
                         </div>
                     </div>
@@ -1266,7 +1238,7 @@
                 
                 <div class="grid-2col">
                     <div class="content-block">
-                        <img src="https://sportscar365.com/wp-content/uploads/2024/10/GALSTAD-IMSA-R24-DIS-0124-0124-019373-2.jpg" alt="24 часа Дайтоны" class="uniform-photo">
+                        <img src="{% static 'imsa_world/images/9.jpg' %}" alt="24 часа Дайтоны" class="uniform-photo">
                         <h3>24 часа Дайтоны</h3>
                         <p>Самая престижная гонка сезона, открывающая чемпионат в январе. Проводится на Daytona International Speedway с 1962 года.</p>
                         <p>Особенности:</p>
@@ -1279,7 +1251,7 @@
                     </div>
                     
                     <div class="content-block">
-                        <img src="https://cdn-6.motorsport.com/images/amp/0RrVjgg0/s1000/31-action-express-racing-cadil.jpg" alt="12 часов Себринга" class="uniform-photo">
+                        <img src="{% static 'imsa_world/images/10.jpg' %}" alt="12 часов Себринга" class="uniform-photo">
                         <h3>12 часов Себринга</h3>
                         <p>Одна из самых сложных гонок чемпионата, проводится с 1952 года на бывшем военном аэродроме во Флориде.</p>
                         <p>Особенности:</p>
@@ -1351,19 +1323,19 @@
                 
                 <div class="grid-3col">
                     <div class="content-block">
-                        <img src="https://i.bstr.es/highmotor/2022/07/bmw-m-v8-hybrid_2.jpg" alt="Гибридные системы" class="uniform-photo">
+                        <img src="{% static 'imsa_world/images/11.jpg' %}" alt="Гибридные системы" class="uniform-photo">
                         <h3>Гибридные системы</h3>
                         <p>GTP автомобили используют 50 кВт мотор-генераторы с рекуперацией энергии при торможении. Эти системы разрабатываются совместно с производителями дорожных автомобилей.</p>
                     </div>
                     
                     <div class="content-block">
-                        <img src="https://www.pmw-magazine.com/wp-content/uploads/2022/08/arx06_pofile-3.jpg" alt="Аэродинамика" class="uniform-photo">
+                        <img src="{% static 'imsa_world/images/12.jpg' %}" alt="Аэродинамика" class="uniform-photo">
                         <h3>Аэродинамика</h3>
                         <p>Современные решения включают активные антикрылья, диффузоры и системы управления воздушными потоками для оптимального сцепления на разных скоростях.</p>
                     </div>
                     
                     <div class="content-block">
-                        <img src="https://dudarevmotorsport.ru/upload/iblock/585/26bkrfxbqps2id3225p99bjcpq5rlrq4.jpg" alt="Безопасность" class="uniform-photo">
+                        <img src="{% static 'imsa_world/images/13.jpg' %}" alt="Безопасность" class="uniform-photo">
                         <h3>Безопасность</h3>
                         <p>Усиленные монококи, система Halo в GTP классе, улучшенные защитные структуры и системы пожаротушения - приоритеты IMSA.</p>
                     </div>
@@ -1399,7 +1371,7 @@
                 
                 <div class="grid-3col">
                     <div class="legend-card">
-                        <img src="https://ppihc.org/wp-content/uploads/HH-1-873x1024.jpg" alt="Херли Хейвуд" class="legend-image">
+                        <img src="{% static 'imsa_world/images/14.jpg' %}"  alt="Херли Хейвуд" class="legend-image">
                         <div class="legend-content">
                             <h3>Херли Хейвуд</h3>
                             <p>5-кратный победитель 24 часов Дайтоны, 3-кратный победитель 24 часов Ле-Мана. Один из самых успешных пилотов в истории гонок на выносливость.</p>
@@ -1407,7 +1379,7 @@
                     </div>
                     
                     <div class="legend-card">
-                        <img src="https://www.athletespeakers.com/storage/celebrities/1532534723_scott-pruett.jpg" alt="Скотт Пруэтт" class="legend-image">
+                        <img src="{% static 'imsa_world/images/15.jpg' %}"  alt="Скотт Пруэтт" class="legend-image">
                         <div class="legend-content">
                             <h3>Скотт Пруэтт</h3>
                             <p>60 побед в IMSA, 5 титулов чемпиона. Рекордсмен по количеству побед в истории серии.</p>
@@ -1415,7 +1387,7 @@
                     </div>
                     
                     <div class="legend-card">
-                        <img src="https://www.prattmiller.com/wp-content/uploads/2024/07/3-Corvette-Team-1024x683.jpg" alt="Corvette Racing" class="legend-image">
+                        <img src="{% static 'imsa_world/images/16.jpg' %}"  alt="Corvette Racing" class="legend-image">
                         <div class="legend-content">
                             <h3>Corvette Racing</h3>
                             <p>Самая успешная команда в классе GT, 13 титулов IMSA. Символ американского автоспорта.</p>
@@ -1426,24 +1398,20 @@
                 <!-- Фотогалерея легендарных моментов -->
                 <div class="photo-grid">
                     <div class="photo-cell">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/1990JaguarXJR12.jpg" alt="Jaguar XJR-12">
+                        <img src="{% static 'imsa_world/images/17.jpg' %}"  alt="Jaguar XJR-12">
                         <div class="photo-caption">Jaguar XJR-12, победитель 1991 года</div>
                     </div>
                     <div class="photo-cell">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c2/2006FOS_1988Porsche962CLeMans.jpg" alt="Porsche 962">
+                        <img src="{% static 'imsa_world/images/18.jpg' %}" alt="Porsche 962">
                         <div class="photo-caption">Porsche 962 - доминировал в 1980-х</div>
                     </div>
                     <div class="photo-cell">
-                        <img src="https://autocapital.by/wp-content/uploads/2024/07/image_2024-07-12_11-17-01.png" alt="Audi R8">
+                        <img src="{% static 'imsa_world/images/19.jpg' %}" alt="Audi R8">
                         <div class="photo-caption">Audi R8 - революционный LMP900</div>
                     </div>
                     <div class="photo-cell">
-                        <img src="https://s3.us-east-2.amazonaws.com/prod.mm.com/img/carforsale/EsperanteGTR1Lead1.jpeg" alt="Panoz GTR-1">
+                        <img src="{% static 'imsa_world/images/20.jpg' %}" alt="Panoz GTR-1">
                         <div class="photo-caption">Panoz GTR-1 с уникальным дизайном</div>
-                    </div>
-                    <div class="photo-cell">
-                        <img src="https://a.d-cd.net/TiAAAgHDIeA-960.jpg" alt="Panoz GTR-1">
-                        <div class="photo-caption">Дух 70-х: IMSA Datsun 240z</div>
                     </div>
                 </div>
             </div>
@@ -1504,23 +1472,19 @@
                 <!-- Фотогалерея технических аспектов -->
                 <div class="photo-grid">
                     <div class="photo-cell">
-                        <img src="https://cdn-7.motorsport.com/images/vmt/B6bZPKB6/s1/imsa-first-pitstop-for-zanard-1.jpg" alt="Баланс производительности">
+                        <img src="{% static 'imsa_world/images/21.jpg' %}" alt="Баланс производительности">
                         <div class="photo-caption">Пит-стоп</div>
                     </div>
                     <div class="photo-cell">
-                        <img src="https://autosport.com.ru/files/styles/896x504/public/feature/2024/06/25/667704c19b68dd0011a882ab-04-scuderia-ferrari-spanish-gp-sat.jpg?itok=LyRayzt-" alt="Технический осмотр">
+                        <img src="{% static 'imsa_world/images/22.jpg' %}" alt="Технический осмотр">
                         <div class="photo-caption">Технический осмотр перед гонкой</div>
                     </div>
                     <div class="photo-cell">
-                        <img src="https://thumbs.dreamstime.com/b/%D0%B3%D0%BE%D0%BD%D0%BE%D1%87%D0%BD%D1%8B%D0%B9-%D1%82%D1%83%D1%80-%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE-%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%BE%D0%B1%D0%B8%D0%BB%D1%8F-%D0%BF%D0%BE%D0%B4%D0%B7%D0%B0%D1%80%D1%8F%D0%B4%D0%BA%D0%B8-%D1%81%D1%82%D0%B0%D0%BD%D1%86%D0%B8%D0%B8-%D0%B2-%D1%86%D0%B5%D0%BF%D0%B8-221866217.jpg" alt="Дозаправка">
-                        <div class="photo-caption">Строгий регламент дозаправки</div>
-                    </div>
-                    <div class="photo-cell">
-                        <img src="https://riapo.ru/upload/Fest/905.jpg" alt="Судейская коллегия">
+                        <img src="{% static 'imsa_world/images/23.jpg' %}" alt="Судейская коллегия">
                         <div class="photo-caption">Судейская коллегия IMSA</div>
                     </div>
                     <div class="photo-cell">
-                        <img src="https://www.imsa.com/wp-content/uploads/sites/32/2023/08/04/GALSTAD-ROLEX-DIS-0123-02506b7_08042023-625x340.jpg" alt="Судейская коллегия">
+                        <img src="{% static 'imsa_world/images/24.jpg' %}" alt="Судейская коллегия">
                         <div class="photo-caption">Стартовая линия</div>
                     </div>
                 </div>
@@ -1539,7 +1503,7 @@
                 
                 <div class="grid-2col">
                     <div class="content-block">
-                        <img src="https://www.imsa.com/wp-content/uploads/sites/32/2024/06/14/24LBGP_dole_0196_06142024.jpg" alt="IMSA GTP" class="uniform-photo">
+                        <img src="{% static 'imsa_world/images/25.jpg' %}" alt="IMSA GTP" class="uniform-photo">
                         <h3>IMSA GTP (1981-1993)</h3>
                         <p>Золотая эра спортивных прототипов с мощными турбированными двигателями. Nissan, Jaguar, Porsche и другие производители создавали невероятные машины с уникальным дизайном.</p>
                         <ul>
@@ -1550,7 +1514,7 @@
                     </div>
                     
                     <div class="content-block">
-                        <img src="https://motoiq.com/wp-content/uploads/2018/05/i-sPKjpMF.jpg" alt="American Le Mans Series" class="uniform-photo">
+                        <img src="{% static 'imsa_world/images/26.jpg' %}" alt="American Le Mans Series" class="uniform-photo">
                         <h3>American Le Mans Series (1999-2013)</h3>
                         <p>Серия, проводившаяся по правилам ACO (организатора 24 часов Ле-Мана). Привлекла в США лучшие заводские команды из Европы и Японии.</p>
                         <ul>
@@ -1568,19 +1532,19 @@
                     
                     <div class="grid-3col" style="margin-top: 2rem;">
                         <div class="content-block">
-                            <img src="https://www.imsa.com/wp-content/uploads/sites/32/2019/11/ipc-mpc-980-625x340.jpg" alt="IMSA MPC" class="uniform-photo" style="height: 180px;">
+                            <img src="{% static 'imsa_world/images/27.jpg' %}" alt="IMSA MPC" class="uniform-photo" style="height: 180px;">
                             <h4>IMSA Michelin Pilot Challenge</h4>
                             <p>2-часовые гонки для GT4 и TCR автомобилей. Идеальная площадка для начинающих пилотов и команд.</p>
                         </div>
                         
                         <div class="content-block">
-                            <img src="https://newsroom.porsche.com/.imaging/mte/porsche-templating-theme/image_1290x726/dam/pnr/2022/Motorsports/Porsche-Carrera-Cup-Deutschland/Preview-Season-2023/M22_5426_fine.jpeg/jcr:content/M22_5426_fine.jpeg" alt="Porsche Carrera Cup" class="uniform-photo" style="height: 180px;">
+                            <img src="{% static 'imsa_world/images/28.jpg' %}" alt="Porsche Carrera Cup" class="uniform-photo" style="height: 180px;">
                             <h4>Porsche Carrera Cup North America</h4>
                             <p>Моносерия на Porsche 911 GT3 Cup. Выявляет будущих звезд GT-гонок.</p>
                         </div>
                         
                         <div class="content-block">
-                            <img src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/motorsport/cars/huracan_super_trofeo_evo/header.jpg" alt="Lamborghini Super Trofeo" class="uniform-photo" style="height: 180px;">
+                            <img src="{% static 'imsa_world/images/29.jpg' %}" alt="Lamborghini Super Trofeo" class="uniform-photo" style="height: 180px;">
                             <h4>Lamborghini Super Trofeo</h4>
                             <p>Гонки на модифицированных Lamborghini Huracán. Зрелищные соревнования для частных команд.</p>
                         </div>
@@ -1594,14 +1558,6 @@
         <div class="footer-content">
             <div class="footer-logo">IMSA</div>
             <p>International Motor Sports Association</p>
-            
-            <div class="social-links">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-            </div>
-            
             <p class="copyright">© 2023 WeatherTech SportsCar Championship. Все права защищены.</p>
         </div>
     </footer>

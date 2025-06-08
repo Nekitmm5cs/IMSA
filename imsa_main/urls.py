@@ -5,7 +5,6 @@ from . import views, consumers
 
 urlpatterns = [
     path('', views.main, name='main'),
-    path('map', views.map, name='map'),
     path('send_message/', views.send_message, name='send_message'),
     path('get_messages/', views.get_messages, name='get_messages'), 
 ]

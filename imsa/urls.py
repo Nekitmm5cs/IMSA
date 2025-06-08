@@ -14,4 +14,9 @@ urlpatterns = [
     path('player/', include('imsa_player.urls')),
     path('news/', include('imsa_news.urls')),  
     path('users/', include('imsa_users.urls')),  
- ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+# This is for development only - serves both static and media files
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
